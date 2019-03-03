@@ -1,0 +1,134 @@
+@import 'constants.scss'
+
+.main-menu
+  padding: 1.5rem
+  width: 100%
+  display: grid
+  grid-template: 1fr / 20% 1fr 20%
+  position: relative
+  @include mobile
+    padding: 2rem 1rem 1rem
+    display: flex
+    justify-content: space-between
+  .search, .logo
+    display: flex
+    justify-content: center
+    align-items: center
+  .search
+      @include mobile
+        justify-content: flex-start
+        min-height: 46px
+  &__menu
+    display: flex
+    justify-content: center
+    @include mobile
+      flex-direction: column
+      position: absolute
+      top: 2.5rem
+  .menu-item
+    cursor: pointer
+    .carret
+      margin-left: 1rem
+      position: relative
+      top: -.3rem
+    &__title
+      transition: background-color .3s
+      padding: .5rem .7rem
+      display: flex
+      align-items: center
+      font-weight: bold
+      user-select: none
+      margin-right: .5rem
+      span:first-child
+        white-space: nowrap
+      &:hover, &-active .menu-item__title
+        background-color: $color-green-menu
+        position: relative
+        color: #fff
+        .menu-item
+          color: $font-color
+        .carret
+          border-bottom-color: #fff
+          border-right-color: #fff
+        &:after
+          content: ''
+          display: flex
+          position: absolute
+          height: .3rem
+          background-color: $color-green-dark-menu
+          width: 100%
+          bottom: 0
+          left: 0
+
+    &__submenu
+      position: absolute
+      left: 0
+      top: 100%
+      transition: opacity .3s, transform .3s
+      opacity: 0
+      transform: translateY(-10%)
+      background-color: #fff
+      color: $font-color
+      width: 100vw
+      max-width: $max-width
+      z-index: 3
+      ul
+        display: inline-flex
+        flex-direction: column
+        flex-wrap: wrap
+        width: 25%
+        margin-bottom: 1rem
+      li
+        font-weight: 500
+        padding: .5rem 0
+        &:hover
+          color: $color-green-dark-menu
+      &_title
+        font-weight: normal !important
+        cursor: default
+        user-select: none
+        padding-bottom: 1rem
+        border-bottom: 1px solid $borderColor
+        &:first-child
+          margin-right: .5rem
+        &:hover
+          color: $font-color !important
+
+    &__open
+      .menu-item__submenu
+        opacity: 1
+        transform: translateY(0)
+
+
+
+
+//&__open
+    //  background-color: $color-green-menu
+    //  position: relative
+    //  color: #fff
+    //  .menu-item
+    //    color: $fontColor
+    //  .carret
+    //    border-bottom-color: #fff
+    //    border-right-color: #fff
+    //  &:after
+    //    content: ''
+    //    display: flex
+    //    position: absolute
+    //    height: .1rem
+    //    background-color: $color-green-dark-menu
+    //    width: 100%
+    //    bottom: 0
+    //    left: 0
+    //  > .menu-item__submenu
+    //    opacity: 1
+    //    transform: translateY(0)
+    //    .menu-item__submenu
+    //      //left: .3rem
+    //    .menu-item__title
+    //      cursor: pointer
+
+
+
+
+

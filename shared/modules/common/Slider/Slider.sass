@@ -1,0 +1,143 @@
+@import 'constants.scss'
+
+
+.slider
+  height: 37.5rem
+  position: relative
+  overflow: hidden
+  &__text-block
+    position: absolute
+    color: $font-color-light
+    top: 30%
+    left: 50%
+    transform: translateX(-50%)
+    @include mobile
+      top: 50%
+      transform: translate(-50%, -50%)
+    h2
+      font-size: 4rem
+      font-weight: 300
+      text-transform: uppercase
+      margin-bottom: 1rem
+      @include mobile
+        font-size: 2rem
+        margin-bottom: .5rem
+    p
+      margin-bottom: 3rem
+      font-weight: 300
+      color: rgba($font-color-light, .8)
+      font-size: 1.2rem
+      max-width: 45rem
+    a
+      padding: 1rem 3rem
+      border: 2px solid transparent
+      background-color: $color-green-menu
+      font-size: 1rem
+      font-weight: 400
+      display: inline-flex
+      &:hover
+        background-color: transparent
+        border-color: $font-color-light
+      @include mobile
+        padding: 1rem 1rem
+  &__inner
+    min-width: 100%
+    position: relative
+  &__direction
+    background-color: rgba(0,0,0, .3)
+    border-radius: 50%
+    color: #ffffff
+    font-size: 1.5rem
+    width: 3rem
+    height: 3rem
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    z-index: 2
+    cursor: pointer
+    transition: background-color .3s
+    &:hover
+      background-color: rgba(0,0,0, .6)
+    &_right
+      right: 2rem
+      @include mobile
+        right: 1rem
+    &_left
+      left: 2rem
+      @include mobile
+        left: 1rem
+  &__wrapper
+    width: 100%
+    height: 100%
+    position: relative
+    transition: transform .5s
+    display: flex
+    flex-wrap: nowrap
+    img
+      user-select: none
+      height: 100%
+      width: 100%
+      object-fit: cover
+
+  &.with-hero
+    padding-bottom: 7rem
+    height: 44.5rem
+    @include mobile
+      height: initial
+      padding-bottom: 6rem
+    .slider
+      &__inner
+        @include mobile
+          display: flex
+          flex-direction: column
+          align-items: center
+          padding: 0 1rem
+      &__direction
+        background-color: transparent
+        bottom: 0
+        right: initial
+        left: initial
+        top: initial
+        color: #000
+        &_right
+          transform: translate(100%, -50%)
+        &_left
+          transform: translate(-100%, -50%)
+          @include mobile
+            transform: translate(-200%, -50%)
+      &__wrapper
+        text-align: left
+        @include mobile
+          height: initial
+        img
+          width: 50%
+          @include mobile
+            margin: 0 auto
+            width: 100%
+            height: 100vmin
+            order: 1
+        h2
+          margin: 0
+      &__text-block
+        color: $font-color
+        background-color: $color-background
+        padding: 3rem
+        top: 50%
+        transform: translate(-15%, -50%)
+        @include mobile
+          position: static
+          transform: translate(0, 0)
+          order: 2
+          padding:  3rem 1rem 1rem 1rem
+        p
+          color: $font-color
+          font-size: 1.25rem
+          margin-bottom: 1rem
+          line-height: 1.7
+        a
+          padding: 0
+          color: $color-green-menu
+          background-color: transparent

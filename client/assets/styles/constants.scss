@@ -1,0 +1,53 @@
+$xs-max-width: 47.999em;
+$sm-min-width: 48em;
+$sm-max-width: 63.999em;
+$md-min-width: 64em;
+$md-max-width: 74.999em;
+$lg-min-width: 75em;
+$xlg-min-width: 96em;
+$max-width: 100rem;
+
+$color-green-menu: #28a745;
+$color-green-dark-menu: darken(#28a745, 20%);
+$color-border: #c5c5c5;
+$successColorLight: #28a745;
+$font-color: #161616;
+$font-color-lighter: #4d4d4d;
+$font-color-light: #ffffff;
+$borderColor: rgba(150, 150, 150, 0.61);
+$color-background: #ffffff;
+$color-background-light-grey: #f8f9fa;
+$disableTextColor: #a9a9a9;
+
+@mixin primary_font {
+  font-family: "Poppins", sans-serif;
+}
+
+@mixin second_font {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+@mixin desktop-large {
+  @media (min-width: $xlg-min-width) {
+    @content
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $md-min-width) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: $sm-max-width) {
+    @content;
+  }
+}
+
+@mixin mobile-small {
+  @media (max-width: $xs-max-width) {
+    @content;
+  }
+}
+

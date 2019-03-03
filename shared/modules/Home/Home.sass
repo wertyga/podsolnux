@@ -1,0 +1,25 @@
+@import 'constants.scss'
+
+.home
+  width: 100%
+  text-align: center
+  &__services
+    display: flex
+    justify-content: space-between
+    transform: translateY(-35%)
+    @include mobile
+      flex-wrap: wrap
+      transform: translateY(-8%)
+      justify-content: center
+
+  h2
+    font-size: 2rem
+    font-weight: 300
+    margin-bottom: 4rem
+
+  .services-home-preview
+    @include mobile
+      padding-bottom: 0
+
+  .testimonials
+    padding-bottom: 0

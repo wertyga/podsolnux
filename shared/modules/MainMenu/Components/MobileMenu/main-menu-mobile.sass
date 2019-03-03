@@ -1,0 +1,42 @@
+@import 'constants.scss'
+
+.butter-menu.open
+  .main-menu-mobile
+    transform: translateX(0)
+  .menu-item
+    &__submenu
+      max-height: initial
+
+.main-menu-mobile
+  position: absolute
+  padding: 2rem 0 1rem 0
+  top: 0
+  width: 90vw
+  background-color: $color-background
+  transition: transform .5s
+  transform: translateX(-110%)
+  right: 0
+  z-index: 3
+  &__close
+    position: absolute
+    top: .5rem
+    right: .5rem
+
+  .menu-item
+    margin-right: 0 !important
+    position: relative
+    &__title
+      margin-bottom: .5rem
+      margin-right: 0 !important
+    &__submenu
+      width: 100% !important
+      transform: translate(0, 0) !important
+      position: static !important
+      max-height: 0
+      overflow: hidden
+      transition: height 1s !important
+      display: flex
+      flex-direction: column
+      ul
+        width: 100% !important
+        padding: 0 .7rem

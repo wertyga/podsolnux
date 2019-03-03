@@ -1,0 +1,13 @@
+@import 'constants.scss'
+
+.home__advantages
+  display: flex
+  width: 100%
+  @include mobile
+    transform: translateY(-10%)
+    flex-direction: column
+
+  .service-item
+    @include mobile
+      &:not(:last-child)
+        margin-bottom: 2rem

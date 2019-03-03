@@ -1,0 +1,1 @@
+export { ServiceTextItem } from './ServiceTextItem'
