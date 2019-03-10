@@ -2,8 +2,20 @@ import { initStore } from 'shared/store';
 
 import { getHtml, indexFile } from './geHtml';
 
+const getMenuList = async (req, rootStore, context) => {
+  const menuStore = rootStore.get('menuStore');
+  try {
+    await menuStore.getList();
+  } catch (e) {
+    const { status } = e.response || {};
+    context.status = status;
+  }
+}
+
 const handleRequest = async (req, res, rootStore, context) => {
   try {
+    await getMenuList(req, rootStore, context);
+
     await Promise.all([]);
   } catch (e) {
     throw e;

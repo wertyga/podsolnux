@@ -39,6 +39,7 @@ export class MenuMobile extends Component {
                   key={item._id}
                   handleOpen={this.handleOpen}
                   open={open === item._id}
+                  onClick={this.handleMenuOpen}
                   {...item}
                 />
               );

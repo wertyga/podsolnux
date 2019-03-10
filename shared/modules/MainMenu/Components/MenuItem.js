@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import cn from 'classnames'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { inject } from 'mobx-react'
 import { SubMenu } from './SubMenu'
 
@@ -18,10 +18,12 @@ export class MenuItem extends Component {
     isMobile: PropTypes.bool,
     isClient: PropTypes.bool,
     handleOpen: PropTypes.func,
+    onClick: PropTypes.func,
   }
   static defaultProps = {
-  handleOpen: noop,
-}
+    handleOpen: noop,
+    onClick: noop,
+  }
 
   state = {
     openState: '',
@@ -34,9 +36,6 @@ export class MenuItem extends Component {
     const { isClient, open } = this.props;
 
     if (open !== prevProps.open) {
-
-
-
       if (open && isClient) {
         this.setState({ openState: open })
         setTimeout(() => this.setState({ visible: !this.state.visible }), 30)
@@ -59,10 +58,11 @@ export class MenuItem extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const { handleOpen, _id, href, history } = this.props;
+    const { handleOpen, _id, href, history, onClick } = this.props;
 
     if (href && !this.isHasSubmenu) {
       handleOpen(_id);
+      onClick();
       return history.push(href);
     }
     if (!this.isHasSubmenu) return;
@@ -71,17 +71,19 @@ export class MenuItem extends Component {
   }
 
   render() {
-    const { className, title, submenu, handleOpen, _id }  = this.props;
+    const { className, title, submenu, handleOpen, _id, href }  = this.props;
     const { visible, openState } = this.state;
 
     return (
-      <div
+      <Link
         className={cn(
           'menu-item',
           { 'menu-item__open': visible },
           { 'menu-item__title-active': openState },
           className,
         )}
+        to={href || '/'}
+        title={title}
       >
         <div
           className={cn(
@@ -93,7 +95,7 @@ export class MenuItem extends Component {
           {this.isHasSubmenu && <span className="carret carret-down"/>}
         </div>
         {this.isHasSubmenu && openState && <SubMenu menu={submenu} onClick={() => handleOpen(_id, true)}/>}
-      </div>
+      </Link>
     );
   }
 }

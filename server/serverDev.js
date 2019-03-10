@@ -4,14 +4,14 @@ import bodyParser from 'body-parser';
 import config from './common/config';
 import sessionStore from './common/sessionStore';
 import session from 'express-session';
-import handleRequest from './app';
+import serverRenderer from './app';
 
 export const app = express();
 export const server = require('http').Server(app);
 
 app.use(bodyParser.json());
 app.use(express.static('public/static'));
-app.use(express.static('client'));
+app.use(express.static('client/assets'));
 app.use(session({
   secret: config.session.secret,
   saveUninitialized: false,
@@ -21,7 +21,7 @@ app.use(session({
   store: sessionStore
 }));
 
-app.use(handleRequest());
+app.use(serverRenderer());
 
 //******************************** Routes ***************************
 

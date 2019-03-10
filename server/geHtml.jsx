@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import path from 'path';
 
@@ -19,7 +19,7 @@ export const indexFile = fs.readFileSync(
 );
 
 export const getHtml = (req, res, rootStore, context) => {
-  const renderedApp = ReactDOMServer.renderToString(
+  const renderedApp = renderToString(
     // extractor.collectChunks(<AppRoot req={req} context={context} store={rootStore} />)
     <AppRoot req={req} context={context} store={rootStore} />
   );

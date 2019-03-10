@@ -3,6 +3,9 @@
 .home
   width: 100%
   text-align: center
+  .destinations
+    .service-preview
+      margin-bottom: 1.5rem
   &__services
     display: flex
     justify-content: space-between
@@ -14,12 +17,29 @@
 
   h2
     font-size: 2rem
-    font-weight: 300
+    //font-weight: 300
     margin-bottom: 4rem
 
   .services-home-preview
+    .headers
+      margin-bottom: 0
     @include mobile
       padding-bottom: 0
 
   .testimonials
     padding-bottom: 0
+
+  .services
+    .service-item
+      margin-bottom: 1.5rem
+      
+  .blog
+    border-bottom: 1px solid $disableTextColor
+    .button-link
+      color: $font-color-light
+      &:hover
+        color: $font-color
+        border-color: $font-color
+
+  .article-preview
+    margin-bottom: 1.5rem

@@ -25,16 +25,16 @@ export class MainMenu extends React.Component {
   }
   componentDidMount() {
     const { setLocation } = this.props;
-    const location = setLocation();
+    const menuItem = setLocation();
 
-    if (location) this.setState({ open: location._id })
+    if (menuItem && !menuItem.submenu) this.setState({ open: menuItem._id })
   }
 
   handleOpen = (id) => {
     this.setState({ open: this.state.open === id ? '' : id })
   }
   render() {
-    const { menuList, fetchStatus } = this.props;
+    const { menuList } = this.props;
 
     return (
       <div className="main-menu">

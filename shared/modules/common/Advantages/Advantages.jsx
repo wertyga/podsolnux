@@ -1,9 +1,9 @@
-import { ServiceTextItem } from 'shared/modules/common/ServiceTextItem'
+import { ServiceTextItem } from 'shared/modules/common'
 
-import './style/Advantages.sass'
+import './advantages.sass'
 
 export const Advantages = ({ data, itemClassName }) => (
-  <div className="home__advantages">
+  <div className="advantages">
     {data.map(item => <ServiceTextItem key={item.title} {...item} className={itemClassName} />)}
   </div>
 )

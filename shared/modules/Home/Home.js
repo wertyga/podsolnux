@@ -1,5 +1,6 @@
 import { Slider } from 'shared/modules/common/Slider'
-import { ServiceHomePreview, Advantages } from './Components'
+import { ServiceHomePreview, HomeArticlesPreview } from './Components'
+import { Advantages, Section, ServicePreview, ServiceTextItem } from 'shared/modules/common'
 
 // ICONS
 import Camera from 'react-icons/lib/ti/camera-outline'
@@ -206,30 +207,49 @@ export class Home extends React.Component {
                 <Slider images={images} />
               </section>
 
-              <section className="services-home-preview">
-                <div className="container">
-                  <div className="row">
-                    <ServiceHomePreview data={mockServiceHomePreview} itemClassName="col-lg-4 col-xs-12 col-sm-12"/>
-                  </div>
+              <Section
+                className="services-home-preview"
+                title={<ServiceHomePreview data={mockServiceHomePreview} />}
+              >
+                <Advantages data={mockAdvantages} itemClassName="col-lg-4" />
+              </Section>
 
-                  <div className="row">
-                    <Advantages data={mockAdvantages} itemClassName="col-lg-4" />
-                  </div>
-                </div>
-              </section>
+              <Section
+                className="testimonials"
+                grey
+                fluid
+                h2="Testimonials"
+              >
+                <Slider
+                  withHero
+                  images={imagesTestimonials}
+                />
+              </Section>
 
-              <section className="grey testimonials fluid">
-                <div className="container">
-                  <h2 className="row">Testimonials</h2>
-                  <div className="row">
-                    <Slider
-                      withHero
-                      images={imagesTestimonials}
-                    />
-                  </div>
-                </div>
-              </section>
+              <Section
+                className="destinations"
+                fluid
+                h2="Our Destinations"
+                h5="Choose Your Next Destination"
+              >
+                {[...mockServiceHomePreview, ...mockServiceHomePreview].map(item => (
+                  <ServicePreview key={item.title} className="col-lg-4 col-xs-12 col-sm-12" {...item} />
+                ))}
+              </Section>
 
+              <Section
+                className="services"
+                fluid
+                grey
+                h2="Our Services"
+                h5="We Offer The Following Services"
+              >
+                {[...mockAdvantages, ...mockAdvantages].map(item => (
+                  <ServiceTextItem key={item.title} {...item} className="col-lg-4" />
+                ))}
+              </Section>
+
+              <HomeArticlesPreview />
 
             </div>
         );

@@ -4,6 +4,8 @@ import AngleRight from 'react-icons/lib/fa/angle-right'
 import ArrowRight from 'react-icons/lib/fa/arrow-right'
 import ArrowLeft from 'react-icons/lib/fa/arrow-left'
 
+import { ButtonLink } from 'shared/modules/common'
+
 import './Slider.sass'
 
 const TEXT = {
@@ -76,9 +78,10 @@ export class Slider extends React.Component {
                           {hrefText[1] || TEXT.learnMore}
                         </Link>
                       </div> :
-                      <Link to={href} title={linkTitle}>
-                        {linkText || TEXT.learnMore}
-                      </Link>
+                      <ButtonLink
+                        href={href}
+                        title={linkText || TEXT.learnMore}
+                      />
                     }
                   </div>
                   }

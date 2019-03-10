@@ -2,6 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 
 import { MainMenu } from 'shared/modules/MainMenu'
+import { Footer } from 'shared/modules/Footer'
 
 const helmet = {
   title: 'Фотостудия "Подсолнух" - печать фотографий, услуги печати',
@@ -29,6 +30,9 @@ export const App = ({ children }) => {
           {children}
         </div>
       </main>
+
+      <Footer/>
+
     </div>
   )
 }

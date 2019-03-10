@@ -16,8 +16,9 @@ $font-color-lighter: #4d4d4d;
 $font-color-light: #ffffff;
 $borderColor: rgba(150, 150, 150, 0.61);
 $color-background: #ffffff;
+$color-background-dark: #333;
 $color-background-light-grey: #f8f9fa;
-$disableTextColor: #a9a9a9;
+$disableTextColor: rgba(0,0,0,.5);;
 
 @mixin primary_font {
   font-family: "Poppins", sans-serif;

@@ -120,7 +120,7 @@ const serverConfig = {
   mode: process.env.NODE_ENV || 'development',
   target: 'node',
 
-  externals: ['@loadable/component', nodeExternals()],
+  externals: [nodeExternals()],
   output: {
     path: path.join(__dirname, 'public', 'server'),
     filename: '[name].js',

@@ -71,36 +71,80 @@ const menuItemMock = [
   },
 ];
 
+const priceMenuItemMock = [
+  {
+    _id: 'asd',
+    title: 'Mega menu Price',
+    children: mockItem,
+  },
+  {
+    _id: 'qweqw',
+    title: 'Mega menu Price',
+    children: mockItem,
+  },
+  {
+    _id: 'jkjkjk',
+    title: 'Mega menu Price',
+    children: mockItem,
+  },
+  {
+    _id: 'yytyt',
+    title: 'Mega menu Price',
+    children: mockItem,
+  },
+  {
+    _id: 'aasdasdasd',
+    title: 'Mega menu Price',
+    children: mockItem,
+  },
+  {
+    _id: 'ffgfgf',
+    title: 'Mega menu',
+    children: mockItem,
+  },
+  {
+    _id: '323123',
+    title: 'Mega menu Price',
+    children: mockItem,
+  },
+];
+
 const itemsMock = [
   {
     _id: '1',
     title: 'Главная',
-    href: '/',
+    // href: '/',
+    slug: '',
   },
   {
     _id: '2',
     title: 'О нас',
-    href: '/static/about',
+    // href: '/static/about',
+    slug: 'static/about',
   },
   {
     _id: '3',
     title: 'Как заказать',
-    href: '/static/how-to-order',
+    // href: '/static/how-to-order',
+    slug: 'static/how-to-order',
   },
   {
     _id: '4',
     title: 'Цены',
-    submenu: menuItemMock,
+    slug: 'prices',
+    submenu: priceMenuItemMock,
   },
   {
     _id: '5',
     title: 'Услуги',
+    slug: 'static/service',
     submenu: menuItemMock,
   },
   {
     _id: '6',
     title: 'Заказать',
-    href: '/set-order',
+    slug: 'set-order',
+    // href: '/set-order',
   },
 ]
 
@@ -111,12 +155,15 @@ export class MenuStore {
     Object.assign(this, data);
   }
 
-  register() {
-    this.getList();
+  getList = async () => {
+
+    const items = await itemsMock;
+
+    this.menuList = this.prepareMenuItems(items);
   }
 
-  getList = async () => {
-    this.menuList = itemsMock;
+  prepareMenuItems = (items) => {
+    return items.map(item => ({ ...item, href: `/${item.slug}` }))
   }
 
   setLocation = () => {
