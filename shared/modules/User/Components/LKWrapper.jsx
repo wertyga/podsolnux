@@ -36,9 +36,11 @@ const LKComponent = ({ user, pendingState, location: { pathname } }) => {
               </li>
             ))}
           </ul>
-          <Switch>
-            {userMenu.map(({ href, Component }) => <Route key={href} path={href} component={Component}/>)}
-          </Switch>
+          <div className="lk__content">
+            <Switch>
+              {userMenu.map(({ href, Component }) => <Route key={href} path={href} component={Component}/>)}
+            </Switch>
+          </div>
         </Section>
       }
     </Page>

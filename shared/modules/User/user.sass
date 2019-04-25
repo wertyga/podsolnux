@@ -1,10 +1,15 @@
 @import 'constants.scss'
 
 .lk
+  &__content
+    @include desktop
+      padding-left: 3rem
+
   &__menu
     display: inline-flex
     flex-direction: column
     transform: translateX(-100%)
+    align-items: flex-end
     li
       transition: transform .3s
       &.active
@@ -16,6 +21,7 @@
       flex-direction: row
       transform: translateX(0%)
       margin-bottom: 1.5rem
+      align-items: flex-start
       li
         &.active
           transform: translateY(-10%)
