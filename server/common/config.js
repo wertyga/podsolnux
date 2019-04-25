@@ -1,13 +1,18 @@
 import path from 'path';
 
-const env = process.env.NODE_ENV;
-const dbName = 'cook';
+const dev = process.env.NODE_ENV === 'development';
+const testEnv = process.env.NODE_ENV === 'test';
+const dbName = 'podsolnux';
 
-export default {
+export const config = {
+  admin: {
+    PORT: 3001,
+  },
+  hostAddress: dev ? 'http://localhost:3000' : 'https://www.fotopodsolnux.by',
     appHost: 'http://localhost:3005',
-    PORT: env === 'test' ? 3001 : 3000,
+    PORT: 3000,
     mongoose: {
-        uri: env === 'test' ? `mongodb://localhost/${dbName}-test` : `mongodb://localhost/${dbName}`,
+        uri: testEnv ? `mongodb://localhost/${dbName}-test` : `mongodb://localhost/${dbName}`,
         options: {
             server: {
                 socketOptions: {
@@ -24,7 +29,7 @@ export default {
             secure: false,
             sameSite: true,
             httpOnly: true,
-            maxAge: 3600000
+            maxAge: 3600000 * 3
         }
     },
     hash: {
@@ -35,5 +40,5 @@ export default {
         directory: 'temp',
         destination: path.join(__dirname, '../', 'temp')
     },
-    logFile: path.join(__dirname, '..', 'node.log')
+    logFile: path.join(__dirname, '..', 'node.log'),
 }

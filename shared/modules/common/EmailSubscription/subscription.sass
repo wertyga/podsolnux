@@ -1,0 +1,30 @@
+@import 'constants.scss'
+
+.email-subscription
+  display: flex
+  flex-direction: column
+  &__success
+    color: $font-color-light
+    margin-top: .7rem
+    position: absolute
+    top: 100%
+    @include mobile
+      text-align: center
+      width: 100%
+  &__inner
+    display: flex
+    margin-top: 1rem
+    @include mobile
+      flex-direction: column
+  button[type="submit"]
+    background-color: $red-color
+    border: none
+    color: $font-color-light
+    transition: background-color .3s
+    &:hover
+      background-color: darken($red-color, 10%)
+    @include mobile
+      padding: .45rem
+  @include mobile
+    input
+      margin-bottom: .5rem

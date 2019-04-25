@@ -1,0 +1,17 @@
+@import 'constants.scss'
+
+.simple-input
+  position: relative
+  input
+    background-color: transparent
+    border: 1px solid $borderColor
+    font-size: 1rem
+    padding: .375rem .75rem
+    width: 100%
+    outline: none
+  &__error
+    position: absolute
+    bottom: 0
+    left: 0
+    transform: translateY(100%)
+    color: $red-color

@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 
-import config from './config';
+import { config } from './config';
 
 // mongoose.set('debug', true);
 mongoose.Promise = require('bluebird');
+mongoose.set('useCreateIndex', true);
 
 mongoose.connect(config.mongoose.uri, { useNewUrlParser: true }, (err) => {
     if(err) {

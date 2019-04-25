@@ -1,6 +1,11 @@
 import { observable } from 'mobx';
 import { ExecContextStore } from 'shared/utils';
 import { MenuStore } from 'shared/modules/MainMenu';
+import { UserStore } from 'shared/modules/User';
+import { PricesStore } from 'shared/modules/Prices';
+import { CookiesStore } from 'shared/utils/Cookies/CookiesStore';
+
+import 'shared/modules/common/globals'
 
 class RootStore {
   stores = new Map();
@@ -43,6 +48,9 @@ class RootStore {
 const STORES = {
   ExecContextStore,
   MenuStore,
+  UserStore,
+  PricesStore,
+  CookiesStore,
 };
 
 export const initStore = (initState = {}, history) => {

@@ -1,0 +1,49 @@
+@import 'vars.sass'
+
+.prices-wrapper
+  &__inner-list
+    display: flex !important
+    flex-direction: column
+    overflow: hidden
+    height: 0
+    padding: 0 !important
+    margin-left: 1rem !important
+    .changable-input__content
+      border-bottom: 1px solid #eeeeee
+    &.show
+      height: 100%
+      padding: 3px !important
+    &__item
+      display: flex !important
+      align-items: center
+      margin-bottom: 2rem
+      p:first-child
+        margin: 0 1rem 0 0
+      &__buttons
+        i:before
+          color: $font-color-light
+      > *
+        margin-right: 1rem
+
+  .inputs-wrapper
+    &__content
+      display: flex
+      align-items: flex-start
+      > *
+        margin-right: 1rem !important
+      .dropdown
+        margin-top: 1.4rem
+      .new-one
+        margin-top: .5rem !important
+      .button
+        margin-top: 1.4rem
+  &__list
+    h3
+      cursor: pointer
+      margin-bottom: 0
+    &-item
+      display: flex !important
+      align-items: center
+      justify-content: space-between
+      i.plus:before
+        color: $font-color-light

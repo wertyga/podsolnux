@@ -1,9 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import config from './common/config';
+import { config } from './common/config';
 import sessionStore from './common/sessionStore';
 import session from 'express-session';
+import api from './api';
 import serverRenderer from './app';
 
 export const app = express();
@@ -11,7 +12,7 @@ export const server = require('http').Server(app);
 
 app.use(bodyParser.json());
 app.use(express.static('public/static'));
-app.use(express.static('client/assets'));
+app.use(express.static(process.cwd()));
 app.use(session({
   secret: config.session.secret,
   saveUninitialized: false,
@@ -21,9 +22,9 @@ app.use(session({
   store: sessionStore
 }));
 
-app.use(serverRenderer());
+app.use('/api', api);
 
-//******************************** Routes ***************************
+app.use(serverRenderer());
 
 server.listen(config.PORT, () => console.log(`Server run on ${config.PORT} port`));
 

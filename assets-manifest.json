@@ -1,0 +1,73 @@
+{
+  "entrypoints": [
+    "bundle"
+  ],
+  "origins": {
+    "shared/modules/Home/Home": [
+      0
+    ],
+    "shared/modules/About/About": [
+      1
+    ],
+    "bundle": [
+      "vendors~bundle",
+      "bundle"
+    ],
+    "vendors~bundle": [
+      "bundle",
+      "vendors~bundle"
+    ]
+  },
+  "assets": {
+    "0": {
+      "js": [
+        {
+          "file": "0.js",
+          "hash": "5c4c11cee7675ec89b33",
+          "publicPath": "/0.js"
+        }
+      ]
+    },
+    "1": {
+      "js": [
+        {
+          "file": "1.js",
+          "hash": "47676810d25febd0b52f",
+          "publicPath": "/1.js"
+        }
+      ]
+    },
+    "bundle": {
+      "js": [
+        {
+          "file": "bundle.js",
+          "hash": "6b3db79d749c5a4caa1a",
+          "publicPath": "/bundle.js"
+        }
+      ],
+      "css": [
+        {
+          "file": "css/main.css",
+          "hash": "6b3db79d749c5a4caa1a",
+          "publicPath": "/css/main.css"
+        }
+      ]
+    },
+    "vendors~bundle": {
+      "js": [
+        {
+          "file": "vendors~bundle.js",
+          "hash": "41aee37510b89f2e9b01",
+          "publicPath": "/vendors~bundle.js"
+        }
+      ],
+      "css": [
+        {
+          "file": "css/vendors~main.css",
+          "hash": "41aee37510b89f2e9b01",
+          "publicPath": "/css/vendors~main.css"
+        }
+      ]
+    }
+  }
+}

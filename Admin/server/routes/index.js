@@ -1,0 +1,11 @@
+import express from 'express';
+
+import { user } from './user/user'
+import { priceRoute } from './prices/pricesRoute'
+
+const api = express.Router();
+
+api.use('/user', user)
+api.use('/prices', priceRoute)
+
+export default api;

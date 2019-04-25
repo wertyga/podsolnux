@@ -6,3 +6,7 @@ export { Section } from './Section/Section';
 export { ServicePreview } from './ServicePreview/ServicePreview';
 export { ArticlePreview } from './Article/ArticlePreview';
 export { ButtonLink } from './ButtonLink/ButtonLink';
+export { Page } from './Page/Page';
+export { Notify } from './Notify/Notify';
+export { Input } from './Input';
+export { Form } from './Form';

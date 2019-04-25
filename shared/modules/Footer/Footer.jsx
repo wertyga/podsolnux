@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom'
 import { inject } from 'mobx-react'
+
+import { EmailSubscription } from 'shared/modules/common/EmailSubscription'
 
 import './footer.sass'
 
@@ -7,6 +8,7 @@ const TEXT = {
   navigation: 'Навигация',
   about: 'О предприятии',
   subscribe: 'Подписка',
+  descriptionSubscription: 'Вы можете подписаться на наши новости',
 }
 
 export const FooterComponent = ({ menuStore: { menuList } }) => {
@@ -30,6 +32,10 @@ export const FooterComponent = ({ menuStore: { menuList } }) => {
           </nav>
           <div className="footer__subscribe footer__elem col-md-4 col-xs-12">
             <h3>{TEXT.subscribe}</h3>
+
+            <EmailSubscription
+              text={TEXT.descriptionSubscription}
+            />
           </div>
         </div>
       </div>

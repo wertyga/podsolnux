@@ -1,4 +1,5 @@
 import { Slider } from 'shared/modules/common/Slider'
+import { inject } from 'mobx-react'
 import { ServiceHomePreview, HomeArticlesPreview } from './Components'
 import { Advantages, Section, ServicePreview, ServiceTextItem } from 'shared/modules/common'
 
@@ -10,8 +11,8 @@ import './Home.sass';
 const images = [
   {
     _id: 'asdasdasd',
-    original: 'http://c7.staticflickr.com/4/3868/18982735806_b80b024040_h.jpg',
-    thumbnail: 'http://c7.staticflickr.com/4/3868/18982735806_cd60bcdb69_n.jpg',
+    original: '/images/1.jpeg',
+    thumbnail: '/images/1.jpeg',
     originalClass: 'featured-slide',
     thumbnailClass: 'featured-thumb',
     originalAlt: 'I am a featured image',
@@ -24,8 +25,8 @@ const images = [
   },
   {
     _id: '3213123',
-    original: 'http://c5.staticflickr.com/1/292/19003529492_214a7e3777_h.jpg',
-    thumbnail: 'http://c5.staticflickr.com/1/292/19003529492_226031f2c1_n.jpg',
+    original: '/images/2.jpg',
+    thumbnail: '/images/2.jpg',
     textBlock: {
       title: 'Never Stop Exploring',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga est inventore ducimus repudiandae.',
@@ -34,8 +35,8 @@ const images = [
   },
   {
     _id: 'asdas3333dasd',
-    original: 'http://c6.staticflickr.com/4/3802/19009038565_c197845618_h.jpg',
-    thumbnail: 'http://c6.staticflickr.com/4/3802/19009038565_17e2e21b22_n.jpg',
+    original: '/images/3.jpeg',
+    thumbnail: '/images/3.jpeg',
     textBlock: {
       title: 'Never Stop Exploring',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga est inventore ducimus repudiandae.',
@@ -44,8 +45,8 @@ const images = [
   },
   {
     _id: 'asdas31231111dasd',
-    original: 'http://c7.staticflickr.com/4/3868/18982735806_b80b024040_h.jpg',
-    thumbnail: 'http://c7.staticflickr.com/4/3868/18982735806_cd60bcdb69_n.jpg',
+    original: '/images/4.jpeg',
+    thumbnail: '/images/4.jpeg',
     originalClass: 'featured-slide',
     thumbnailClass: 'featured-thumb',
     originalAlt: 'I am a featured image',
@@ -58,8 +59,8 @@ const images = [
   },
   {
     _id: 'asdas3333123dasd',
-    original: 'http://c5.staticflickr.com/1/292/19003529492_214a7e3777_h.jpg',
-    thumbnail: 'http://c5.staticflickr.com/1/292/19003529492_226031f2c1_n.jpg',
+    original: '/images/5.jpeg',
+    thumbnail: '/images/5.jpeg',
     textBlock: {
       title: 'Never Stop Exploring',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga est inventore ducimus repudiandae.',
@@ -68,8 +69,8 @@ const images = [
   },
   {
     _id: 'asdasda435345sd',
-    original: 'http://c6.staticflickr.com/4/3802/19009038565_c197845618_h.jpg',
-    thumbnail: 'http://c6.staticflickr.com/4/3802/19009038565_17e2e21b22_n.jpg',
+    original: '/images/6.jpg',
+    thumbnail: '/images/6.jpg',
     textBlock: {
       title: 'Never Stop Exploring',
       description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga est inventore ducimus repudiandae.',
@@ -80,9 +81,9 @@ const images = [
 
 const imagesTestimonials = [
   {
-    _id: 'asdasdasd',
-    original: 'http://c7.staticflickr.com/4/3868/18982735806_b80b024040_h.jpg',
-    thumbnail: 'http://c7.staticflickr.com/4/3868/18982735806_cd60bcdb69_n.jpg',
+    _id: 'asdasdsfdfdasd',
+    original: '/images/7.jpg',
+    thumbnail: '/images/7.jpg',
     originalClass: 'featured-slide',
     thumbnailClass: 'featured-thumb',
     originalAlt: 'I am a featured image',
@@ -94,9 +95,9 @@ const imagesTestimonials = [
     },
   },
   {
-    _id: '3213123',
-    original: 'http://c5.staticflickr.com/1/292/19003529492_214a7e3777_h.jpg',
-    thumbnail: 'http://c5.staticflickr.com/1/292/19003529492_226031f2c1_n.jpg',
+    _id: '321314342423',
+    original: '/images/8.jpg',
+    thumbnail: '/images/8.jpg',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -104,9 +105,9 @@ const imagesTestimonials = [
     },
   },
   {
-    _id: 'asdas3333dasd',
-    original: 'http://c6.staticflickr.com/4/3802/19009038565_c197845618_h.jpg',
-    thumbnail: 'http://c6.staticflickr.com/4/3802/19009038565_17e2e21b22_n.jpg',
+    _id: 'asdas3333dadsfsdsd',
+    original: '/images/6.jpg',
+    thumbnail: '/images/6.jpg',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -114,9 +115,9 @@ const imagesTestimonials = [
     },
   },
   {
-    _id: 'asdas31231111dasd',
-    original: 'http://c7.staticflickr.com/4/3868/18982735806_b80b024040_h.jpg',
-    thumbnail: 'http://c7.staticflickr.com/4/3868/18982735806_cd60bcdb69_n.jpg',
+    _id: 'asdas31231111daasdasd',
+    original: '/images/7.jpg',
+    thumbnail: '/images/7.jpg',
     originalClass: 'featured-slide',
     thumbnailClass: 'featured-thumb',
     originalAlt: 'I am a featured image',
@@ -128,9 +129,9 @@ const imagesTestimonials = [
     },
   },
   {
-    _id: 'asdas3333123dasd',
-    original: 'http://c5.staticflickr.com/1/292/19003529492_214a7e3777_h.jpg',
-    thumbnail: 'http://c5.staticflickr.com/1/292/19003529492_226031f2c1_n.jpg',
+    _id: 'asdas3333123dadsadsd',
+    original: '/images/8.jpg',
+    thumbnail: '/images/8.jpg',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -138,9 +139,9 @@ const imagesTestimonials = [
     },
   },
   {
-    _id: 'asdasda435345sd',
-    original: 'http://c6.staticflickr.com/4/3802/19009038565_c197845618_h.jpg',
-    thumbnail: 'http://c6.staticflickr.com/4/3802/19009038565_17e2e21b22_n.jpg',
+    _id: 'asdasda435345sddsadd',
+    original: '/images/7.jpg',
+    thumbnail: '/images/7.jpg',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -199,12 +200,14 @@ const mockServiceHomePreview = [
   }
 ]
 
+@inject('execContextStore')
 export class Home extends React.Component {
     render() {
+      const { requestContext: { isMobile } } = this.props.execContextStore
         return (
             <div className="home">
               <section className="no-padding">
-                <Slider images={images} />
+                <Slider images={images} isMobile={isMobile} isDotsVisible={isMobile} isArrowVisible={!isMobile} />
               </section>
 
               <Section
@@ -223,6 +226,9 @@ export class Home extends React.Component {
                 <Slider
                   withHero
                   images={imagesTestimonials}
+                  isMobile={isMobile}
+                  isDotsVisible={isMobile}
+                  isArrowVisible={!isMobile}
                 />
               </Section>
 

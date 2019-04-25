@@ -119,32 +119,31 @@ const itemsMock = [
   {
     _id: '2',
     title: 'О нас',
-    // href: '/static/about',
-    slug: 'static/about',
+    slug: 'about',
+    isStatic: false,
   },
   {
     _id: '3',
     title: 'Как заказать',
-    // href: '/static/how-to-order',
-    slug: 'static/how-to-order',
+    slug: 'how-to-order',
+    isStatic: false,
   },
   {
     _id: '4',
     title: 'Цены',
     slug: 'prices',
-    submenu: priceMenuItemMock,
   },
   {
     _id: '5',
     title: 'Услуги',
-    slug: 'static/service',
+    slug: 'service',
     submenu: menuItemMock,
+    isStatic: false,
   },
   {
     _id: '6',
     title: 'Заказать',
     slug: 'set-order',
-    // href: '/set-order',
   },
 ]
 
@@ -163,7 +162,7 @@ export class MenuStore {
   }
 
   prepareMenuItems = (items) => {
-    return items.map(item => ({ ...item, href: `/${item.slug}` }))
+    return items.map(item => ({ ...item, href: item.isStatic ? `/static/${item.slug}` : `/${item.slug}` }))
   }
 
   setLocation = () => {

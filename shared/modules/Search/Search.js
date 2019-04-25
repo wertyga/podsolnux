@@ -46,10 +46,13 @@ export class SearchComponent extends Component {
     const { size, isMobile } = this.props;
 
     return (
-      <div className={cn(
-        'search',
-        { 'search__open': open },
-      )}>
+      <div
+        className={cn(
+          'search',
+          { 'search__open': open },
+        )}
+        // onClick={this.onIconClick}
+      >
         <div className={cn(
           'search__input-wrapper',
           { 'search__input-wrapper__open': open }

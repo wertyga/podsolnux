@@ -9,15 +9,31 @@
   @include mobile
     padding: 2rem 1rem 1rem
     display: flex
+    flex-wrap: wrap
     justify-content: space-between
+    .butter-menu
+      width: 50%
+      justify-content: flex-end
   .search, .logo
     display: flex
     justify-content: center
     align-items: center
+    width: 50%
+    @include mobile
+      justify-content: flex-start
+  .search
+    justify-content: flex-start
+    @include mobile
+      justify-content: flex-end
   .search
       @include mobile
         justify-content: flex-start
         min-height: 46px
+
+  &__search-wrapper
+    display: flex
+    align-items: center
+
   &__menu
     display: flex
     justify-content: center
@@ -65,7 +81,7 @@
 
     &__submenu
       position: absolute
-      left: 0
+      left: 3%
       top: 100%
       transition: opacity .3s, transform .3s
       opacity: 0
@@ -103,34 +119,38 @@
         opacity: 1
         transform: translateY(0)
 
+  &__right-side
+    display: flex
+    align-items: center
 
+.user-bar
+  padding: 0 .5rem
+  @include mobile
+    width: 100%
+    padding: .5rem .5rem
+    display: flex
+  svg
+    cursor: pointer
+    color: $font-color
 
+  &.logged
+    .user-bar__auth
+      color: $color-green-menu
+  &__auth
+    display: flex
+    align-items: center
+    svg
+      margin-right: .5rem
+    &.active
+      svg, span
+        color: $color-green-menu
+    span
+      font-weight: 600
+      color: $font-color
+    &:hover
+      svg, span
+        color: $color-green-menu
 
-//&__open
-    //  background-color: $color-green-menu
-    //  position: relative
-    //  color: #fff
-    //  .menu-item
-    //    color: $fontColor
-    //  .carret
-    //    border-bottom-color: #fff
-    //    border-right-color: #fff
-    //  &:after
-    //    content: ''
-    //    display: flex
-    //    position: absolute
-    //    height: .1rem
-    //    background-color: $color-green-dark-menu
-    //    width: 100%
-    //    bottom: 0
-    //    left: 0
-    //  > .menu-item__submenu
-    //    opacity: 1
-    //    transform: translateY(0)
-    //    .menu-item__submenu
-    //      //left: .3rem
-    //    .menu-item__title
-    //      cursor: pointer
 
 
 

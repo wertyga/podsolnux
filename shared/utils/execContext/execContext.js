@@ -1,7 +1,7 @@
 import MobileDetect from 'mobile-detect';
 import _get from 'lodash/get';
 
-const isServer = () => !(typeof window !== 'undefined' && window.document)
+export const isServer = () => !(typeof window !== 'undefined' && window.document)
 
 export class ExecContextStore {
   constructor(userAgent) {

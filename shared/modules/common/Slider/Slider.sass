@@ -4,6 +4,44 @@
   height: 37.5rem
   position: relative
   overflow: hidden
+
+  &__dots
+    position: absolute
+    bottom: 1.5rem
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 0 1rem
+    width: 100%
+    &__item
+      display: inline-flex
+      align-items: center
+      justify-content: center
+      position: relative
+      &:not(:last-child)
+        margin-right: 1rem
+      .wrapper
+        width: 1.6rem
+        height: 1.6rem
+        position: absolute
+        background-color: transparent
+        border-radius: 50%
+        border: 1px solid transparent
+        transition: transform .3s
+        transform: scale(0) translate(-25%, -25%)
+        top: 0
+        left: 0
+        &.active
+          border-color: #fff
+          box-shadow: 0 0 6px #fff
+          transform: scale(1) translate(-25%, -25%)
+      span
+        background-color: #fff
+        width: .8rem
+        height: .8rem
+        border-radius: 50%
+
+
   &__text-block
     position: absolute
     color: $font-color-light
@@ -15,7 +53,6 @@
       transform: translate(-50%, -50%)
     h2
       font-size: 4rem
-      //font-weight: 300
       text-transform: uppercase
       margin-bottom: 1rem
       @include mobile
@@ -61,14 +98,16 @@
     width: 100%
     height: 100%
     position: relative
-    transition: transform .5s
     display: flex
     flex-wrap: nowrap
+    transition: transform .5s
     img
       user-select: none
       height: 100%
       width: 100%
       object-fit: cover
+    &.isMoving
+      transition: none
 
   &.with-hero
     padding-bottom: 7rem
@@ -76,6 +115,15 @@
     @include mobile
       height: initial
       padding-bottom: 6rem
+      
+    .slider__dots
+      margin-top: .5rem
+      &__item
+        .wrapper
+          border-color: #282828
+          background-color: transparent
+        span
+          background-color: #282828
     .slider
       &__inner
         @include mobile

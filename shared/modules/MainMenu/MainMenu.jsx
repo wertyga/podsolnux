@@ -1,38 +1,60 @@
-import React, { Fragment } from 'react';
-import { inject } from 'mobx-react';
+import React, { Fragment } from 'react'
+import { inject } from 'mobx-react'
 import { Search } from 'shared/modules/Search'
 import { withRouter } from 'react-router-dom'
 
 import { Mobile, Desktop } from 'shared/utils'
+import { UserBar } from 'shared/modules/User'
 
-import { MenuItem } from './Components/MenuItem';
+import { MenuItem } from './Components/MenuItem'
 import { MenuMobile } from './Components/MobileMenu/MobileMenu'
 
 import './main-menu.sass';
 
 const Logo = () => <div className="logo">LOGO</div>
 
-const mapState = ({ menuStore: { fetchStatus, menuList, setLocation } }) => ({
+const mapState = ({ menuStore: { fetchStatus, menuList, setLocation }, execContextStore: { requestContext: { isMobile } } }) => ({
   fetchStatus,
   menuList,
   setLocation,
+  isMobile,
 })
 
+export const findExceptionLocation = (pathname) => {
+  const exeptionManuLocations = ['auth'];
+  return exeptionManuLocations.find(item => new RegExp(item).test(pathname));
+}
+
+@withRouter
 @inject(mapState)
 export class MainMenu extends React.Component {
   state = {
     open: '',
   }
-  componentDidMount() {
-    const { setLocation } = this.props;
-    const menuItem = setLocation();
 
-    if (menuItem && !menuItem.submenu) this.setState({ open: menuItem._id })
+  componentDidMount() {
+    this.setItemActive();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setItemActive();
+    }
   }
 
   handleOpen = (id) => {
     this.setState({ open: this.state.open === id ? '' : id })
+
   }
+
+  setItemActive = () => {
+    const { setLocation, location: { pathname } } = this.props;
+    if (findExceptionLocation(pathname)) return this.setState({ open: '' });
+
+    const menuItem = setLocation();
+    if (menuItem && !menuItem.submenu) this.setState({ open: menuItem._id })
+  }
+
   render() {
     const { menuList } = this.props;
 
@@ -65,9 +87,14 @@ export class MainMenu extends React.Component {
           </Mobile>
         </Fragment>
 
-        <Desktop>
-          <Search size={17} />
-        </Desktop>
+        <Fragment>
+          <Desktop>
+            <div className="main-menu__right-side">
+              <Search size={20} />
+              <UserBar />
+            </div>
+          </Desktop>
+        </Fragment>
 
       </div>
     );

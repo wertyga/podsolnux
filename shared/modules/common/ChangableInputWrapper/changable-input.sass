@@ -1,0 +1,40 @@
+.changable-input
+  //display: flex
+  width: 100%
+  //margin-bottom: 1rem !important
+  &__content
+    //padding-bottom: 1rem !important
+  &__upper
+    display: flex !important
+    align-items: center
+    justify-content: space-between
+    &-item
+      cursor: pointer
+      display: flex
+      width: 45%
+      height: 100%
+      align-items: center
+      padding: 2px
+      span
+        width: 100%
+        height: 100%
+        display: flex
+        align-items: center
+        &:hover
+          background-color: #eeeeee
+      .input
+        width: 100%
+
+  &__buttons
+    display: flex !important
+    align-items: center
+    > *:not(.delete-button)
+      transition: transform .3s !important
+      transform: scale(0)
+      &.appear
+        transform: scale(1)
+    i:before
+      color: white
+
+  .delete-button
+    margin-left: 2rem !important

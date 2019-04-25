@@ -15,7 +15,6 @@ const {
 const browserConfig = {
   entry: {
     bundle: path.join(rootPath, './client/client.jsx'),
-    // admin: path.join(rootPath, './Admin/client/index.js'),
   },
   devtool: isProd ? false : 'inline-source-map',
   mode: process.env.NODE_ENV || 'development',
@@ -55,12 +54,12 @@ const browserConfig = {
                 }
             },
           {
-            test: /\.(js|jsx|json)$/,
+            test: /\.(js|jsx)$/,
             use: ["source-map-loader"],
             enforce: "pre"
           },
             {
-                test: /\.(js|jsx|json)$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loaders: 'babel-loader'
             },
@@ -104,6 +103,7 @@ const browserConfig = {
     alias: {
       shared: path.join(rootPath, './shared'),
       admin: path.join(rootPath, './Admin'),
+      server: path.join(rootPath, './server'),
     },
   },
 
@@ -143,7 +143,7 @@ const serverConfig = {
             },
 
             {
-                test: /\.(js|jsx|json)$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loaders: 'babel-loader'
             },
@@ -170,6 +170,7 @@ const serverConfig = {
     alias: {
       shared: path.join(rootPath, './shared'),
       admin: path.join(rootPath, './Admin'),
+      server: path.join(rootPath, './server'),
     },
   },
 

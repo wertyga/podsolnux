@@ -14,11 +14,13 @@ $successColorLight: #28a745;
 $font-color: #161616;
 $font-color-lighter: #4d4d4d;
 $font-color-light: #ffffff;
-$borderColor: rgba(150, 150, 150, 0.61);
+$borderColor: #ced4da;
 $color-background: #ffffff;
 $color-background-dark: #333;
 $color-background-light-grey: #f8f9fa;
-$disableTextColor: rgba(0,0,0,.5);;
+$disableTextColor: rgba(0,0,0,.5);
+$red-color: #ef6c57;
+$disableBackground: #e6e6e6;
 
 @mixin primary_font {
   font-family: "Poppins", sans-serif;

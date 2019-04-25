@@ -12,7 +12,7 @@ export class Input extends Component {
     value: PropTypes.string, // Value of Input
     onChange: PropTypes.func.isRequired, // OnChange of Input
     name: PropTypes.string.isRequired, // Name of Input
-    error: PropTypes.string, // Error of Input
+    error: PropTypes.string, // Notify of Input
     floatText: PropTypes.string, // FloatText of Input
     disabled: PropTypes.bool, // Disabled of Input
     onClick: PropTypes.func, // Function for invoke some behavior when clicked on input

@@ -3,10 +3,12 @@ import bodyParser from 'body-parser';
 
 import cluster from 'cluster';
 
-import config from './common/config';
+import { config } from './common/config';
 import sessionStore from './common/sessionStore';
 import session from 'express-session';
 import handleRequest from './app';
+
+import api from './api';
 
 // ****************** Import routes *************
 
@@ -61,6 +63,7 @@ init();
 
 app.use(bodyParser.json());
 app.use(express.static('public/static'));
+app.use(express.static(process.cwd()));
 app.use(session({
   secret: config.session.secret,
   saveUninitialized: false,
@@ -71,6 +74,8 @@ app.use(session({
 }));
 
 //******************************** Routes ***************************
+app.use('/api', api);
+
 app.use(handleRequest());
 
 //******************************** Uncaught Exception ***************************

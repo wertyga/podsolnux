@@ -1,1 +1,1 @@
-export default require('../../../server/common/config')
+export { config } from '../../../server/common/config'
