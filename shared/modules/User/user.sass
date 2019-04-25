@@ -1,3 +1,26 @@
+@import 'constants.scss'
+
 .lk
+  &__menu
+    display: inline-flex
+    flex-direction: column
+    transform: translateX(-100%)
+    li
+      transition: transform .3s
+      &.active
+        color: $color-green-menu
+        font-weight: bold
+        transform: translateX(10%)
+    @include mobile
+      display: inline-flex
+      flex-direction: row
+      transform: translateX(0%)
+      margin-bottom: 1.5rem
+      li
+        &.active
+          transform: translateY(-10%)
+      li:not(:last-child)
+        margin-right: .5rem
+
   .common-section
     min-height: 100vh

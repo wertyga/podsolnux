@@ -10,7 +10,7 @@ import { PricesPage } from 'shared/modules/Prices'
 import { HowToOrder } from 'shared/modules/HowToOrder'
 import { AuthPage } from 'shared/modules/AuthPage'
 import { ConfirmPage } from 'shared/modules/ConfirmPage'
-import { LK } from 'shared/modules/User'
+import { LKWrapper } from 'shared/modules/User'
 
 export const routes = (
   <App>
@@ -21,7 +21,7 @@ export const routes = (
       <Route exact path="/prices" component={PricesPage} />
       <Route exact path="/auth" component={AuthPage} />
       <Route exact path="/confirm" component={ConfirmPage} />
-      <Route exact path="/user" component={LK} />
+      <Route path="/user" component={LKWrapper} />
       <Route path="*" component={NotFound} />
     </Switch>
   </App>
