@@ -105,3 +105,15 @@ userRoute.get('/get-user', async ({ query: { id } }, res) => {
     res.status(500).json({ errors: [{ message }] })
   }
 })
+
+userRoute.post('/logout-user', async ({ body: { id } }, res) => {
+  try {
+    const user = await User.findOne({ _id: id })
+
+    if (!user) return res.status(404).json({ errors: [{ message: TEXT.noUser }] })
+
+    res.json({ success: 'true' })
+  } catch ({ message }) {
+    res.status(500).json({ errors: [{ message }] })
+  }
+})

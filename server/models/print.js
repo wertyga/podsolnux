@@ -1,18 +1,18 @@
 import mongoose from 'mongoose'
 
-const PriceSchema = new mongoose.Schema({
-  articleName: {
+const PrintSchema = new mongoose.Schema({
+  title: {
     type: String,
     required: true,
   },
-  value: {
-    type: String,
+  price: {
+    type: Number,
     required: true,
   },
-  category: {
+  paperType: {
     type: String,
     required: true,
   },
 }, { timestamps: true });
 
-export const PriceModel = mongoose.model('price', PriceSchema)
+export const PrintModel = mongoose.model('print', PrintSchema)

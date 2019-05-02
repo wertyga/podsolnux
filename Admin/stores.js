@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 import { UserStore } from 'admin/client/components/User'
-import { PricesStore } from 'admin/client/components/Prices'
+import { PricesStore, PrintStore } from 'admin/client/components/Prices'
 import { BannersStore } from 'shared/utils/Banners'
 
 class RootStore {
@@ -46,6 +46,7 @@ const STORES = {
   UserStore,
   BannersStore,
   PricesStore,
+  PrintStore,
 };
 
 export const initStore = (initState = {}, history) => {

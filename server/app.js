@@ -12,7 +12,7 @@ const confirmUser = async ({ path, url }, rootStore) => {
 }
 
 const getPrices = async ({ path }, rootStore) => {
-  if (path !== '/prices') return;
+  if (path !== '/prices') return ;
 
   const { getPricesList } = rootStore.get('pricesStore');
 

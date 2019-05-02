@@ -31,7 +31,7 @@ export class UserBar extends React.Component {
         <Link
           className={cn(
             'user-bar__auth',
-            { active: /auth/.test(pathname) },
+            { active: /auth|user/.test(pathname) },
           )}
           to={!isAuth ? '/auth' : '/user'}
         >

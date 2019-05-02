@@ -11,6 +11,7 @@ import { HowToOrder } from 'shared/modules/HowToOrder'
 import { AuthPage } from 'shared/modules/AuthPage'
 import { ConfirmPage } from 'shared/modules/ConfirmPage'
 import { LKWrapper } from 'shared/modules/User'
+import { SetOrder } from 'shared/modules/Order'
 
 export const routes = (
   <App>
@@ -22,6 +23,8 @@ export const routes = (
       <Route exact path="/auth" component={AuthPage} />
       <Route exact path="/confirm" component={ConfirmPage} />
       <Route path="/user" component={LKWrapper} />
+      <Route path="/set-order" component={SetOrder} />
+
       <Route path="*" component={NotFound} />
     </Switch>
   </App>

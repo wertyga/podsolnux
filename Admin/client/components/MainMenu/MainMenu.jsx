@@ -20,6 +20,10 @@ const components = [
     slug: 'Users',
     href: '/users',
   },
+  {
+    slug: 'Print',
+    href: '/print',
+  },
 ];
 
 @withRouter

@@ -81,15 +81,16 @@ li {
   }
 }
 
-button {
+button, .btn {
   outline: none;
   font-weight: 500;
   padding: .5rem;
   border: none;
   transition: background-color .3s;
   min-width: 10rem;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  cursor: pointer;
   &.accent {
     background-color: $color-green-menu;
     color: $font-color-light;

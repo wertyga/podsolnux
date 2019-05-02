@@ -7,18 +7,7 @@ import { PricesItem } from './PricesItem'
 
 import './prices.sass'
 
-const mapState = ({ pricesStore: { prices, getPricesList, pendingState, error, editPrice, deletePrice } }) => ({
-  prices,
-  getPricesList,
-  pendingState,
-  error,
-  editPrice,
-  deletePrice,
-})
-
-@inject(mapState)
-@observer
-export class AdminPricesWrapper extends React.Component {
+class AdminPricesWrapperComponent extends React.Component {
   static propTypes = {
     prices: PropTypes.object.isRequired,
     getPricesList: PropTypes.func.isRequired,
@@ -26,22 +15,28 @@ export class AdminPricesWrapper extends React.Component {
     editPrice: PropTypes.func.isRequired,
     pendingState: PropTypes.string,
     error: PropTypes.any,
+    print: PropTypes.bool,
+    addNewPendingState: PropTypes.string,
+    addNewPrice: PropTypes.func.isRequired,
+    categories: PropTypes.array,
   }
 
   constructor(props) {
     super(props)
 
-    props.getPricesList('all')
+    const isPrintCategory = props.print;
+    props.getPricesList(isPrintCategory ? 'print' : 'all')
+    this.addNewFields = isPrintCategory && ['name', 'paperType', 'price'];
   }
 
   render() {
-    const { pendingState, error, prices, editPrice, deletePrice } = this.props
+    const { pendingState, error, prices, editPrice, deletePrice, print, addNewPendingState, addNewPrice, categories } = this.props
     const isLoading = pendingState === 'pending'
 
     if (isLoading) return <Loader active>Loading...</Loader>
     return (
       <div className="prices-wrapper">
-        <h1>Prices</h1>
+        <h1>{!print ? 'Prices' : 'Print prices'}</h1>
 
         {error &&
           <Message
@@ -73,10 +68,63 @@ export class AdminPricesWrapper extends React.Component {
           <List.Item
             className="prices-wrapper__list-item"
           >
-            <AddNewWrapper />
+            <AddNewWrapper
+              isOneCategory={print}
+              addNewPendingState={addNewPendingState}
+              addNewPrice={addNewPrice}
+              categories={categories}
+              fields={this.addNewFields}
+            />
           </List.Item>
         </List>
       </div>
     );
   }
 }
+
+const mapState = ({ pricesStore:
+  { prices,
+    getPricesList,
+    pendingState,
+    error,
+    editPrice,
+    deletePrice,
+    addNewPendingState,
+    addNewPrice,
+    categories,
+  } }) => ({
+  prices,
+  getPricesList,
+  pendingState,
+  error,
+  editPrice,
+  deletePrice,
+  addNewPrice,
+  addNewPendingState,
+  categories,
+})
+
+const mapPrintState = ({ printStore:
+  { printPrices,
+    getPrintPrices,
+    pendingState,
+    error,
+    editPrint,
+    deletePrint,
+    addNewPendingState,
+    addNewPrint,
+  } }) => ({
+  prices: printPrices,
+  getPricesList: getPrintPrices,
+  pendingState,
+  error,
+  editPrice: editPrint,
+  deletePrice: deletePrint,
+  addNewPrice: addNewPrint,
+  addNewPendingState,
+  categories: ['print'],
+  print: true,
+})
+
+export const AdminPricesWrapper = inject(mapState)(observer(AdminPricesWrapperComponent))
+export const AdminPricesPrint = inject(mapPrintState)(observer(AdminPricesWrapperComponent))

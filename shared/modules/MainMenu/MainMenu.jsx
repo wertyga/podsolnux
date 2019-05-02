@@ -21,7 +21,7 @@ const mapState = ({ menuStore: { fetchStatus, menuList, setLocation }, execConte
 })
 
 export const findExceptionLocation = (pathname) => {
-  const exeptionManuLocations = ['auth'];
+  const exeptionManuLocations = ['auth', 'user'];
   return exeptionManuLocations.find(item => new RegExp(item).test(pathname));
 }
 

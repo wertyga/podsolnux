@@ -22,7 +22,7 @@ export class PricesPage extends React.Component {
   render() {
     const { pricesStore: { error, prices, pendingState, clearError } } = this.props;
 
-    if (pendingState == 'pending') return <Page><Loader /></Page>
+    if (pendingState === 'pending') return <Page><Loader /></Page>
     return (
       <Page className="prices-page" title={TEXT.description}>
         {error && <Notify type="error" onClose={clearError}>{error.message}</Notify>}

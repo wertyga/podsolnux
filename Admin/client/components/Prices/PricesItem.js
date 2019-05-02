@@ -53,22 +53,13 @@ export class PricesItem extends React.Component {
             { show: isOpen }
           )}
         >
-          {list.map(({ name, value, _id }) => (
+          {list.map(({ _id, ...rest }) => (
             <List.Item
               className="prices-wrapper__inner-list__item"
               key={_id}
             >
               <ChangableInputWrapper
-                values={[
-                  {
-                    name: 'articleName',
-                    value: name,
-                  },
-                  {
-                    name: 'value',
-                    value,
-                  }
-                ]}
+                values={Object.entries(rest).map(([key, value]) => ({ name: key, value }))}
                 onConfirm={(data) => this.onConfirm(_id, data)}
                 onDelete={() => this.onDelete(_id)}
               />

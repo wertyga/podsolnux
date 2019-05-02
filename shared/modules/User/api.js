@@ -42,3 +42,13 @@ export const verifyUser = (id) => (
     },
   })
 );
+
+export const logoutUser = (id) => (
+  fetch({
+    url: '/api/user/logout-user',
+    method: 'post',
+    data: {
+      id,
+    },
+  })
+);

@@ -23,7 +23,6 @@ export class PricesStore {
 
       this.pendingState = 'fulfilled'
     } catch (e) {
-      console.log(e);
       this.pendingState = 'rejected'
       this.error = getError(e)
     }

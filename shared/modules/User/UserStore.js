@@ -12,13 +12,6 @@ export class UserStore {
     Object.assign(this, data)
   }
 
-  // register() {
-  //   const { requestContext: { isClient } } = this.rootStore.get('execContextStore')
-  //   const userID = this.rootStore.get('cookiesStore').get('userID')
-  //
-  //   if (isClient) this.getUser(userID)
-  // }
-
   subscribe = async (email) => {
     try {
       await api.sendSubscribe(email)
@@ -76,8 +69,31 @@ export class UserStore {
     }
   }
 
+  logoutUser = async () => {
+    const { _id } = this.user;
+    if (!_id) return;
+
+    try {
+      this.pendingState = 'pending'
+      this.error = ''
+
+      await api.logoutUser(_id)
+      this.clearUser()
+      this.pendingState = 'fulfilled'
+    } catch (e) {
+      this.error = getError(e)
+      this.pendingState = 'rejected'
+      throw this.error;
+    }
+  }
+
   clearError = () => {
     this.error = ''
     this.pendingState = undefined
+  }
+
+  clearUser = () => {
+    this.rootStore.get('cookiesStore').remove('userID')
+    this.user = {};
   }
 }

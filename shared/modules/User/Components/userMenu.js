@@ -9,7 +9,7 @@ export const userMenu = [
   },
   {
     title: 'Настройки',
-    href: '/user/settings',
+    href: '/user',
     Component: UserSettings,
   },
 ]

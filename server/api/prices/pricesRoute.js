@@ -4,9 +4,11 @@ import { PriceModel } from 'server/models'
 
 export const priceRoute = express.Router();
 
-priceRoute.get('/', async (req, res) => {
+priceRoute.get('/', async ({ query: { category } }, res) => {
+  const exceptions = ['print'];
   try {
-    const prices = await PriceModel.find({})
+    const categoryName = category ? { category } : { category: { $nin: exceptions } }
+    const prices = await PriceModel.find(categoryName)
 
     const collectedPriced = prices.reduce((a, b) => {
       const { category, articleName: name, value, _id } = b;

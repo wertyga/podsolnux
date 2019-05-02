@@ -1,5 +1,3 @@
-import { inject } from 'mobx-react'
-
 import { Form, Button, Select, Message } from 'semantic-ui-react'
 
 const TEXT = {
@@ -8,19 +6,15 @@ const TEXT = {
   addNewLabel: 'Add new',
 }
 
-const mapState = ({ pricesStore: { addNewPendingState, addNewPrice, categories } }) => ({
-  addNewPendingState,
-  addNewPrice,
-  categories,
-})
-
-@inject(mapState)
 export class AddNewWrapper extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     categories: PropTypes.array,
     addNewPendingState: PropTypes.string,
     addNewPrice: PropTypes.func,
+    isOneCategory: PropTypes.bool,
+    category: PropTypes.string,
+    fields: PropTypes.array,
   }
   static defaultProps = {
     categories: [],
@@ -29,12 +23,15 @@ export class AddNewWrapper extends React.Component {
   constructor(props) {
     super(props)
 
-    this.fields = ['name', 'value']
+    const { categories, fields } = props;
+    this.fields = fields || ['name', 'value']
 
     this.initialState = {
-      value: '',
-      name: '',
-      category: '',
+      ...this.fields.reduce((a, b) => ({
+        ...a,
+        [b]: '',
+      }), {}),
+      category: categories,
       isAddNew: false,
       error: '',
     }
@@ -43,8 +40,8 @@ export class AddNewWrapper extends React.Component {
   }
 
   checkEmptyFields = () => {
-    const values = ['value', 'name', 'category']
-    return values.find(item => !this.state[item])
+    // const values = ['value', 'name', 'category']
+    return this.fields.find(item => !this.state[item])
   }
 
   onChange = ({ target: { name, value } }) => {
@@ -75,7 +72,7 @@ export class AddNewWrapper extends React.Component {
 
   render() {
     const { error, isAddNew } = this.state
-    const { categories, addNewPendingState } = this.props;
+    const { categories, addNewPendingState, isOneCategory } = this.props;
     const options = [
       ...categories.map(item => ({ value: item, text: item, key: item })),
       { value: 'new', text: TEXT.addNewOne, key: 'new' },
@@ -88,22 +85,23 @@ export class AddNewWrapper extends React.Component {
         loading={addNewPendingState === 'pending'}
       >
         <div className="inputs-wrapper__content">
-          <div className="inputs-wrapper__content__select">
-            <Select
-              placeholder="Categories..."
-              options={options}
-              onChange={this.selectChange}
-            />
-            {isAddNew &&
-              <Form.Input
-                value={this.state.category}
-                name="category"
-                onChange={this.onChange}
-                className="new-one"
-              />
+            {!isOneCategory &&
+              <div className="inputs-wrapper__content__select">
+                <Select
+                  placeholder="Categories..."
+                  options={options}
+                  onChange={this.selectChange}
+                />
+                {isAddNew &&
+                  <Form.Input
+                    value={this.state.category}
+                    name="category"
+                    onChange={this.onChange}
+                    className="new-one"
+                  />
+                }
+              </div>
             }
-          </div>
-
           {this.fields.map(item => (
             <Form.Input
               key={item}
