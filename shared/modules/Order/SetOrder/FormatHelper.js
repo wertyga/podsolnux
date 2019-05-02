@@ -1,4 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { inject } from 'mobx-react'
+import sortedUniq from 'lodash/sortedUniq'
+import AngleUp from 'react-icons/lib/fa/angle-up'
+import AngleDown from 'react-icons/lib/fa/angle-down'
 
 const TEXT = {
   prints: {
@@ -6,40 +10,92 @@ const TEXT = {
     paperType: 'Тип бумаги',
     price: 'Цена',
   },
-  currency: 'руб.'
+  currency: 'руб.',
+  saveChanges: 'Применить',
 }
 
-export const FormatHelper = ({ prints, className }) => {
+const FormatHelperComponent = ({ prints, className, onChange: propsChange, isMobile }) => {
   const [active, setActive] = useState(false)
+  const [titleState, setTitle] = useState(false)
+  const [paperState, setPaper] = useState(false)
+  const [isFixed, setFixed] = useState(false)
 
-  const onClick = () => setActive(!active)
+  const mainRef = React.createRef()
+
+  const checkScroll = () => {
+    if(window.pageYOffset > (!isMobile ? 86 : 70)) {
+      !isFixed && setFixed(true)
+    } else if (isFixed) {
+      setFixed(false)
+    }
+  }
+
+  useEffect(() => {
+    checkScroll()
+    window.addEventListener('scroll', checkScroll)
+    return () => window.removeEventListener('scroll', checkScroll)
+  })
+
+  const state = {
+    title: {
+      checked: titleState,
+      onChange: item => () => setTitle(titleState === item ? false : item),
+    },
+    paperType: {
+      checked: paperState,
+      onChange: item => () => setPaper(paperState === item ? false : item),
+    },
+  }
+  const selects = {}
+  prints.map(({ title, paperType }) => ({ title, paperType })).forEach((item) => {
+    Object.entries(item).forEach(([key, value]) => {
+      if (!selects[key]) {
+        selects[key] = [value]
+      } else {
+        selects[key] = sortedUniq([...selects[key], value])
+      }
+    })
+  })
+
+  const onShow = () => setActive(!active)
 
   return (
-    <table
+    <div
       className={cn(
-        className,
+        'format-helper',
         { active },
+        { 'is-fixed': isFixed }
       )}
-      onClick={onClick}
+      ref={mainRef}
     >
-      <thead>
-        <tr>
-          {Object.values(TEXT.prints).map(value => <td key={value}>{value}</td>)}
-        </tr>
-      </thead>
-      <tbody>
-        {prints.map(({ title, paperType, price }) => (
-          <tr key={title}>
-            <td>{title}</td>
-            <td>{paperType}</td>
-            <td>{`${price} ${TEXT.currency}`}</td>
-          </tr>
+      <div className="format-helper__content">
+        {Object.entries(selects).map(([key, values]) => (
+          <div className="format-helper__content__list" key={key}>
+            <p>{TEXT.prints[key]}</p>
+            <ul>
+              {values.map(item => (
+                <li key={item} onClick={state[key].onChange(item)} className="format-helper__checkbox-list-item">
+                  <span>{item}</span>
+                  <input type="checkbox" checked={state[key].checked === item} />
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </tbody>
-    </table>
+        <button className="accent">{TEXT.saveChanges}</button>
+      </div>
+      <div className="format-helper__shower" onClick={onShow}>{active ? <AngleUp /> : <AngleDown />}</div>
+    </div>
   );
 }
 
-FormatHelper.propTypes = {
+FormatHelperComponent.propTypes = {
   prints: PropTypes.array,
+  isMobile: PropTypes.bool,
 }
+
+const mapState = ({ execContextStore: { requestContext: { isMobile } } }) => ({
+  isMobile,
+})
+
+export const FormatHelper = inject(mapState)(FormatHelperComponent);

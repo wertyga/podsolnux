@@ -1,20 +1,88 @@
 @import 'constants.scss'
 
+.format-helper
+  position: absolute
+  display: flex
+  flex-direction: column
+  transition: transform .3s
+  transform: translateY(calc(-100% + 26px))
+  z-index: 10
+  width: 100%
+  top: 86px
+  left: 0
+  &.is-fixed
+    position: fixed
+    top: 0 !important
+  @include mobile
+    top: 70px
+  &__shower
+    border: 1px solid $color-border
+  &.active
+    transform: translateY(0)
+    .format-helper__content
+      height: 100%
+      padding: 1rem 2rem
+    .format-helper__shower
+      border: none
+
+  &__content
+    height: 0
+    overflow: hidden
+    padding: 0
+    background-color: $color-background
+    box-shadow: 0 0 2px rgba(0,0,0, .1)
+    position: relative
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    @include mobile
+      flex-direction: column
+      align-items: flex-start
+    &__list
+      @include desktop
+        margin-right: 1.5rem
+      @include mobile
+        margin-bottom: 1rem
+      p:first-child
+        font-weight: 500
+        margin-bottom: .5rem
+    button
+      @include mobile
+        width: 100%
+
+  &__shower
+    background-color: $color-background
+    box-shadow: 0 0 2px rgba(0,0,0, .1)
+    padding: 0 .5rem
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    transition: background-color .3s
+    svg
+      width: 1.5rem
+      height: 1.5rem
+    @include desktop
+      &:hover
+        background-color: #e5e5e5
+
+  &__checkbox-list-item
+    font-weight: normal
+    cursor: pointer
+    display: inline-flex
+    justify-content: space-between
+    align-items: center
+    margin-right: 1rem
+  input[type="checkbox"]
+    width: 1.5rem
+    height: 1.5rem
+    margin-left: .5rem
+    @include mobile
+      width: 1rem
+      height: 1rem
 
 .set-order
-  &__format-helper
-    margin: 2rem
-    position: absolute
-    right: 0
-    overflow: hidden
-    height: 0
-    &.active
-      height: 100%
-    thead
-      td
-        font-weight: 500
-      td:not(:last-of-type)
-        padding-right: 1rem
   .common-section
     min-height: 100vh
   &__content
@@ -22,9 +90,9 @@
     display: flex
     flex-wrap: wrap
   .file-item
-    border: 1px solid black
     width: 21%
     margin-bottom: 1rem
+    position: relative
     @include desktop
       &:not(:nth-of-type(4n))
         margin-right: 5%
@@ -32,3 +100,14 @@
       width: 47%
       &:not(:nth-of-type(2n))
         margin-right: 5%
+    &__img
+      width: 100%
+      height: auto
+
+  .add-file
+    display: inline-flex
+    @include mobile
+      display: flex
+      justify-content: flex-end
+      label
+        width: 100%

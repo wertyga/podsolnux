@@ -1,4 +1,5 @@
 import { inject, observer } from 'mobx-react'
+import { createPortal } from 'react-dom'
 
 import { Page, Section, Loader, Notify } from 'shared/modules/common'
 
@@ -32,12 +33,18 @@ export class SetOrder extends React.Component {
   render() {
     const { printStore: { pendingState, clearError, error, prints, files, setFiles } } = this.props
     const { errors: stateErrors } = this.state
+
     return (
       <Page
         className="set-order"
         title={TEXT.title}
       >
-        {!!prints.length && <FormatHelper prints={prints} className="set-order__format-helper"/>}
+        {!!prints.length &&
+          createPortal(
+            <FormatHelper prints={prints} className="set-order__format-helper"/>,
+            document.getElementsByClassName('main-menu')[0]
+          )
+        }
         {error && <Notify type="error" onClose={clearError}>{error.message}</Notify>}
         {!!stateErrors.length &&
           <Notify type="error" onClose={this.clearStateErrors}>
@@ -54,7 +61,7 @@ export class SetOrder extends React.Component {
           />
 
           <div className="set-order__content">
-            {files.map(({ id, ...item }) => <FileItem key={id} {...item} />)}
+            {files.map(item => <FileItem key={item.id} {...item} />)}
           </div>
         </Section>
       </Page>

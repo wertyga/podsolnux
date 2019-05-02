@@ -10,3 +10,4 @@ export { Page } from './Page/Page';
 export { Notify } from './Notify/Notify';
 export { Input } from './Input';
 export { Form } from './Form';
+export { Select } from './Select/Select';
