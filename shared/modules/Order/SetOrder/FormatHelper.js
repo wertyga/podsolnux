@@ -4,7 +4,7 @@ import sortedUniq from 'lodash/sortedUniq'
 import AngleUp from 'react-icons/lib/fa/angle-up'
 import AngleDown from 'react-icons/lib/fa/angle-down'
 
-const TEXT = {
+export const TEXT = {
   prints: {
     title: 'Формат',
     paperType: 'Тип бумаги',
@@ -14,7 +14,7 @@ const TEXT = {
   saveChanges: 'Применить',
 }
 
-const FormatHelperComponent = ({ prints, className, onChange: propsChange, isMobile }) => {
+const FormatHelperComponent = ({ prints, className, isMobile, setFileData, errorNode }) => {
   const [active, setActive] = useState(false)
   const [titleState, setTitle] = useState(false)
   const [paperState, setPaper] = useState(false)
@@ -52,12 +52,28 @@ const FormatHelperComponent = ({ prints, className, onChange: propsChange, isMob
       if (!selects[key]) {
         selects[key] = [value]
       } else {
-        selects[key] = sortedUniq([...selects[key], value])
+        if (selects[key].includes(value)) return;
+        selects[key] = [...selects[key], value]
       }
     })
   })
 
   const onShow = () => setActive(!active)
+
+  const onSubmit = () => {
+    const successResult = setFileData({
+      title: titleState,
+      paperType: paperState,
+    })
+
+    if (successResult) clearState();
+  }
+
+  const clearState = () => {
+    setActive(false)
+    setTitle(false)
+    setPaper(false)
+  }
 
   return (
     <div
@@ -82,9 +98,10 @@ const FormatHelperComponent = ({ prints, className, onChange: propsChange, isMob
             </ul>
           </div>
         ))}
-        <button className="accent">{TEXT.saveChanges}</button>
+        <button className="accent" onClick={onSubmit}>{TEXT.saveChanges}</button>
       </div>
       <div className="format-helper__shower" onClick={onShow}>{active ? <AngleUp /> : <AngleDown />}</div>
+      {errorNode}
     </div>
   );
 }
@@ -92,6 +109,8 @@ const FormatHelperComponent = ({ prints, className, onChange: propsChange, isMob
 FormatHelperComponent.propTypes = {
   prints: PropTypes.array,
   isMobile: PropTypes.bool,
+  setFileData: PropTypes.func,
+  errorNode: PropTypes.node,
 }
 
 const mapState = ({ execContextStore: { requestContext: { isMobile } } }) => ({

@@ -11,3 +11,4 @@ export { Notify } from './Notify/Notify';
 export { Input } from './Input';
 export { Form } from './Form';
 export { Select } from './Select/Select';
+export { Modal } from './Modal/Modal';

@@ -31,9 +31,9 @@ export class PricesPage extends React.Component {
           return (
             <Section className="prices-page__content" grey={(i % 2) < 1} fluid h2={key} key={key}>
               {value.map(({ name, value, _id }) => (
-                <div className="col-xs-12 prices-page__content__item" key={_id}>
-                  <div className="col-xs-6">{name}</div>
-                  <div className="col-xs-6">{value}</div>
+                <div className="prices-page__content__item" key={_id}>
+                  <span>{name}</span>
+                  <span>{value}</span>
                 </div>
               ))}
             </Section>
