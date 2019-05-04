@@ -31,7 +31,12 @@ export class PrintStore {
     this.files = this.files.map(item => {
       if (ids.includes(item.id)) {
         const { title, paperType } = data;
-        const { price = '' } = this.prints.find(print => print.title === title && print.paperType === paperType)
+
+        const { price = '' } = this.prints.find(print => {
+          if (paperType) return print.title === title && print.paperType === paperType;
+          return print.title === title;
+
+        })
         return { ...item, ...data, price: `${price} руб.` };
       }
       return item;

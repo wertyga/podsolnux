@@ -14,6 +14,20 @@ export const TEXT = {
   saveChanges: 'Применить',
 }
 
+const Chooses = ({ options, title, onChange, checked }) => (
+  <div className="format-helper__content__list">
+    <p>{TEXT.prints[title]}</p>
+    <ul>
+      {options.map(item => (
+        <li key={item} onClick={onChange(item)} className="format-helper__checkbox-list-item">
+          <span>{item}</span>
+          <input type="checkbox" checked={checked === item} />
+        </li>
+      ))}
+    </ul>
+  </div>
+)
+
 const FormatHelperComponent = ({ prints, className, isMobile, setFileData, errorNode }) => {
   const [active, setActive] = useState(false)
   const [titleState, setTitle] = useState(false)
@@ -49,6 +63,10 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
   const selects = {}
   prints.map(({ title, paperType }) => ({ title, paperType })).forEach((item) => {
     Object.entries(item).forEach(([key, value]) => {
+      if (key === 'paperType' && state.title.checked) {
+        const isPaperFormatExist = prints.find(print => print.title === state.title.checked && value === print.paperType)
+        if (!isPaperFormatExist) return;
+      }
       if (!selects[key]) {
         selects[key] = [value]
       } else {
@@ -75,6 +93,8 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
     setPaper(false)
   }
 
+  const { title, paperType } = state;
+
   return (
     <div
       className={cn(
@@ -85,19 +105,21 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
       ref={mainRef}
     >
       <div className="format-helper__content">
-        {Object.entries(selects).map(([key, values]) => (
-          <div className="format-helper__content__list" key={key}>
-            <p>{TEXT.prints[key]}</p>
-            <ul>
-              {values.map(item => (
-                <li key={item} onClick={state[key].onChange(item)} className="format-helper__checkbox-list-item">
-                  <span>{item}</span>
-                  <input type="checkbox" checked={state[key].checked === item} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <Chooses
+          title="title"
+          options={selects.title}
+          checked={title.checked}
+          onChange={title.onChange}
+        />
+        {title.checked &&
+          <Chooses
+            title="paperType"
+            options={selects.paperType}
+            checked={paperType.checked}
+            onChange={paperType.onChange}
+          />
+        }
+
         <button className="accent" onClick={onSubmit}>{TEXT.saveChanges}</button>
       </div>
       <div className="format-helper__shower" onClick={onShow}>{active ? <AngleUp /> : <AngleDown />}</div>

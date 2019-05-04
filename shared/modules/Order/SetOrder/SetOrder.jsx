@@ -4,9 +4,9 @@ import { createPortal } from 'react-dom'
 
 import { Page, Section, Loader, Notify, Modal } from 'shared/modules/common'
 
-import { AddFileInput } from './AddFileInput/AddFileInput'
 import { FileItem } from './FileItem'
 import { FormatHelper } from './FormatHelper'
+import { ButtonWrapper } from './ButtonWrapper/ButtonWrapper'
 
 import './set-order.sass'
 
@@ -18,6 +18,10 @@ const TEXT = {
 @inject('printStore')
 @observer
 export class SetOrder extends React.Component {
+  static propTypes = {
+    printStore: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props)
 
@@ -42,6 +46,14 @@ export class SetOrder extends React.Component {
       this.setState({ checkedFiles: this.state.checkedFiles.filter(item => item !== id) })
     }
   }
+
+  chooseAll = () => {
+    const { printStore: { files } } = this.props;
+    this.setState({ checkedFiles: files.map(({ id }) => id) })
+  }
+
+  unChooseAll = () => this.setState({ checkedFiles: [] })
+  clearList = () => this.props.printStore.files = []
 
   setFileData = ({ title, paperType }) => {
     const { checkedFiles } = this.state
@@ -100,9 +112,14 @@ export class SetOrder extends React.Component {
 
         {pendingState === 'pending' && <Loader />}
         <Section grey fluid>
-          <AddFileInput
+          <ButtonWrapper
             setErrors={this.setErrors}
             setFiles={setFiles}
+            files={files}
+            chooseAll={this.chooseAll}
+            checkedFiles={checkedFiles}
+            unChooseAll={this.unChooseAll}
+            removeAll={this.clearList}
           />
 
           <div className="set-order__content">

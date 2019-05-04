@@ -103,8 +103,19 @@ button, .btn {
     color: rgba(0, 0, 0, .3) !important;
     cursor: not-allowed;
   }
-  &:hover {
-    background-color: darken($color-green-menu, 10%);
+  @include desktop {
+    &:hover {
+      background-color: darken($color-green-menu, 10%);
+    }
+  }
+  &.negative {
+    background-color: red;
+    color: $font-color-light;
+    @include desktop {
+      &:hover {
+        background-color: darken(red, 10%);
+      }
+    }
   }
 }
 
