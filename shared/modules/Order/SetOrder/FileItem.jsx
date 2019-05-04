@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Close from 'react-icons/lib/fa/times-circle'
 import Check from 'react-icons/lib/fa/check-circle'
 
+import { Loader } from 'shared/modules/common'
+
 import { TEXT } from './FormatHelper'
 
 const { prints } = TEXT
@@ -27,6 +29,12 @@ export const FileItem = ({ file, id, title, paperType, price, isChecked = false,
   const handleZoomImage = () => zoomImage(fileData)
 
   const { name } = file;
+
+  if (!fileData && !document.querySelector('.set-order__content .loader')) {
+    return <Loader />;
+  } else if (!fileData) {
+    return null;
+  }
 
   return (
     <div className="file-item" role="presentation" onClick={handleZoomImage}>

@@ -11,11 +11,25 @@ const TEXT = {
   invalidData: 'Неверные данные',
   notVerified: 'Пользователь не прошел подтверждение',
   noUser: 'Пользователь не найден',
+  alreadySubscribed: 'Вы уже подписаны',
 }
 
 userRoute.post('/set-subscription', async ({ body: { email } }, res) => {
   try {
-    await User.findOneAndUpdate({ email }, { $set: { email, isSubscribed: true } }, { upsert: true })
+    const user = await User.findOne({ email });
+    if (user && user.isSubscribed) {
+      return res.status(400).json({ errors: [{ message: TEXT.alreadySubscribed }]  })
+    };
+    if (!user) {
+      await new User({
+        email,
+        isSubscribed: true,
+      }).save();
+
+    } else {
+      user.isSubscribed = true;
+      await user.save();
+    }
 
     res.send({ type: 'subscription', status: 'ok' })
   } catch ({ message }) {
