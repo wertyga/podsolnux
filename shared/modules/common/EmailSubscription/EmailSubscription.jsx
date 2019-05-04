@@ -81,7 +81,7 @@ export class EmailSubscription extends React.Component {
           <button type="submit" disabled={disabled}>{TEXT.submit}</button>
         </div>
 
-        {!successSubscription && <span className="email-subscription__success">{TEXT.successSubscription}</span>}
+        {successSubscription && <span className="email-subscription__success">{TEXT.successSubscription}</span>}
       </form>
     );
   }
