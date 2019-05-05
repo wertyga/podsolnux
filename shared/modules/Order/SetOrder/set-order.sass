@@ -164,6 +164,13 @@
     justify-content: space-between
     .negative
       margin-left: 1rem
+    .submit-order-btn
+      width: 23%
+      .primary
+        width: 100%
+      @include mobile
+        width: 100%
+        margin-top: .5rem
     @include mobile
       flex-direction: column
       .common-buttons
@@ -176,6 +183,16 @@
           min-width: initial
         > *
           width: 45%
+
+  .upload
+    position: fixed
+    z-index: 30
+    width: 100vw
+    height: 100vh
+    top: 0
+    left: 0
+    .accent
+      margin-top: 1rem
 
 @keyframes check-animate
   0%

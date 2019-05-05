@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
   },
   isSubscribed: Boolean,
   hashPassword: String,
-  orders: Array,
+  orders: {
+    type: Array,
+    default: [],
+  },
   verified: {
     type: Boolean,
     default: false,

@@ -5,6 +5,7 @@ import { UserStore } from 'shared/modules/User';
 import { PricesStore } from 'shared/modules/Prices';
 import { CookiesStore } from 'shared/utils/Cookies/CookiesStore';
 import { PrintStore } from 'shared/modules/Order';
+import { OrderStore } from 'shared/modules/Order';
 
 import 'shared/modules/common/globals'
 
@@ -53,6 +54,7 @@ const STORES = {
   PricesStore,
   CookiesStore,
   PrintStore,
+  OrderStore,
 };
 
 export const initStore = (initState = {}, history) => {

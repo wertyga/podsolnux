@@ -74,7 +74,7 @@ FileItem.propTypes = {
   file: PropTypes.object,
   title: PropTypes.string,
   id: PropTypes.string.isRequired,
-  paperType: PropTypes.string,
+  paperType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   price: PropTypes.string,
   isChecked: PropTypes.bool,
   onCheck: PropTypes.func,

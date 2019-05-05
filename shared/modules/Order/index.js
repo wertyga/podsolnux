@@ -1,3 +1,5 @@
 export { OrderList } from './OrderList/OrderList'
 export { SetOrder } from './SetOrder/SetOrder'
-export { PrintStore } from './PrintStore'
+export { PrintStore } from './SetOrder/PrintStore'
+export { OrderStore } from './OrderStore'
+export { UploadProgress } from './SetOrder/UploadProgress'

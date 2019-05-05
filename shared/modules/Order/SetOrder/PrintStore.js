@@ -1,6 +1,6 @@
 import { observable } from 'mobx'
 
-import * as api from './SetOrder/api'
+import * as api from './api'
 
 export class PrintStore {
   @observable pendingState

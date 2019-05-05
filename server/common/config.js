@@ -37,8 +37,9 @@ export const config = {
         salt: 10
     },
     uploads: {
-        directory: 'temp',
-        destination: path.join(__dirname, '../', 'temp')
+      directory: 'temp',
+      destination: path.join(__dirname, '../', 'temp'),
+      orderPath: path.resolve(process.cwd(), './ORDERS'),
     },
     logFile: path.join(__dirname, '..', 'node.log'),
 }
