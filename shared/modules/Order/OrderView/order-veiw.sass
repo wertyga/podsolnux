@@ -1,0 +1,52 @@
+@import 'constants.scss'
+
+.order-view
+  .loader
+    position: fixed
+    top: 0
+    left: 0
+
+  &-inner
+    &__totalPrice
+      display: flex
+      justify-content: flex-end
+      width: 100%
+      span:first-child
+        max-width: 70%
+      @include mobile
+        justify-content: space-between
+    &__files
+      padding-bottom: 1rem
+      &__content
+        display: flex
+        @include mobile
+          justify-content: space-between
+    &__phone, &__comment, &__files
+      border-bottom: 1px solid $color-border
+    &__phone, &__comment, &__totalPrice
+      padding: 1rem 0
+      span:first-child
+        font-weight: 600
+        margin-right: .5rem
+
+    &__item
+      max-width: 49%
+      margin-right: .5rem
+      @include mobile
+        &:nth-child(2n)
+          margin-right: 0
+      &__title
+        font-weight: 600
+        margin-bottom: .5rem
+        width: 100%
+        display: flex
+      &__content
+        margin-bottom: .5rem
+        @include mobile
+          font-size: .9rem
+        li:first-child
+          font-weight: 500
+    &__archives
+      margin: 1rem 0 .5rem 0
+      span:first-child
+        font-weight: 600

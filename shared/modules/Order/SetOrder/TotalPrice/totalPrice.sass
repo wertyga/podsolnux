@@ -1,0 +1,36 @@
+@import 'constants.scss'
+
+.total-price
+  position: absolute
+  right: 0
+  bottom: 0
+  transform: translateY(110%)
+  padding: 1rem
+  border: 1px solid $color-border
+  background-color: #fff
+  svg
+    position: absolute
+    right: .5rem
+    top: .5rem
+
+  &__list
+    margin-bottom: 1rem
+  li, &__final-price
+    span
+      &:first-child
+        margin-right: .5rem
+
+  &__archives
+    display: flex
+    flex-direction: column
+    &_header
+      font-weight: 500
+    &_item
+      margin-left: .3rem
+      &:last-child
+        margin-bottom: .5rem
+
+  &__final-price
+    span:first-child
+      font-weight: 500
+

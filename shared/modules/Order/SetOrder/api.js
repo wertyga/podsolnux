@@ -1,3 +1,5 @@
+
+
 export const fetchPrints = () => (
   fetch({
     method: 'get',
@@ -5,12 +7,22 @@ export const fetchPrints = () => (
   })
 )
 
-export const sendOrder = ({ data, onUploadProgress, id, cancelToken }) => (
+export const sendOrder = ({ data, onUploadProgress, cancelToken }) => {
+  return (
+    fetch({
+      method: 'post',
+      url: '/api/order/upload-files',
+      data,
+      onUploadProgress,
+      cancelToken: cancelToken,
+    })
+  );
+}
+
+export const issueOrder = ({ userID = '', data }) => (
   fetch({
     method: 'post',
-    url: `/api/order/upload-files/${id || 'none'}`,
-    data,
-    onUploadProgress,
-    cancelToken: cancelToken,
+    url: '/api/order/issue-order',
+    data: { userID, ...data },
   })
 )

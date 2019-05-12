@@ -10,7 +10,13 @@ export const Notify = ({ children, closeText, onClose, type }) => {
   let mainRef = React.createRef();
 
   useEffect(() => {
-    mainRef.scrollIntoView({ behavior: 'smooth' })
+    // window.pageYOffset = 100
+    // mainRef.scrollIntoView({ behavior: 'smooth' })
+    const { top } = mainRef.getBoundingClientRect()
+    if (top < 0) window.scrollTo({
+      top: 80,
+      behavior: "smooth",
+    })
   })
   return (
     <div

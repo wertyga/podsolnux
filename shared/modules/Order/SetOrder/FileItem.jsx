@@ -3,19 +3,27 @@ import Close from 'react-icons/lib/fa/times-circle'
 import Check from 'react-icons/lib/fa/check-circle'
 
 import { Loader } from 'shared/modules/common'
+import { archives } from 'shared/utils/files/checkFile'
 
 import { TEXT } from './FormatHelper'
 
 const { prints } = TEXT
 const fileName = 'Имя файла:'
 
-export const FileItem = ({ file, id, title, paperType, price, isChecked = false, onCheck, onClose, zoomImage }) => {
+export const FileItem = ({ file, id, format, paperType, price, isChecked = false, onCheck, onClose, zoomImage }) => {
+  const isArchiveFileType = archives.includes(file.type.split('/')[1])
+
   const [fileData, setFileData] = useState('')
-  let fr = new FileReader();
-  fr.readAsDataURL(file);
-  fr.onload = () => {
-    setFileData(fr.result)
-  };
+
+  if (!isArchiveFileType && !fileData) {
+    let fr = new FileReader();
+    fr.readAsDataURL(file);
+    fr.onload = () => {
+      setFileData(fr.result)
+    }
+  } else if (!fileData) {
+    setFileData('/images/archive.webp')
+  }
 
   const handleCheck = (e) => {
     e.stopPropagation()
@@ -30,7 +38,7 @@ export const FileItem = ({ file, id, title, paperType, price, isChecked = false,
 
   const { name } = file;
 
-  if (!fileData && !document.querySelector('.set-order__content .loader')) {
+  if (!fileData && !isArchiveFileType && !document.querySelector('.set-order__content .loader')) {
     return <Loader />;
   } else if (!fileData) {
     return null;
@@ -54,8 +62,8 @@ export const FileItem = ({ file, id, title, paperType, price, isChecked = false,
           <span>{name}</span>
         </div>
         <div className="file-item__description__item">
-          <span>{`${prints.title}:`}</span>
-          <span>{title || '-'}</span>
+          <span>{`${prints.format}:`}</span>
+          <span>{format || '-'}</span>
         </div>
         <div className="file-item__description__item">
           <span>{`${prints.paperType}:`}</span>

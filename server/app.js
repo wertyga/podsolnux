@@ -31,7 +31,7 @@ const getMenuList = async (req, rootStore, context) => {
 
 const getUser = async (rootStore) => {
   const userStore = rootStore.get('userStore');
-  const userID = rootStore.get('cookiesStore').get('userID');
+  const userID = rootStore.get('cookiesStore').get('fp-userID');
 
   await userStore.getUser(userID)
 }

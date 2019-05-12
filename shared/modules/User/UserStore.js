@@ -28,7 +28,7 @@ export class UserStore {
       const { data: { user } } = await api.auth(data)
 
       this.user = user
-      this.rootStore.get('cookiesStore').set('userID', user._id)
+      this.rootStore.get('cookiesStore').set('fp-userID', user._id)
 
       this.pendingState = 'fulfilled'
     } catch (e) {
@@ -93,7 +93,7 @@ export class UserStore {
   }
 
   clearUser = () => {
-    this.rootStore.get('cookiesStore').remove('userID')
+    this.rootStore.get('cookiesStore').remove('fp-userID')
     this.user = {};
   }
 }

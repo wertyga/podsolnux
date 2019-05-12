@@ -1,0 +1,59 @@
+@import 'constants.scss'
+
+.issue-order
+  &__content
+    display: flex
+    @include mobile
+      flex-direction: column-reverse
+    .title
+      font-weight: 500
+      margin-bottom: .5rem
+  .form
+    width: 30rem
+    margin-right: 5rem
+    @include desktop
+      .submit-order-btn
+        width: 100%
+        text-align: right
+    @include mobile
+      margin: 1.5rem 0 1rem 0
+      width: 100%
+      button.accent
+        width: 100%
+    textarea
+      resize: none
+      height: 10rem
+  &__images
+    margin-bottom: .5rem
+    &__item
+      margin-left: .2rem
+      span:first-child
+        margin-right: .5rem
+
+  &__total-price
+    border-top: 1px solid $color-border
+    margin-top: 1rem
+    padding-top: .5rem
+    span:first-child
+      font-weight: 600
+      margin-right: .5rem
+
+  &__archives
+    margin-bottom: .5rem
+    span
+      margin-left: .2rem
+
+  .submit-order-btn
+    width: 100%
+
+  &__buttons
+    .negative
+      @include mobile
+        width: 100%
+
+  .upload
+    position: fixed
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0

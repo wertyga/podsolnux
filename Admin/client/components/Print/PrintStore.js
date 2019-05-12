@@ -31,10 +31,10 @@ export class PrintStore {
     this.addNewPendingState = 'pending'
     this.error = undefined
     try {
-      const { data: { _id, title, paperType, price } } = await api.addNewPrint(fetchData)
+      const { data: { _id, format, paperType, price } } = await api.addNewPrint(fetchData)
 
       this.printPrices = {
-        print: [...this.printPrices.print, { _id, title, paperType, price }],
+        print: [...this.printPrices.print, { _id, format, paperType, price }],
       }
 
       this.addNewPendingState = 'fulfilled'
@@ -51,11 +51,11 @@ export class PrintStore {
     this.error = undefined
 
     try {
-      const { data: { title, price, paperType, _id } } = await api.editPrint({ id, data })
+      const { data: { format, price, paperType, _id } } = await api.editPrint({ id, data })
 
       this.printPrices = {
         print: this.printPrices.print.map(item => {
-          if (item._id === id) return { title, paperType, price,_id };
+          if (item._id === id) return { format, paperType, price,_id };
           return item;
         })
       }

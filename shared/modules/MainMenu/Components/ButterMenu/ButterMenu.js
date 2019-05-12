@@ -72,10 +72,5 @@ ButterMenu.propTypes = {
   right: PropTypes.bool, // Determinate from what side bars amd menu will be slide [ default === left]
   barHeight: PropTypes.number, // Height of bars [ default === 1]
   className: PropTypes.object, // Adding classNames view is { [key]: bool }
-  // menu: PropTypes.arrayOf(PropTypes.shape({
-  //   text: PropTypes.string.isRequired, // Title of the list element
-  //   onClick: PropTypes.func, // Function when click on list item
-  //   className: PropTypes.object, // Object of classnames { [key]: [value] }
-  // })), // Array of objects that's mapping to side menu list
   menu: PropTypes.node,
 };

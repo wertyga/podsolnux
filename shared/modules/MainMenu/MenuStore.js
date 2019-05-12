@@ -113,7 +113,6 @@ const itemsMock = [
   {
     _id: '1',
     title: 'Главная',
-    // href: '/',
     slug: '',
   },
   {
@@ -137,7 +136,6 @@ const itemsMock = [
     _id: '5',
     title: 'Услуги',
     slug: 'service',
-    submenu: menuItemMock,
     isStatic: false,
   },
   {

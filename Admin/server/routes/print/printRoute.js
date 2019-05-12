@@ -6,7 +6,7 @@ export const printRoute = express.Router();
 
 printRoute.get('/', async (req, res) => {
   try {
-    const prints = await PrintModel.find({}).select(['title', 'paperType', 'price'])
+    const prints = await PrintModel.find({}).select(['format', 'paperType', 'price'])
 
     res.send({ prints })
   } catch ({ message }) {
@@ -16,13 +16,13 @@ printRoute.get('/', async (req, res) => {
 
 printRoute.post('/', async ({ body: { paperType, name, price } }, res) => {
   try {
-    const { _id, title, paperType: formatType, price: formatPrice } = await new PrintModel({
-      title: name,
+    const { _id, format, paperType: formatType, price: formatPrice } = await new PrintModel({
+      format: name,
       paperType,
       price: parseFloat(price),
     }).save()
 
-    res.send({ _id, paperType: formatType, price: formatPrice, title });
+    res.send({ _id, paperType: formatType, price: formatPrice, format });
   } catch ({ message }) {
     res.status(500).json({ errors: [{ message }]  })
   }
@@ -35,8 +35,8 @@ printRoute.put('/', async ({ body: { id, data = [] } }, res) => {
       [name]: name === 'price' ? parseFloat(value) : value,
     }), {});
 
-    const { title, price, paperType, _id } = await PrintModel.findOneAndUpdate({ _id: id }, { $set: changableObj }, { new: true })
-    res.send({ _id, title, paperType, price })
+    const { format, price, paperType, _id } = await PrintModel.findOneAndUpdate({ _id: id }, { $set: changableObj }, { new: true })
+    res.send({ _id, format, paperType, price })
   } catch ({ message }) {
     res.status(500).json({ errors: [{ message }]  })
   }

@@ -1,9 +1,9 @@
 import { AddFileInput } from '../AddFileInput/AddFileInput'
-import { ChooseAllBtn, RemoveAllBtn, SetOrderBtn } from './Buttons'
+import { ChooseAllBtn, RemoveAllBtn, SetIssueButton } from './Buttons'
 
 export const ButtonWrapper = ({ setErrors, setFiles, chooseAll, files, checkedFiles, unChooseAll, removeAll }) => {
   const isNotAllSelected = files.find(({ id }) => !checkedFiles.includes(id))
-  const isNotAllFilesSetTitles = files.filter(({ title }) => !title).length
+  const isNotAllFilesSetFormat = files.filter(({ format }) => !format).length
 
   return (
     <div className="set-order__button-wrapper">
@@ -11,7 +11,7 @@ export const ButtonWrapper = ({ setErrors, setFiles, chooseAll, files, checkedFi
         setErrors={setErrors}
         setFiles={setFiles}
       />
-      {!!files.length && <SetOrderBtn disabled={isNotAllFilesSetTitles} />}
+      {!!files.length && <SetIssueButton disabled={isNotAllFilesSetFormat} />}
       {!!files.length &&
         <div className="common-buttons">
           <ChooseAllBtn

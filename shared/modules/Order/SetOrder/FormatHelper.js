@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { inject } from 'mobx-react'
-import sortedUniq from 'lodash/sortedUniq'
+import noop from 'lodash/noop'
 import AngleUp from 'react-icons/lib/fa/angle-up'
 import AngleDown from 'react-icons/lib/fa/angle-down'
 
+import { TotalPrice } from './TotalPrice/TotalPrice'
+
 export const TEXT = {
   prints: {
-    title: 'Формат',
+    format: 'Формат',
     paperType: 'Тип бумаги',
     price: 'Цена',
   },
@@ -14,14 +16,14 @@ export const TEXT = {
   saveChanges: 'Применить',
 }
 
-const Chooses = ({ options, title, onChange, checked }) => (
+const Chooses = ({ options, format, onChange, checked }) => (
   <div className="format-helper__content__list">
-    <p>{TEXT.prints[title]}</p>
+    <p>{TEXT.prints[format]}</p>
     <ul>
       {options.map(item => (
         <li key={item} onClick={onChange(item)} className="format-helper__checkbox-list-item">
           <span>{item}</span>
-          <input type="checkbox" checked={checked === item} />
+          <input type="checkbox" checked={checked === item} onChange={noop}/>
         </li>
       ))}
     </ul>
@@ -30,7 +32,7 @@ const Chooses = ({ options, title, onChange, checked }) => (
 
 const FormatHelperComponent = ({ prints, className, isMobile, setFileData, errorNode }) => {
   const [active, setActive] = useState(false)
-  const [titleState, setTitle] = useState(false)
+  const [formatState, setFormat] = useState(false)
   const [paperState, setPaper] = useState(false)
   const [isFixed, setFixed] = useState(false)
 
@@ -51,9 +53,9 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
   })
 
   const state = {
-    title: {
-      checked: titleState,
-      onChange: item => () => setTitle(titleState === item ? false : item),
+    format: {
+      checked: formatState,
+      onChange: item => () => setFormat(formatState === item ? false : item),
     },
     paperType: {
       checked: paperState,
@@ -61,10 +63,10 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
     },
   }
   const selects = {}
-  prints.map(({ title, paperType }) => ({ title, paperType })).forEach((item) => {
+  prints.map(({ format, paperType }) => ({ format, paperType })).forEach((item) => {
     Object.entries(item).forEach(([key, value]) => {
-      if (key === 'paperType' && state.title.checked) {
-        const isPaperFormatExist = prints.find(print => print.title === state.title.checked && value === print.paperType)
+      if (key === 'paperType' && state.format.checked) {
+        const isPaperFormatExist = prints.find(print => print.format === state.format.checked && value === print.paperType)
         if (!isPaperFormatExist) return;
       }
       if (!selects[key]) {
@@ -80,7 +82,7 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
 
   const onSubmit = () => {
     const successResult = setFileData({
-      title: titleState,
+      format: formatState,
       paperType: paperState,
     })
 
@@ -89,11 +91,11 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
 
   const clearState = () => {
     setActive(false)
-    setTitle(false)
+    setFormat(false)
     setPaper(false)
   }
 
-  const { title, paperType } = state;
+  const { format, paperType } = state;
 
   return (
     <div
@@ -107,11 +109,11 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
       <div className="format-helper__content">
         <Chooses
           title="title"
-          options={selects.title}
-          checked={title.checked}
-          onChange={title.onChange}
+          options={selects.format}
+          checked={format.checked}
+          onChange={format.onChange}
         />
-        {title.checked &&
+        {format.checked &&
           <Chooses
             title="paperType"
             options={selects.paperType}
@@ -123,6 +125,7 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
         <button className="accent" onClick={onSubmit}>{TEXT.saveChanges}</button>
       </div>
       <div className="format-helper__shower" onClick={onShow}>{active ? <AngleUp /> : <AngleDown />}</div>
+      <TotalPrice />
       {errorNode}
     </div>
   );

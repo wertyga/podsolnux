@@ -4,6 +4,7 @@ import path from 'path'
 import shortId from 'short-id'
 import shell from 'shelljs'
 import fs from 'fs'
+import noop from 'lodash/noop'
 
 import { config } from 'server/common/config'
 
@@ -17,7 +18,7 @@ const TEXT = {
 }
 
 const uploadPath = (jsonString, orderNumber) => {
-  const { title: format, paperType, id: fileId, amount = 1, price } = JSON.parse(jsonString)
+  const { format, paperType, id: fileId, amount = 1, price, isArchiveFile } = JSON.parse(jsonString)
   const { uploads: { orderPath } } = config
   const date = new Date();
   const datePart = `${date.getDate()}-${date.getMonth() + 1}`
@@ -30,10 +31,21 @@ const uploadPath = (jsonString, orderNumber) => {
     price,
     datePath: datePart,
     formatsAmountPath,
+    isArchiveFile,
     fullDirectoryPath: path.join(orderPath, datePart, orderNumber, formatsAmountPath),
     fileId,
   }
 };
+
+orderRoute.post('/issue-order', async ({ body: { userID } }, res) => {
+  const [user, order] = await Promise.all([
+    !userID ? new User({
+      username: User.generateAnonimusUser(),
+    }).save() :
+      User.findById(userID),
+
+  ])
+})
 
 // const sendEmailByOrder = (orderName) => {
 //   const transporter = nodemailer.createTransport(emailConfig);
@@ -51,21 +63,27 @@ const uploadPath = (jsonString, orderNumber) => {
 //   })
 // };
 
-orderRoute.post('/upload-files/:userID', async (req, res) => {
+orderRoute.post('/upload-files', async (req, res) => {
   const form = new Multiparty.Form({ maxFileSize })
   const orderNumber = shortId.generate()
   const orderFiles = []
 
+  const orderData = {}
+
   form.on('part', (part) => {
+    if (!part.filename) {
+      const [key, value] = part.name.split('=')
+      orderData[key] = value
+      return;
+    }
     const {
-      datePath,
       fullDirectoryPath,
       fileId,
-      formatsAmountPath,
       format,
       paperType,
       amount,
       price,
+      isArchiveFile,
     } = uploadPath(part.name.replace(/%22/g, '"'), orderNumber);
 
     try {
@@ -90,6 +108,7 @@ orderRoute.post('/upload-files/:userID', async (req, res) => {
       paperType,
       amount,
       price,
+      isArchiveFile,
     })
     const ws = fs.createWriteStream(filePath);
     part.pipe(ws)
@@ -101,26 +120,29 @@ orderRoute.post('/upload-files/:userID', async (req, res) => {
   })
 
   form.on('finish', async () => {
-    const { userID } = req.params;
+    const { userID, phone, comment } = orderData;
     let user;
-    if (userID === 'none') {
+    if (!userID) {
       user = await new User().save()
     } else {
       user = await User.findById(userID)
       if (!user) user = await new User().save()
     }
 
-    const { _id: orderID } = await new OrderModel({
+    const order = await new OrderModel({
       orderNumber,
       files: orderFiles,
       totalPrice: orderFiles.reduce((a, { price, amount }) => a + parseFloat(price) * amount, 0),
       user: user._id,
+      phone,
+      comment,
     }).save()
 
-    user.orders = [...user.orders, orderID]
+    user.orders = [...user.orders, order._id]
+    if (!user.phone) user.phone = phone
     await user.save()
 
-    res.json({ order: { orderID, userID: user._id } })
+    res.json({ order: order.getClientFields() })
 
   });
   form.on('error', (err) => {
@@ -129,5 +151,14 @@ orderRoute.post('/upload-files/:userID', async (req, res) => {
   });
 
   form.parse(req);
-
 });
+
+orderRoute.get('/:orderID', async ({ params: { orderID } }, res) => {
+  const order = await OrderModel.findById(orderID)
+
+  if (!order) {
+    res.json({ order: {} })
+  } else {
+    res.json({ order: order.getClientFields() })
+  }
+})

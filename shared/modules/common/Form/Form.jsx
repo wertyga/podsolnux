@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import noop from 'lodash/noop'
+
 import { Input } from 'shared/modules/common'
 import { validateEmail } from 'shared/utils/Helpers'
 
@@ -12,7 +14,7 @@ const TEXT = {
   emailInvalid: 'Неверный адрес',
 }
 
-export const Form = ({ inputs, title, onSubmit, submitButtonText, footerContent, disabled }) => {
+export const Form = ({ inputs, title, onSubmit, submitButtonText, footerContent, disabled, SubmitButton }) => {
   const values = {};
   inputs.forEach(({ name }) => {
     const [value, onChange] = useState('')
@@ -50,18 +52,20 @@ export const Form = ({ inputs, title, onSubmit, submitButtonText, footerContent,
       return;
     }
 
-    onSubmit(Object.entries(values).reduce((a, [key, { value }]) => ({
+    const returnedObj = Object.entries(values).reduce((a, [key, { value }]) => ({
       ...a,
       [key]: value,
-    }), {}))
+    }), {});
+
+    onSubmit(returnedObj)
   }
 
   return (
     <form className="form" onSubmit={onSubmitFunc}>
       <h2>{title}</h2>
       <div className="form__inputs">
-        {inputs.map(({ type, name, label, extendPassField, placeholder }) => {
-          const isExtendedPass = extendPassField && !passVisible
+        {inputs.map(({ type = 'text', name, label, extendPassField, placeholder }) => {
+          const isExtendedPass = (extendPassField && !passVisible) ? type : ((extendPassField && passVisible) ? 'text' : type)
           return (
             <div
               className={cn(
@@ -72,7 +76,7 @@ export const Form = ({ inputs, title, onSubmit, submitButtonText, footerContent,
             >
               {label && <label>{label}</label>}
               <Input
-                type={isExtendedPass ? (type || 'text') : 'text'}
+                type={isExtendedPass}
                 name={name}
                 onChange={handleChange}
                 value={values[name].value}
@@ -89,17 +93,26 @@ export const Form = ({ inputs, title, onSubmit, submitButtonText, footerContent,
             </div>
           );
         })}
-        <button className="accent" disabled={disabled}>{submitButtonText}</button>
+        {<button className="accent" disabled={disabled}>{submitButtonText}</button>}
       </div>
 
-      {footerContent}
+      {!!footerContent && footerContent}
 
     </form>
   );
 }
 
 Form.propTypes = {
-  inputs: PropTypes.array.isRequired,
-  footerContent: PropTypes.any,
+  inputs: PropTypes.array.isRequired, // name: 'username',
+                                      // label: TEXT.usernameLabel,
+                                      // placeholder: `${TEXT.usernameLabel}...`,
+                                      // require: true,
+                                      // footerContent: PropTypes.any,
   disabled: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  submitButtonText: PropTypes.string,
+}
+
+Form.defaultProps = {
+  onSubmit: noop,
 }

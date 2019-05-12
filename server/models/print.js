@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const PrintSchema = new mongoose.Schema({
-  title: {
+  format: {
     type: String,
     required: true,
   },

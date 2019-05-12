@@ -55,14 +55,14 @@ export class SetOrder extends React.Component {
   unChooseAll = () => this.setState({ checkedFiles: [] })
   clearList = () => this.props.printStore.files = []
 
-  setFileData = ({ title, paperType }) => {
+  setFileData = ({ format, paperType }) => {
     const { checkedFiles } = this.state
     const { printStore: { updateFile } } = this.props
     if (!checkedFiles.length) {
       this.setState({ errors: [TEXT.noFileChooseError] })
       return false;
     }
-    updateFile({ ids: checkedFiles, title, paperType })
+    updateFile({ ids: checkedFiles, format, paperType })
     this.setState({ checkedFiles: [] })
     return true;
   }
@@ -77,6 +77,7 @@ export class SetOrder extends React.Component {
   render() {
     const { printStore: { pendingState, clearError, error, prints, files, setFiles } } = this.props
     const { errors: stateErrors, checkedFiles, modalVisible, imgData } = this.state
+
     return (
       <Page
         className="set-order"

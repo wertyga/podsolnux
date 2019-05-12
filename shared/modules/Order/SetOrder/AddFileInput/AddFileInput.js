@@ -22,18 +22,7 @@ export const AddFileInput = ({ setErrors, setFiles }) => {
         errors.push(...fileErrors)
         continue;
       }
-      // const fileType = files[i].name.split('.')[1].toLowerCase();
-      // if(files[i].size < 10 ** 9 && (images.indexOf(fileType) !== -1 || archives.indexOf(fileType) !== -1)) {
-      //   const fileObj = {
-      //     id: shortId.generate(),
-      //     file: e.target.files[i],
-      //     fileType: e.target.files[i].name.split('.')[1].toLowerCase(),
-      //     format: availablePaper ? availablePaper.title : '',
-      //     paper: availablePaper ? availablePaper.paperType[0].title : '',
-      //     amount: 1
-      //   };
-      //   arr.push(fileObj);
-      // }
+
       arr.push({
         id: shortId.generate(),
         file,

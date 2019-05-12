@@ -1,5 +1,5 @@
 const images = ['jpg', 'jpeg', 'ttf', 'png', 'bmp', 'gif', 'jpe', 'tiff'];
-// const archives = ['rar', 'zip'];
+export const archives = ['rar', 'zip'];
 const imageMaxSize = 10 ** 9 / 3 // 300 MB;
 
 
@@ -13,8 +13,8 @@ export function checkFileType(file) {
   const [fileType, ext] = type.split('/')
   const errors = []
 
-  const isAvailableExt = images.find(item => new RegExp(item).test(ext))
-  if (!isAvailableExt || !fileType || fileType !== 'image') errors.push(TEXT.wrongExt(name))
+  const isAvailableExt = [...images, ...archives].find(item => new RegExp(item).test(ext))
+  if (!isAvailableExt || !fileType) errors.push(TEXT.wrongExt(name))
 
   if (size > imageMaxSize) errors.push(TEXT.maxSize(name))
 

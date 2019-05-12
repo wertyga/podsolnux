@@ -10,49 +10,59 @@ export class OrderStore {
   cancelUpload = noop
   orders = []
 
-  uploadFiles = async (uploadFunc = noop) => {
+  uploadFiles = async (uploadFunc = noop, additionalData = {}) => {
     const formData = new FormData()
-    const { files } = this.rootStore.get('printStore')
-    const { user: { _id } } = this.rootStore.get('userStore')
+    const { files, getArchiveFiles } = this.rootStore.get('printStore')
+    const { user: { _id: userID } } = this.rootStore.get('userStore')
 
     const cancelToken = axios.CancelToken
     const source = cancelToken.source()
     this.cancelUpload = source.cancel
 
     for (let i = 0; i < files.length; i++) {
-      const { title, paperType, file, id, price } = files[i]
-      formData.append(JSON.stringify({ title, paperType, id, price }), file)
+      const isArchiveFile = getArchiveFiles(files[i].file)
+      const { format, paperType, file, id, price } = files[i]
+      formData.append(JSON.stringify({ format, paperType, id, price, isArchiveFile }), file)
     }
+    Object.entries(additionalData).forEach(([key, value]) => {
+      formData.append(`${key}=${value}`, '')
+    })
+    formData.append(`userID=${userID || ''}`, '')
 
     try {
       this.pendingState = 'pending'
 
       const { data: { order } } = await api.sendOrder({
         data: formData,
-        id: _id,
         onUploadProgress: uploadFunc,
         cancelToken: source.token,
-      })
+      }, additionalData)
 
       this.saveOrder(order)
-
       this.cancelUpload = noop
       this.pendingState = 'fulfilled'
+      this.rootStore.history.push(`/thanks-for-order?orderID=${order._id}`)
     } catch (e) {
-      this.error = e.response && getError(e);
+      this.error = e.response && getError(e)
       this.cancelUpload = noop
       this.pendingState = 'rejected'
     }
   }
 
-  saveOrder = ({ orderID, userID }) => {
+  saveOrder = (order) => {
     const cookiesStore = this.rootStore.get('cookiesStore')
-    const userIDCookie = cookiesStore.get('userID')
+    const userStore = this.rootStore.get('userStore')
+    const userIDCookie = cookiesStore.get('fp-userID')
+    const { user: userID, _id: orderID } = order
 
-    if (!userIDCookie) cookiesStore.set('userID', userID)
+    if (!userIDCookie) {
+      cookiesStore.set('fp-userID', userID)
+      userStore.user = { userID }
+    }
 
     this.orders = [...this.orders, orderID]
     this.rootStore.get('printStore').files = []
+    this.rootStore.get('orderViewStore').order = order
   }
 
 }

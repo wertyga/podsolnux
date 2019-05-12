@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import crypto from 'crypto'
 
+import shortId from 'short-id'
+
 import { config } from '../common/config'
 
 const userSchema = new mongoose.Schema({
@@ -9,6 +11,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   email: {
+    type: String,
+    unique: true,
+  },
+  phone: {
     type: String,
     unique: true,
   },
@@ -31,14 +37,20 @@ const createPassword = (pass) => (
 userSchema.methods.comparePasswords = function(pass) {
   return this.hashPassword === createPassword(pass);
 }
-
 userSchema.methods.getCommonFields = function() {
-  const { _id, username, orders, email } = this;
-  return { _id, username, orders, email };
+  const { _id, username, orders, email, phone } = this;
+  return { _id, username, orders, email, phone };
+}
+userSchema.methods.isAnonimusUser = function () {
+  return /-anonimus/.test(this.username)
 }
 
 userSchema.virtual('password')
   .get(function() { return this.hashPassword })
   .set(function(pass) { this.hashPassword = createPassword(pass) })
+
+userSchema.statics.generateAnonimusUser = function () {
+  return `${shortId.generate()}-anonimus`;
+}
 
 export const User = mongoose.model('user', userSchema)
