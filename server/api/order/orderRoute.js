@@ -8,6 +8,8 @@ import noop from 'lodash/noop'
 
 import { config } from 'server/common/config'
 
+import { getPhotoAmount } from 'shared/utils'
+
 import { User, OrderModel } from 'server/models'
 
 export const orderRoute = express.Router();
@@ -37,14 +39,14 @@ const uploadPath = (jsonString, orderNumber) => {
   }
 };
 
-orderRoute.post('/issue-order', async ({ body: { userID } }, res) => {
-  const [user, order] = await Promise.all([
-    !userID ? new User({
-      username: User.generateAnonimusUser(),
-    }).save() :
-      User.findById(userID),
+orderRoute.get('/list/:userID', async ({ params: { userID } }, res) => {
+  try {
+    const orders = await OrderModel.find({ user: userID }, ['createdAt', 'files', 'orderNumber'])
 
-  ])
+    res.json({ orders: orders.map(item => ({ ...item._doc, files: item.files.length, photoAmount: getPhotoAmount(item.files) })) })
+  } catch ({ message }) {
+    res.status(500).json({ errors: [{ message }]  })
+  }
 })
 
 // const sendEmailByOrder = (orderName) => {

@@ -1,0 +1,1 @@
+export const getPhotoAmount = (files) => files.reduce((a, { amount = 1 }) => a + amount, 0)

@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
-
-import { withRouter } from 'react-router-dom'
 
 import { Page, Section, Loader, Notify } from 'shared/modules/common'
 import { parseQuery } from 'shared/utils'
@@ -40,16 +38,16 @@ export class OrderView extends React.Component {
     const { orderNumber } = order
     const isThanksPage = /thanks/.test(pathname)
     const title = isThanksPage ? TEXT.titleThanks : TEXT.titleView
-    const header = isThanksPage ? TEXT.headerThanks : TEXT.headerView(orderNumber)
+    const header = isThanksPage ? TEXT.headerThanks : (orderNumber ? TEXT.headerView(orderNumber) : '')
 
     return (
       <Page title={title} className="order-view">
-        <Section h1={header} h2={isThanksPage && orderNumber && TEXT.headerView(orderNumber)}>
+        <Section h1={header} h2={(isThanksPage && orderNumber && TEXT.headerView(orderNumber) || '')} grey>
           {!orderNumber && pendingState !== 'pending' && TEXT.emptyOrder}
           {pendingState === 'pending' && <Loader />}
           {error && <Notify type="error" onClose={clearError}>{error.message}</Notify>}
 
-          <OrderViewInner {...order} renderImages={!isThanksPage}/>
+          <OrderViewInner {...order} />
         </Section>
       </Page>
     );

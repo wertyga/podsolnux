@@ -79,10 +79,10 @@ export class TotalPrice extends React.Component {
       <div className="total-price__content">
         {!!totalPrice &&
         <ul className="total-price__list">
-          {Object.entries(filesObj).map(([key, value]) => (
+          {Object.entries(filesObj).map(([key, { price, amount }]) => (
             <li key={key}>
-              <span>{`${key}:`}</span>
-              <span>{value}</span>
+              <span>{`${key} (${amount}):`}</span>
+              <span>{price}</span>
             </li>
           ))}
         </ul>

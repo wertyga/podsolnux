@@ -1,6 +1,8 @@
 import { inject, observer } from 'mobx-react'
 import isEmpty from 'lodash/isEmpty'
 
+import { OrderFiles } from './OrderFiles'
+
 import { TEXT as totaPriceText } from '../SetOrder/TotalPrice/TotalPrice'
 
 const TEXT = {
@@ -28,7 +30,7 @@ const OrderViewInnerItem = ({ format, amount, formatPrice }) => {
   );
 }
 
-const OrderViewInnerComponent = ({ files, comment, phone, totalPrice, renderImages, orderViewStore: { collectFilesAmountPrice } }) => {
+const OrderViewInnerComponent = ({ files, comment, phone, totalPrice, orderViewStore: { collectFilesAmountPrice } }) => {
   const { images, archives } = collectFilesAmountPrice(files)
 
   return (
@@ -67,6 +69,8 @@ const OrderViewInnerComponent = ({ files, comment, phone, totalPrice, renderImag
           <span>{`${totalPrice} ${TEXT.currency}`}</span>
         </div>
       }
+
+      {!!(files || []).length && <OrderFiles files={files} />}
     </div>
   );
 }

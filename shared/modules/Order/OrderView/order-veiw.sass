@@ -1,12 +1,22 @@
 @import 'constants.scss'
 
 .order-view
+  &__files
+    display: flex
+    .file-item__upper
+      svg
+        display: none
+
+  .common-section
+    min-height: 100vh
+
   .loader
     position: fixed
     top: 0
     left: 0
 
   &-inner
+    width: 100%
     &__totalPrice
       display: flex
       justify-content: flex-end

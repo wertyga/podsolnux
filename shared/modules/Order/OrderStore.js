@@ -21,8 +21,8 @@ export class OrderStore {
 
     for (let i = 0; i < files.length; i++) {
       const isArchiveFile = getArchiveFiles(files[i].file)
-      const { format, paperType, file, id, price } = files[i]
-      formData.append(JSON.stringify({ format, paperType, id, price, isArchiveFile }), file)
+      const { format, paperType, file, id, price, amount } = files[i]
+      formData.append(JSON.stringify({ format, paperType, id, price, isArchiveFile, amount }), file)
     }
     Object.entries(additionalData).forEach(([key, value]) => {
       formData.append(`${key}=${value}`, '')

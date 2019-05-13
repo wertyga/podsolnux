@@ -1,7 +1,15 @@
 @import 'constants.scss'
 
 .lk
+  .order-view
+    .common-section, .container
+      padding: 0
+  .col-xs-12
+    display: flex
+    @include mobile
+      flex-direction: column
   &__content
+    width: 100%
     @include desktop
       padding-left: 3rem
 
@@ -13,10 +21,13 @@
     li
       transition: transform .3s
       cursor: pointer
+      padding: .1rem 0
       &.active
         color: $color-green-menu
         font-weight: bold
         transform: translateX(10%)
+      a
+        white-space: nowrap
     @include mobile
       display: inline-flex
       flex-direction: row

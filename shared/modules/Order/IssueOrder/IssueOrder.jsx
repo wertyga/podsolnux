@@ -99,10 +99,10 @@ const IssueOrderComponent = ({ files, getTotalPrice, user, history }) => {
             {!!totalPrice &&
               <div className="issue-order__images">
                 <div className="title">{TEXT.images}</div>
-                {Object.entries(filesObj).map(([key, value]) => (
+                {Object.entries(filesObj).map(([key, { price, amount }]) => (
                   <div key={key} className="issue-order__images__item">
-                    <span>{`${key}:`}</span>
-                    <span>{value}</span>
+                    <span>{`${key} (${amount}шт.):`}</span>
+                    <span>{price}</span>
                   </div>
                 ))}
               </div>

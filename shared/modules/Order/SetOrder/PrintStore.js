@@ -29,7 +29,7 @@ export class PrintStore {
 
   setFiles = files => this.files = [...this.files, ...files]
 
-  updateFile = ({ids, ...data}) => {
+  updateFile = ({ ids, ...data }) => {
     this.files = this.files.map(item => {
       if (ids.includes(item.id)) {
         const {format, paperType} = data;
@@ -51,9 +51,9 @@ export class PrintStore {
     const archiveFiles = []
     let totalPrice = 0
 
-    const filesObj = this.files.reduce((a, { format, paperType, price, file: { type, name } }) => {
+    const filesObj = this.files.reduce((a, { format, paperType, price, amount = 1, file: { type, name } }) => {
       const titleString = `${format || ''} ${paperType || ''}`
-      const parsedPrice = parseFloat(price)
+      const parsedPrice = parseFloat(price) * amount
 
       if (archives.includes(type.split('/')[1])) {
         archiveFiles.push(name)
@@ -63,11 +63,11 @@ export class PrintStore {
       if (!titleString.trim()) return a
       if (!a[titleString]) {
         totalPrice += parsedPrice
-        return {...a, [titleString]: `${parsedPrice} руб.`}
+        return {...a, [titleString]: { price: `${parsedPrice} руб.`, amount }}
       }
 
       totalPrice += parsedPrice
-      return {...a, [titleString]: `${parseFloat(a[titleString]) + parsedPrice} руб.`}
+      return { ...a, [titleString]: { price: `${parseFloat(a[titleString].price) + parsedPrice} руб.`, amount: a[titleString].amount + amount } }
     }, {})
 
     return {
@@ -80,5 +80,12 @@ export class PrintStore {
   getArchiveFiles = (file) => {
     if (!file) return this.files.map(({ type }) => archives.includes(type.split('/')[1]))
     return archives.includes((file.type || '').split('/')[1])
+  }
+
+  updateAmount = ({ id, amount }) => {
+    this.files = this.files.map((file) => {
+      if (file.id === id) return { ...file, amount };
+      return file;
+    })
   }
 }

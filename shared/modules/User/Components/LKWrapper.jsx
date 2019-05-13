@@ -35,7 +35,9 @@ const LKComponent = ({ user, pendingState, logoutUser, location: { pathname }, h
         <Loader /> :
         <Section grey fluid className="lk__wrapper">
           <ul className="lk__menu">
-            {userMenu.map(({ href, title }) => (
+            {userMenu
+              .filter(({ title }) => !!title)
+              .map(({ href, title }) => (
               <li
                 key={title}
                 className={cn(

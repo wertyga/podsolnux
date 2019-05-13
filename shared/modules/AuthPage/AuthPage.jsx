@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { inject } from 'mobx-react'
+import isEmpty from 'lodash/isEmpty'
+import { Redirect } from 'react-router-dom'
 
 import { Page, Section, Loader, Form, Notify } from 'shared/modules/common'
 
@@ -21,7 +23,8 @@ const TEXT = {
   successAuth: 'Спасибо за регистрацию. На вашу почту отправлено письмо с активацией аккаунта',
 }
 
-const AuthPageComponent = ({ location: { search }, history, authenticate, pendingState, error, clearError }) => {
+const AuthPageComponent = ({ location: { search }, history, authenticate, pendingState, error, clearError, user }) => {
+  if (!isEmpty(user)) return <Redirect to="/user" />
   const [successAuth, setSuccessAuth] = useState(false)
 
   const { registry } = parseQuery(search)
@@ -93,11 +96,12 @@ const AuthPageComponent = ({ location: { search }, history, authenticate, pendin
   );
 }
 
-const mapState = ({ userStore: { authenticate, pendingState, error, clearError } }) => ({
+const mapState = ({ userStore: { authenticate, pendingState, error, clearError, user } }) => ({
   authenticate,
   pendingState,
   error,
   clearError,
+  user,
 })
 
 export const AuthPage = inject(mapState)(AuthPageComponent);

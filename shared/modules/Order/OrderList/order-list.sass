@@ -1,0 +1,28 @@
+@import 'constants.scss'
+
+.order-list
+  &__item
+    padding: 1rem 0
+    border-bottom: 1px solid $color-border
+    display: flex
+    cursor: pointer
+    transition: background-color .3s
+    @include desktop
+      &:hover
+        background-color: $color-border
+    @include mobile
+      flex-direction: column
+    > div
+      &:not(:last-child)
+        margin-right: 1rem
+      span:first-child
+        font-weight: 500
+        margin-right: .3rem
+      @include desktop
+        &:first-child
+          margin-left: 1rem
+        &:last-child
+          display: flex
+          flex-grow: 2
+          justify-content: flex-end
+          margin-right: 1rem

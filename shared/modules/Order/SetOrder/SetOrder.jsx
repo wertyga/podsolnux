@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 
 import { Page, Section, Loader, Notify, Modal } from 'shared/modules/common'
 
-import { FileItem } from './FileItem'
+import { FileItem } from './FileItem/FileItem'
 import { FormatHelper } from './FormatHelper'
 import { ButtonWrapper } from './ButtonWrapper/ButtonWrapper'
 
@@ -75,7 +75,7 @@ export class SetOrder extends React.Component {
   zoomImage = (imgData) => this.setState({ modalVisible: !this.state.modalVisible, imgData })
 
   render() {
-    const { printStore: { pendingState, clearError, error, prints, files, setFiles } } = this.props
+    const { printStore: { pendingState, clearError, error, prints, files, setFiles, updateAmount } } = this.props
     const { errors: stateErrors, checkedFiles, modalVisible, imgData } = this.state
 
     return (
@@ -132,6 +132,7 @@ export class SetOrder extends React.Component {
                 onCheck={this.onCheck}
                 onClose={this.closeFile}
                 zoomImage={this.zoomImage}
+                updateAmount={updateAmount}
               />
             ))}
           </div>

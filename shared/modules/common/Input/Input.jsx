@@ -24,7 +24,7 @@ export const Input = ({ placeholder = '', onChange, value, error, type = 'text',
 Input.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
   type: PropTypes.string,
 }
