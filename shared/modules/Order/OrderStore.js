@@ -52,13 +52,10 @@ export class OrderStore {
   saveOrder = (order) => {
     const cookiesStore = this.rootStore.get('cookiesStore')
     const userStore = this.rootStore.get('userStore')
-    const userIDCookie = cookiesStore.get('fp-userID')
     const { user: userID, _id: orderID } = order
 
-    if (!userIDCookie) {
-      cookiesStore.set('fp-userID', userID)
-      userStore.user = { userID }
-    }
+    cookiesStore.set('fp-userID', userID)
+    userStore.user = { userID }
 
     this.orders = [...this.orders, orderID]
     this.rootStore.get('printStore').files = []

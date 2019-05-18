@@ -3,6 +3,7 @@ import { observable } from 'mobx';
 import { UserStore } from 'admin/client/components/User'
 import { PricesStore, PrintStore } from 'admin/client/components/Prices'
 import { BannersStore } from 'shared/utils/Banners'
+import { OrderStore } from 'admin/client/components/Orders'
 
 class RootStore {
   stores = new Map();
@@ -47,6 +48,7 @@ const STORES = {
   BannersStore,
   PricesStore,
   PrintStore,
+  OrderStore,
 };
 
 export const initStore = (initState = {}, history) => {

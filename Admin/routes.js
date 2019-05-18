@@ -8,7 +8,7 @@ import { LoginPage } from 'admin/client/components/LoginPage'
 import { MainMenu } from 'admin/client/components/MainMenu'
 import { AdminPricesWrapper, AdminPricesPrint } from 'admin/client/components/Prices'
 import { UsersWrapper } from 'admin/client/components/UsersWrapper'
-// import { Print } from 'admin/client/components/Print'
+import { AdminOrders } from 'admin/client/components/Orders'
 
 import { Container } from 'semantic-ui-react'
 
@@ -31,6 +31,8 @@ export const routes = (
             <Route exact path='/prices' component={AdminPricesWrapper} />
             <Route exact path='/users' component={UsersWrapper} />
             <Route exact path='/print' component={AdminPricesPrint} />
+            <Route exact path='/orders' component={AdminOrders} />
+            <Route exact path='/order-error/:message' component={AdminOrders} />
 
             <Route path="*" component={NotFound} />
           </Switch>

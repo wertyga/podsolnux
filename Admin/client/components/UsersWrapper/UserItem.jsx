@@ -2,8 +2,8 @@ import { List, Grid } from 'semantic-ui-react'
 
 export class UserItem extends React.Component {
   render() {
-    const { className, orders, email, isSubscribed, username, verified, _id } = this.props;
-    const datas = { _id, email, isSubscribed, username, verified };
+    const { className, orders, email, isSubscribed, username, verified, _id, phone } = this.props;
+    const datas = { _id, email, isSubscribed, username, verified, phone };
 
     return (
       <List.Item className={className}>
@@ -17,11 +17,14 @@ export class UserItem extends React.Component {
           ))}
           <Grid.Row>
             <Grid.Column width={3}>ORDERS:</Grid.Column>
-            <Grid.Column width={4}>
+            <Grid.Column width={12}>
               <List>
                 {!orders.length && <List.Item>Empty list</List.Item>}
-                {orders.map(item => (
-                  <List.Item key={item}>{item}</List.Item>
+                {orders.map(({ _id, orderNumber }) => (
+                  <List.Item key={_id} className="order-list__item">
+                    <span>{`Order number - ${orderNumber}`}</span>
+                    <span>{`Order's id - ${_id}`}</span>
+                  </List.Item>
                 ))}
               </List>
             </Grid.Column>

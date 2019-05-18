@@ -10,11 +10,12 @@ export class OrderViewStore {
   getOrder = async (orderID) => {
     if (this.order._id === orderID || !orderID) return;
 
+    const userID = this.rootStore.get('cookiesStore').get('fp-userID')
     this.pendingState = 'pending'
     this.error = undefined
 
     try {
-      const { data: { order } } = await api.fetchOrder(orderID)
+      const { data: { order } } = await api.fetchOrder({ orderID, userID })
 
       this.order = order
 

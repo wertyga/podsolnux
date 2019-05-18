@@ -21,6 +21,9 @@ const OrderSchema = new mongoose.Schema({
   comment: {
     type: String,
   },
+  orderPath: {
+    type: String,
+  },
 }, { timestamps: true });
 
 OrderSchema.methods.getClientFields = function() {

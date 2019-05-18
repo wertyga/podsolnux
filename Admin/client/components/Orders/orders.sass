@@ -1,0 +1,26 @@
+.orders
+  > .list
+    > .item
+      margin-bottom: 1rem
+      .description
+        height: 0
+        overflow: hidden
+      &.show
+        .description
+          height: 100%
+  .header
+    font-size: 1.5rem
+    margin-bottom: 1rem !important
+    cursor: pointer
+  &__item
+    &__buttons
+      display: flex
+      width: 100%
+      justify-content: flex-end
+    &__files
+      span
+        margin-right: .7rem
+    .item
+      > span:first-child
+        font-weight: 600
+        margin-right: .5rem

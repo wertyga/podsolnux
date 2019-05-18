@@ -4,40 +4,16 @@ import path from 'path'
 import shortId from 'short-id'
 import shell from 'shelljs'
 import fs from 'fs'
-import noop from 'lodash/noop'
-
-import { config } from 'server/common/config'
 
 import { getPhotoAmount } from 'shared/utils'
-
 import { User, OrderModel } from 'server/models'
+
+import { uploadPath } from 'server/common/functions/files'
+import { sendEmailByOrder } from 'server/common/functions/sendEmail'
 
 export const orderRoute = express.Router();
 
 const maxFileSize = 50 * (10 ** 6)
-const TEXT = {
-  unknownPaperType: 'Неуказана',
-}
-
-const uploadPath = (jsonString, orderNumber) => {
-  const { format, paperType, id: fileId, amount = 1, price, isArchiveFile } = JSON.parse(jsonString)
-  const { uploads: { orderPath } } = config
-  const date = new Date();
-  const datePart = `${date.getDate()}-${date.getMonth() + 1}`
-  const formatsAmountPath = path.join(`${format}-${paperType || TEXT.unknownPaperType}`, String(amount))
-
-  return {
-    format,
-    paperType,
-    amount,
-    price,
-    datePath: datePart,
-    formatsAmountPath,
-    isArchiveFile,
-    fullDirectoryPath: path.join(orderPath, datePart, orderNumber, formatsAmountPath),
-    fileId,
-  }
-};
 
 orderRoute.get('/list/:userID', async ({ params: { userID } }, res) => {
   try {
@@ -49,25 +25,10 @@ orderRoute.get('/list/:userID', async ({ params: { userID } }, res) => {
   }
 })
 
-// const sendEmailByOrder = (orderName) => {
-//   const transporter = nodemailer.createTransport(emailConfig);
-//   const mailOptions = {
-//     from: 'Foto_Podsolnux',
-//     to: 'fotopodsolnux@gmail.com',
-//     subject: `new Order - ${orderName || 'No order'}`,
-//     html: `<div>Message: New order - ${orderName}</div>`
-//   };
-//   transporter.sendMail(mailOptions, (err, info) => {
-//     if(err) {
-//       log.error(err.message);
-//       console.error(`Email not sent: ${err}`)
-//     };
-//   })
-// };
-
 orderRoute.post('/upload-files', async (req, res) => {
   const form = new Multiparty.Form({ maxFileSize })
   const orderNumber = shortId.generate()
+  let directoryOrder;
   const orderFiles = []
 
   const orderData = {}
@@ -86,7 +47,9 @@ orderRoute.post('/upload-files', async (req, res) => {
       amount,
       price,
       isArchiveFile,
+      orderPath,
     } = uploadPath(part.name.replace(/%22/g, '"'), orderNumber);
+    if (!directoryOrder) directoryOrder = orderPath
 
     try {
       fs.statSync(fullDirectoryPath);
@@ -138,11 +101,14 @@ orderRoute.post('/upload-files', async (req, res) => {
       user: user._id,
       phone,
       comment,
+      orderPath: directoryOrder,
     }).save()
 
     user.orders = [...user.orders, order._id]
     if (!user.phone) user.phone = phone
     await user.save()
+
+    sendEmailByOrder(orderNumber)
 
     res.json({ order: order.getClientFields() })
 
@@ -155,12 +121,24 @@ orderRoute.post('/upload-files', async (req, res) => {
   form.parse(req);
 });
 
-orderRoute.get('/:orderID', async ({ params: { orderID } }, res) => {
-  const order = await OrderModel.findById(orderID)
-
-  if (!order) {
+orderRoute.get('/:orderID/:userID', async ({ params: { orderID, userID } }, res) => {
+  if (!orderID || !userID || orderID === 'null' || userID === 'null') {
     res.json({ order: {} })
-  } else {
-    res.json({ order: order.getClientFields() })
+    return;
   }
+  try {
+    const [order, user] = await Promise.all([
+      OrderModel.findById(orderID),
+      User.findById(userID),
+    ])
+    // console.log(order._id, user._id, order._id === user._id);
+    if (!order || !user) {
+      res.json({ order: {} })
+    } else {
+      res.json({ order: order.getClientFields() })
+    }
+  } catch ({ message }) {
+    res.status(500).json({ errors: [{ message }] });
+  }
+
 })

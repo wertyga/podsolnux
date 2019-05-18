@@ -16,8 +16,9 @@ const fileName = 'Имя файла:'
 
 export const FileItem = ({ file = {}, id, format, paperType, price, isChecked = false, onCheck, onClose, zoomImage, updateAmount, amount, filePath, disabled, isArchiveFile }) => {
   const isArchiveFileType = typeof isArchiveFile !== 'undefined' ? isArchiveFile : archives.includes(file.type.split('/')[1])
+  const imageUrl = isArchiveFileType ? '/images/archive.webp' : (filePath || '')
 
-  const [fileData, setFileData] = useState(filePath || '')
+  const [fileData, setFileData] = useState(imageUrl)
 
   if (!isArchiveFileType && !fileData && !filePath) {
     let fr = new FileReader();
@@ -40,7 +41,10 @@ export const FileItem = ({ file = {}, id, format, paperType, price, isChecked = 
 
   const handleZoomImage = () => zoomImage(fileData)
 
-  const { name } = file;
+  const getFileName = () => {
+    const { name } = file;
+    return filePath ? filePath.split('/').reverse()[0] : name
+  }
 
   if (!fileData && !isArchiveFileType && !document.querySelector('.set-order__content .loader')) {
     return <Loader />;
@@ -66,7 +70,7 @@ export const FileItem = ({ file = {}, id, format, paperType, price, isChecked = 
         <div className="file-item__description">
           <div className="file-item__description__item file-item__description__item_name">
             <span>{fileName}</span>
-            <span>{name}</span>
+            <span>{getFileName()}</span>
           </div>
           <div className="file-item__description__item">
             <span>{`${prints.format}:`}</span>

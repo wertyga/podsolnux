@@ -27,10 +27,10 @@ user.post('/login', async ({ body: { username, password }, session }, res) => {
 
 user.get('/all', async (req, res) => {
   try {
-    const users = await User.find({})
+    const users = await User.find({}, ['createdAt', 'email', 'orders', 'phone', 'username']).populate('orders', 'orderNumber')
 
     res.json({ users })
-  } catch (e) {
+  } catch ({ message }) {
     res.status(500).json({ errors: [{ message }]  })
   }
 })

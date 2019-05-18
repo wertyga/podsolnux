@@ -18,7 +18,9 @@ export const OrderFiles = ({ files }) => {
       <Modal visible={modalVisible} onClick={zoomImage}>
         <img src={imgData} alt="zoomed_image" />
       </Modal>
-      {files.map(file => <FileItem key={file.filePath} {...file} id={file._id} zoomImage={zoomImage} disabled />)}
+      <div className="order-view__files__content">
+        {files.map(file => <FileItem key={file.filePath} {...file} id={file._id} zoomImage={zoomImage} disabled />)}
+      </div>
     </div>
   );
 }

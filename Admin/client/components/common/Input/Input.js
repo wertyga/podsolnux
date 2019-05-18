@@ -62,7 +62,7 @@ export default class Input extends React.Component {
 
         return (
             <div className="ui input form" style={style.wrapper}>
-                {this.props.label && <label style={style.label} style={{ cursor: this.props.type === 'file' && 'pointer' }} htmlFor={this.props.label}>{this.props.label}</label>}
+                {this.props.label && <label style={style.label} htmlFor={this.props.label}>{this.props.label}</label>}
                 {this.props.textarea ? textArea : input}
             </div>
         );

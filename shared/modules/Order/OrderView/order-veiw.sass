@@ -1,8 +1,13 @@
 @import 'constants.scss'
 
 .order-view
-  &__files
+  &__files__content
     display: flex
+    flex-wrap: wrap
+    @include mobile
+      justify-content: space-between
+      .file-item
+        margin-right: 0
     .file-item__upper
       svg
         display: none

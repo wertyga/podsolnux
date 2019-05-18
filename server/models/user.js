@@ -8,7 +8,6 @@ import { config } from '../common/config'
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true,
   },
   email: {
     type: String,
@@ -21,7 +20,10 @@ const userSchema = new mongoose.Schema({
   isSubscribed: Boolean,
   hashPassword: String,
   orders: {
-    type: Array,
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'order',
+    }],
     default: [],
   },
   verified: {

@@ -24,6 +24,10 @@ const components = [
     slug: 'Print',
     href: '/print',
   },
+  {
+    slug: 'Orders',
+    href: '/orders',
+  },
 ];
 
 @withRouter
