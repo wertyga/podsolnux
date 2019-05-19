@@ -36,7 +36,7 @@ export class OrderViewStore {
         return a;
       }
       const title = `${format} ${paperType}`
-      const formatPrice = parseFloat(price)
+      const formatPrice = parseFloat(price) * amount
 
       return {
         ...a,

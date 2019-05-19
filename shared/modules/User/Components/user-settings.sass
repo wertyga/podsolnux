@@ -1,0 +1,37 @@
+@import 'constants.scss'
+
+.user-settings
+  max-width: 30rem
+  h1
+    margin-bottom: 2rem
+  &__inputs__item
+    margin-bottom: 1rem
+    div:first-child
+      margin-bottom: .5rem
+      font-weight: 500
+  &__checkboxes
+    margin-top: 2rem
+    .user-settings__inputs__item
+      display: flex
+      justify-content: space-between
+      align-items: center
+      width: 10rem
+      input
+        width: 1rem
+        height: 1rem
+        cursor: pointer
+
+  &__verified
+    font-weight: 500
+    color: red
+    display: flex
+    justify-content: space-between
+    width: 10rem
+    &.verified
+      color: $color-green-menu
+
+  .save-btn
+    margin-top: 3rem
+    display: flex
+    justify-content: flex-end
+

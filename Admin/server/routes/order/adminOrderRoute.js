@@ -1,9 +1,9 @@
 import express from 'express'
-import fs from 'fs'
 import archiver from 'archiver'
 
 import { OrderModel } from '../../../../server/models/order'
 import { config } from '../../common/config'
+import { rmDir } from '../../../../server/common/functions/files'
 
 export const adminOrderRoute = express.Router();
 
@@ -66,7 +66,9 @@ adminOrderRoute.get('/:orderNumber', async ({ params: { orderNumber } }, res) =>
 
 adminOrderRoute.delete('/:orderNumber', async ({ params: { orderNumber } }, res) => {
   try {
-    await OrderModel.findOneAndDelete({ orderNumber })
+    const order = await OrderModel.findOneAndDelete({ orderNumber })
+
+    rmDir(order.orderPath)
 
     res.json('success')
   } catch ({ message }) {

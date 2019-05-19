@@ -63,24 +63,28 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
     },
   }
   const selects = {}
-  prints.map(({ format, paperType }) => ({ format, paperType })).forEach((item) => {
-    Object.entries(item).forEach(([key, value]) => {
-      if (key === 'paperType' && state.format.checked) {
-        const isPaperFormatExist = prints.find(print => print.format === state.format.checked && value === print.paperType)
-        if (!isPaperFormatExist) return;
-      }
-      if (!selects[key]) {
-        selects[key] = [value]
-      } else {
-        if (selects[key].includes(value)) return;
-        selects[key] = [...selects[key], value]
-      }
-    })
+  prints.map(({ format, paperType }) => ({ format, paperType }))
+    .forEach((item) => {
+      Object.entries(item).forEach(([key, value]) => {
+        if (key === 'paperType' && state.format.checked) {
+          const isPaperFormatExist = prints.find(print => print.format === state.format.checked && value === print.paperType)
+          if (!isPaperFormatExist) return;
+        }
+        if (!selects[key]) {
+          selects[key] = [value]
+        } else {
+          if (selects[key].includes(value)) return;
+          selects[key] = [...selects[key], value]
+        }
+      })
   })
 
   const onShow = () => setActive(!active)
 
   const onSubmit = () => {
+    const { format, paperType } = state;
+    if (!format.checked && !paperType.checked) return;
+
     const successResult = setFileData({
       format: formatState,
       paperType: paperState,

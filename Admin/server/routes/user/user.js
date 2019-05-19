@@ -27,7 +27,7 @@ user.post('/login', async ({ body: { username, password }, session }, res) => {
 
 user.get('/all', async (req, res) => {
   try {
-    const users = await User.find({}, ['createdAt', 'email', 'orders', 'phone', 'username']).populate('orders', 'orderNumber')
+    const users = await User.find({}).populate('orders', 'orderNumber')
 
     res.json({ users })
   } catch ({ message }) {

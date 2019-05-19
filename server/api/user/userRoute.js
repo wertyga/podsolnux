@@ -2,6 +2,7 @@ import express from 'express';
 
 import { User } from 'server/models'
 import { sendEmail } from 'server/common/functions/sendEmail'
+import { updatableUserFields } from 'server/models/user'
 
 export const userRoute = express.Router();
 
@@ -92,7 +93,7 @@ userRoute.post('/login', async ({ body: { username, password } }, res) => {
   res.json({ user: user.getCommonFields() })
 })
 
-userRoute.get('/verify-user', async ({ body: { id } }, res) => {
+userRoute.post('/verify-user', async ({ body: { id } }, res) => {
   try {
     const user = await User.findOne({ _id: id })
 
@@ -127,6 +128,24 @@ userRoute.post('/logout-user', async ({ body: { id } }, res) => {
     if (!user) return res.status(404).json({ errors: [{ message: TEXT.noUser }] })
 
     res.json({ success: 'true' })
+  } catch ({ message }) {
+    res.status(500).json({ errors: [{ message }] })
+  }
+})
+
+userRoute.post('/update-user', async ({ body: { id, data } }, res) => {
+  try {
+    const updatingData = Object.entries(data).reduce((a, [key, value]) => {
+      if (!updatableUserFields.includes(key)) return a;
+
+      return { ...a, [key]: value }
+    }, {})
+    const user = await User.findByIdAndUpdate(id, updatingData, { new: true })
+
+    if (!user) return res.status(404).json({ errors: [{ message: TEXT.noUser }] })
+
+    res.json({ user })
+
   } catch ({ message }) {
     res.status(500).json({ errors: [{ message }] })
   }

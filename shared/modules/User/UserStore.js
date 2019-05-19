@@ -1,5 +1,6 @@
 import { observable } from 'mobx'
 import _get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
 import * as api from './api'
 
@@ -89,11 +90,30 @@ export class UserStore {
 
   clearError = () => {
     this.error = ''
-    this.pendingState = undefined
   }
 
   clearUser = () => {
     this.rootStore.get('cookiesStore').remove('fp-userID')
     this.user = {};
+  }
+
+  updateUser = async (data) => {
+    if (isEmpty(data)) return;
+    this.clearError()
+
+    try {
+      this.pendingState = 'pending'
+
+      const userID = this.rootStore.get('cookiesStore').get('fp-userID')
+
+      const { data: { user } } = await api.updateUser({ data, id: userID })
+
+      this.user = user
+
+      this.pendingState = 'fulfilled'
+    } catch (e) {
+      this.error = getError(e)
+      this.pendingState = 'rejected'
+    }
   }
 }

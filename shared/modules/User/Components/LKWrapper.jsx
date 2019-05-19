@@ -31,8 +31,8 @@ const LKComponent = ({ user, pendingState, logoutUser, location: { pathname }, h
       title={TEXT.title}
     >
       {error && <Notify type="error" onClose={clearError}>{error.message}</Notify>}
-      {pendingState === 'pending' ?
-        <Loader /> :
+      {pendingState === 'pending' && <Loader />}
+
         <Section grey fluid className="lk__wrapper">
           <ul className="lk__menu">
             {userMenu
@@ -60,7 +60,6 @@ const LKComponent = ({ user, pendingState, logoutUser, location: { pathname }, h
             </Switch>
           </div>
         </Section>
-      }
     </Page>
   );
 }

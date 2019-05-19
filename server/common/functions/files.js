@@ -1,14 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 
-import archiver from 'archiver'
-import { config } from 'server/common/config'
+import { config } from '../config'
 
 const TEXT = {
   unknownPaperType: 'Неуказана',
 }
 
-const rmDir = (dir, rmSelf) => {
+export const rmDir = (dir, rmSelf) => {
   let files;
   rmSelf = (rmSelf === undefined) ? true : rmSelf;
   dir = dir + "/";
@@ -26,18 +25,6 @@ const rmDir = (dir, rmSelf) => {
     // check if user want to delete the directory ir just the files in this directory
     fs.rmdirSync(dir);
   }
-}
-
-export const createArchiveOrderAndDeleteFolder = ({ directoryOrder, orderNumber }) => {
-  const archive = archiver('zip', {
-    zlib: { level: 9 } // Sets the compression level.
-  })
-
-  archive.directory(directoryOrder, orderNumber)
-  archive.pipe(fs.createWriteStream(`${directoryOrder}/${orderNumber}.zip`))
-  archive.finalize();
-
-  rmDir(`${directoryOrder}/${orderNumber}`)
 }
 
 export const uploadPath = (jsonString, orderNumber) => {

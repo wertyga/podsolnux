@@ -1,114 +1,5 @@
 import { observable } from 'mobx';
 
-const mockItem = [
-  {
-    _id: 'asd',
-    title: 'Pages',
-    href: '#',
-    children: [],
-  },
-  {
-    _id: 'qweqw',
-    title: 'Mega menu',
-    href: '#',
-    children: [],
-  },
-  {
-    _id: 'jkjkjk',
-    title: 'Mega menu',
-    href: '#',
-    children: [],
-  },
-  {
-    _id: 'yytyt',
-    title: 'Mega menu',
-    href: '#',
-    children: [],
-  },
-  {
-    _id: 'aasdasdasd',
-    title: 'Mega menu',
-    href: '#',
-    children: [],
-  },
-]
-
-const menuItemMock = [
-  {
-    _id: 'asd',
-    title: 'Pages',
-    children: mockItem,
-  },
-  {
-    _id: 'qweqw',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-  {
-    _id: 'jkjkjk',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-  {
-    _id: 'yytyt',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-  {
-    _id: 'aasdasdasd',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-  {
-    _id: 'ffgfgf',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-  {
-    _id: '323123',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-];
-
-const priceMenuItemMock = [
-  {
-    _id: 'asd',
-    title: 'Mega menu Price',
-    children: mockItem,
-  },
-  {
-    _id: 'qweqw',
-    title: 'Mega menu Price',
-    children: mockItem,
-  },
-  {
-    _id: 'jkjkjk',
-    title: 'Mega menu Price',
-    children: mockItem,
-  },
-  {
-    _id: 'yytyt',
-    title: 'Mega menu Price',
-    children: mockItem,
-  },
-  {
-    _id: 'aasdasdasd',
-    title: 'Mega menu Price',
-    children: mockItem,
-  },
-  {
-    _id: 'ffgfgf',
-    title: 'Mega menu',
-    children: mockItem,
-  },
-  {
-    _id: '323123',
-    title: 'Mega menu Price',
-    children: mockItem,
-  },
-];
-
 const itemsMock = [
   {
     _id: '1',
@@ -142,6 +33,11 @@ const itemsMock = [
     _id: '6',
     title: 'Заказать',
     slug: 'set-order',
+  },
+  {
+    _id: '7',
+    title: 'Адрес',
+    slug: 'address',
   },
 ]
 

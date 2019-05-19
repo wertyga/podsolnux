@@ -52,3 +52,14 @@ export const logoutUser = (id) => (
     },
   })
 );
+
+export const updateUser = ({ data, id }) => (
+  fetch({
+    url: '/api/user/update-user',
+    method: 'post',
+    data: {
+      id,
+      data,
+    },
+  })
+);

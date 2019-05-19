@@ -1,23 +1,28 @@
 import mongoose from 'mongoose'
 import crypto from 'crypto'
 
-import shortId from 'short-id'
-
 import { config } from '../common/config'
+
+export const updatableUserFields = ['username', 'email', 'phone', 'isSubscribed']
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
+    default: '',
   },
   email: {
     type: String,
     unique: true,
+    default: '',
   },
   phone: {
     type: String,
-    unique: true,
+    default: '',
   },
-  isSubscribed: Boolean,
+  isSubscribed: {
+    type: Boolean,
+    default: false,
+  },
   hashPassword: String,
   orders: {
     type: [{
@@ -30,6 +35,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  bonus: {
+    type: Array,
+    default: [],
+  },
 }, { timestamps: true });
 
 const createPassword = (pass) => (
@@ -40,19 +49,12 @@ userSchema.methods.comparePasswords = function(pass) {
   return this.hashPassword === createPassword(pass);
 }
 userSchema.methods.getCommonFields = function() {
-  const { _id, username, orders, email, phone } = this;
-  return { _id, username, orders, email, phone };
-}
-userSchema.methods.isAnonimusUser = function () {
-  return /-anonimus/.test(this.username)
+  const { _id, username, orders, email, phone, isSubscribed, verified } = this;
+  return { _id, username, orders, email, phone, isSubscribed, verified };
 }
 
 userSchema.virtual('password')
   .get(function() { return this.hashPassword })
   .set(function(pass) { this.hashPassword = createPassword(pass) })
-
-userSchema.statics.generateAnonimusUser = function () {
-  return `${shortId.generate()}-anonimus`;
-}
 
 export const User = mongoose.model('user', userSchema)
