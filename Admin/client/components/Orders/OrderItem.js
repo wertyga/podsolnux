@@ -29,7 +29,7 @@ export const OrderItem = ({ orderNumber, createdAt, comment, phone, files, total
         </List.Item>
         <List.Item>
           <span>Files:</span>
-          <span className="orders__item__files">{Object.entries(files).map(([format, amount]) => <span>{`${format}: ${amount} шт.;`}</span>)}</span>
+          <span className="orders__item__files">{Object.entries(files).map(([format, amount]) => <span key={format}>{`${format}: ${amount} шт.;`}</span>)}</span>
         </List.Item>
 
         <List.Item>

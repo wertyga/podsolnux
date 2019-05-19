@@ -5,7 +5,7 @@ import * as api from './api'
 export class OrderStore {
   @observable pendingState
   @observable error
-  orders = []
+  orders = {}
 
   getAllOrders = async () => {
     try {
@@ -30,7 +30,15 @@ export class OrderStore {
 
       await api.deleteOrder(orderNumber)
 
-      this.orders = this.orders.filter(item => item.orderNumber !== orderNumber)
+      this.orders = Object.entries(this.orders)
+        .reduce((a, [key, value]) => {
+          const filteredOrders = value.filter(item => item.orderNumber !== orderNumber)
+          if (!filteredOrders.length) return a;
+          return {
+            ...a,
+            [key]: filteredOrders,
+          };
+        }, {})
 
       this.pendingState = 'fulfilled'
     } catch (e) {
