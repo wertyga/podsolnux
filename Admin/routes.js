@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import { Home } from 'admin/client/components/Home'
 import { NotFound } from 'admin/client/components/404'
 import { LoginPage } from 'admin/client/components/LoginPage'
-// import { BannerWrapper } from 'admin/client/components/BannerWrapper'
+import { BannerWrapper, BannerItem } from 'admin/client/components/BannerWrapper'
 import { MainMenu } from 'admin/client/components/MainMenu'
 import { AdminPricesWrapper, AdminPricesPrint } from 'admin/client/components/Prices'
 import { UsersWrapper } from 'admin/client/components/UsersWrapper'
@@ -27,7 +27,8 @@ export const routes = (
 
           <Switch>
             <Route exact path='/' component={Home} />
-            {/*<Route path='/banners' component={BannerWrapper} />*/}
+            <Route exact path='/banners' component={BannerWrapper} />
+            <Route exact path='/banners/:slug' component={BannerItem} />
             <Route exact path='/prices' component={AdminPricesWrapper} />
             <Route exact path='/users' component={UsersWrapper} />
             <Route exact path='/print' component={AdminPricesPrint} />

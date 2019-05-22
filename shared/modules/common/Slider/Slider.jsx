@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import AngleLeft from 'react-icons/lib/fa/angle-left'
 import AngleRight from 'react-icons/lib/fa/angle-right'
 import ArrowRight from 'react-icons/lib/fa/arrow-right'
 import ArrowLeft from 'react-icons/lib/fa/arrow-left'
 
 import _get from 'lodash/get'
+import noop from 'lodash/noop'
 
 import { ButtonLink } from 'shared/modules/common'
 import { Dots } from './Dots'
@@ -15,6 +16,7 @@ const TEXT = {
   learnMore: 'Узнать больше',
 }
 
+@withRouter
 export class Slider extends React.Component {
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({
@@ -125,7 +127,7 @@ export class Slider extends React.Component {
 
   render() {
     const { images, index, distanceMove } = this.state;
-    const { withHero, isArrowVisible, images: propsImages, isDotsVisible } = this.props;
+    const { withHero, isArrowVisible, images: propsImages, isDotsVisible, history } = this.props;
     const refWidth = _get(this.mainRef, 'current.offsetWidth', 0);
 
     const translate = `${distanceMove !== 0 ? Math.round(-index * refWidth + distanceMove) : Math.round(-index * refWidth)}px`;
@@ -152,27 +154,32 @@ export class Slider extends React.Component {
             )}
             style={{ transform: `translateX(${translate})`}}
           >
-            {images.map(({original, originalAlt, _id, textBlock}, i) => {
-              const { title, description, href, title: linkTitle, linkText = '' } = textBlock || {};
+            {images.map(({ original, originalAlt, _id, textBlock, asLink, href }) => {
+              const { title, description, href: buttonHref, title: linkTitle, linkText = '' } = textBlock || {};
               const hrefText = withHero ? linkText.split(',') : linkText;
               return (
-                <div className="slider__inner" key={_id + i}>
+                <div
+                  className="slider__inner"
+                  key={_id}
+                  role="presentation"
+                  onClick={() => (asLink && href) ? history.push(href) : noop()}
+                >
                   {textBlock &&
-                  <div className="slider__text-block">
-                    <h2>{title}</h2>
-                    <p>{description}</p>
-                    {withHero ?
-                      <div className="slider__text-block_with-hero">
-                        <span>&#8212;</span>
-                        <em>{` ${hrefText[0].trim()}, `}</em>
-                        <Link to={href} title={linkTitle}>
-                          {hrefText[1] || TEXT.learnMore}
-                        </Link>
-                      </div> :
-                      <ButtonLink
-                        href={href}
-                        title={linkText || TEXT.learnMore}
-                      />
+                    <div className="slider__text-block">
+                      <h2>{title}</h2>
+                      <p>{description}</p>
+                      {withHero ?
+                        <div className="slider__text-block_with-hero">
+                          <span>&#8212;</span>
+                          <em>{` ${hrefText[0].trim()}, `}</em>
+                          <Link to={buttonHref} title={linkTitle}>
+                            {hrefText[1] || TEXT.learnMore}
+                          </Link>
+                        </div> :
+                        <ButtonLink
+                          href={buttonHref}
+                          title={linkText || TEXT.learnMore}
+                        />
                     }
                   </div>
                   }

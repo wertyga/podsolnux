@@ -12,3 +12,4 @@ export { Input } from './Input';
 export { Form } from './Form';
 export { Select } from './Select/Select';
 export { Modal } from './Modal/Modal';
+export { Map } from './Map';

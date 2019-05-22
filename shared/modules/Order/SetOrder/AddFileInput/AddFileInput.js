@@ -11,10 +11,10 @@ const TEXT = {
 export const AddFileInput = ({ setErrors, setFiles }) => {
   const mainRef = React.createRef()
 
-  const onChangeFiles = ({ target: { files, value } }) => {
+  const onChangeFiles = ({ target: { files } }) => {
     const arr = []
     const errors = []
-    // let availablePaper = this.props.fotoParams.find(item => item.paperType.find(type => type.value === true));
+
     for(let i = 0; i < files.length; i++) {
       const file = files[i];
       const fileErrors = checkFileType(file)

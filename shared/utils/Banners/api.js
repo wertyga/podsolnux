@@ -1,7 +1,7 @@
-export const fetchBanners = () => (
+export const fetchBanners = (category) => (
   fetch({
     method: 'get',
-    url: '/api/banners/get-banners',
+    url: `/api/banners/${category}`,
   })
 )
 

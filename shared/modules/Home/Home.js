@@ -200,10 +200,10 @@ const mockServiceHomePreview = [
   }
 ]
 
-@inject('execContextStore')
+@inject('execContextStore', 'bannersStore')
 export class Home extends React.Component {
     render() {
-      const { requestContext: { isMobile } } = this.props.execContextStore
+      const { execContextStore: { requestContext: { isMobile } }, bannersStore: { banners, pendingState } } = this.props
         return (
             <div className="home">
               <section className="no-padding">

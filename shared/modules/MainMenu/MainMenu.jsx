@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { inject } from 'mobx-react'
 import { Search } from 'shared/modules/Search'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import { Mobile, Desktop } from 'shared/utils'
 import { UserBar } from 'shared/modules/User'
@@ -11,7 +11,7 @@ import { MenuMobile } from './Components/MobileMenu/MobileMenu'
 
 import './main-menu.sass';
 
-const Logo = () => <div className="logo">LOGO</div>
+const Logo = () => <Link className="logo" to="/">LOGO</Link>
 
 const mapState = ({ menuStore: { fetchStatus, menuList, setLocation }, execContextStore: { requestContext: { isMobile } } }) => ({
   fetchStatus,

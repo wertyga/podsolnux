@@ -1,7 +1,11 @@
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
+import { Link } from 'react-router-dom'
 
-import { Loader } from 'semantic-ui-react'
-import { Slider } from 'shared/modules/common/Slider'
+import { Loader, List, Message, Button } from 'semantic-ui-react'
+
+import { AddBanner } from './AddBanner'
+
+import './banners.sass'
 
 const bannersList = {
   mainBanner: {
@@ -15,26 +19,42 @@ const bannersList = {
 }
 
 @inject('bannersStore')
+@observer
 export class BannerWrapper extends React.Component {
-  componentDidMount() {
-    const { bannersStore: { fetchBannersCategories } } = this.props;
-
-    fetchBannersCategories();
+  static propTypes = {
+    bannersStore: PropTypes.object.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+
+    props.bannersStore.fetchCategories()
+  }
+
+  deleteCategory = slug => () => this.props.bannersStore.deleteCategory(slug)
+
+
   render() {
-    const { bannersStore: { fetchStatus } } = this.props;
-    if (fetchStatus === 'pending') return <Loader active />;
+    const { bannersStore: { pendingState, bannerCategories, error } } = this.props;
+
+    if (pendingState === 'pending') return <Loader active>Loading...</Loader>;
 
     return (
-      <div className="banner-wrapper">
-        {Object.entries(bannersList).map(([key, { title, images, subtitle, href } ]) => (
-          <div className="banner-wrapper__item" key={key}>
-            <h2>{key}</h2>
-            <Slider/>
-          </div>
+      <List className="banner-wrapper">
+        <AddBanner />
+
+        {error && <Message error content={error.message} />}
+
+        {bannerCategories.map(({ slug, count }) => (
+          <List.Item key={slug} className="banner-wrapper__category">
+            <Link to={`/banners/${slug}`}>
+              <span>{slug}</span>
+              <span>{`(${count})`}</span>
+            </Link>
+            <Button color="red" onClick={this.deleteCategory(slug)}>X</Button>
+          </List.Item>
         ))}
-      </div>
+      </List>
     );
   }
 }

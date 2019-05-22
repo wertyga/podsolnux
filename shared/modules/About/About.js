@@ -18,6 +18,7 @@ export class About extends React.Component {
           grey
           fluid
           h1={TEXT.aboutHeader}
+          isOne
         >
           <div className="about__content">
             <p>Фотоателье "Подсолнух" предоставляет как различные услуги по производству и обработке фотоснимков,

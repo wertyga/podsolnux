@@ -3,35 +3,40 @@ import { observable } from 'mobx'
 import * as api from './api'
 
 export class BannersStore {
-  @observable items = [];
-  @observable bannerCategories = [];
-  @observable fetchStatus;
+  @observable bannerCategories = []
+  @observable pendingState
 
-  fetchBanners = async () => {
-    this.fetchStatus = 'pending';
+  banners = {};
+
+  fetchBanners = async (category) => {
+    if (!category) return;
+    this.pendingState = 'pending'
 
     try {
-      const { data: { items } } = await api.fetchBanners()
+      const { data: { banners } } = await api.fetchBanners(category)
 
-      this.items = items;
+      this.banners = {
+        ...this.banners,
+        [category]: banners,
+      }
 
-      this.fetchStatus = 'fulfilled';
+      this.pendingState = 'fulfilled'
     } catch (e) {
-      this.fetchStatus = 'rejected';
+      this.pendingState = 'rejected'
     }
   }
 
   fetchBannersCategories = async () => {
-    this.fetchStatus = 'pending';
+    this.pendingState = 'pending';
 
     try {
       const { data: { items } } = await api.fetchBannersCategories()
 
       this.bannerCategories = items;
 
-      this.fetchStatus = 'fulfilled';
+      this.pendingState = 'fulfilled';
     } catch (e) {
-      this.fetchStatus = 'rejected';
+      this.pendingState = 'rejected';
     }
   }
 }

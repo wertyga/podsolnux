@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 
 import { UserStore } from 'admin/client/components/User'
 import { PricesStore, PrintStore } from 'admin/client/components/Prices'
-import { BannersStore } from 'shared/utils/Banners'
+import { BannersStore } from 'admin/client/components/BannerWrapper'
 import { OrderStore } from 'admin/client/components/Orders'
 
 class RootStore {

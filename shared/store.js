@@ -1,10 +1,12 @@
 import { observable } from 'mobx';
+
 import { ExecContextStore } from 'shared/utils';
 import { MenuStore } from 'shared/modules/MainMenu';
 import { UserStore } from 'shared/modules/User';
 import { PricesStore } from 'shared/modules/Prices';
 import { CookiesStore } from 'shared/utils/Cookies/CookiesStore';
 import { PrintStore, OrderViewStore, OrderStore, OrderListStore } from 'shared/modules/Order';
+import { BannersStore } from 'shared/utils/Banners';
 
 import 'shared/modules/common/globals'
 
@@ -56,6 +58,7 @@ const STORES = {
   OrderStore,
   OrderViewStore,
   OrderListStore,
+  BannersStore,
 };
 
 export const initStore = (initState = {}, history) => {

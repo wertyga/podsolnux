@@ -45,7 +45,7 @@ if(dev) {
   }));
 
   //************ STATIC **************
-  app.use(express.static(__dirname));
+  app.use(express.static(process.cwd()));
   app.use(express.static(path.join(process.cwd(), './public/admin/client')));
   //****************************************
 
