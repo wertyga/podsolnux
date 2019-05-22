@@ -48,7 +48,7 @@ export const renameCategory = (slug, newName) => (
 
 export const deleteBanner = (slug, banner) => (
   fetch({
-    method: 'put',
+    method: 'delete',
     url: '/api/banners',
     data: {
       slug,

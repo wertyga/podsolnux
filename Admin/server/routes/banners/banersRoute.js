@@ -8,6 +8,7 @@ import shell from 'shelljs'
 import { config } from '../../common/config'
 
 import { BannerCategoryModel } from '../../../../server/models'
+import { rmDir } from '../../../../server/common/functions/files'
 
 export const bannersRoute = express.Router();
 
@@ -29,7 +30,22 @@ bannersRoute.post('/categories', async ({ body: { category } }, res) => {
       return;
     }
 
-    const newCategory = await new BannerCategoryModel({ slug: category }).save()
+    const [newCategory] = await Promise.all([
+      new BannerCategoryModel({ slug: category }).save(),
+      (function () {
+        const categoryPath = path.join(config.bannersUpload, category)
+
+        try {
+          fs.statSync(categoryPath);
+        } catch(err) {
+          if(err.code === 'ENOENT') {
+            shell.mkdir('-p', categoryPath);
+          } else {
+            throw new Error(err.message)
+          }
+        }
+      })()
+    ])
 
     res.json({ category: { slug: newCategory.slug, count: 0 } })
   } catch ({ message }) {
@@ -71,7 +87,7 @@ bannersRoute.post('/', async (req, res) => {
       const ext = filename.split('.').slice(-1)[0]
       const filePath = path.join(fullDirectoryPath, `${shortId.generate()}.${ext}`)
       categoryName = category
-      fileFullPath = filePath.replace(process.cwd(), '')
+      fileFullPath = filePath.replace(config.bannersUpload, '')
 
       try {
         fs.statSync(fullDirectoryPath);
@@ -111,9 +127,14 @@ bannersRoute.post('/', async (req, res) => {
   }
 })
 
-bannersRoute.put('/', async ({ body: { slug, banner } }, res) => {
+bannersRoute.delete('/', async ({ body: { slug, banner } }, res) => {
   try {
-    const category = await BannerCategoryModel.findOneAndUpdate({ slug }, { $pull: { banners: banner } }, { new: true })
+    const fullBannerPath = path.join(config.bannersUpload, banner)
+
+    const [category] = await Promise.all([
+      BannerCategoryModel.findOneAndUpdate({ slug }, { $pull: { banners: banner } }, { new: true }),
+      fs.unlinkSync(fullBannerPath),
+    ])
 
     res.json({ category })
   } catch ({ message }) {
@@ -123,7 +144,10 @@ bannersRoute.put('/', async ({ body: { slug, banner } }, res) => {
 
 bannersRoute.delete('/categories/:slug', async ({ params: { slug } }, res) => {
   try {
-    await BannerCategoryModel.findOneAndDelete({ slug })
+    await Promise.all([
+      BannerCategoryModel.findOneAndDelete({ slug }),
+      rmDir(path.join(config.bannersUpload, slug)),
+    ])
 
     res.json('success deleted')
   } catch ({ message }) {
@@ -133,7 +157,10 @@ bannersRoute.delete('/categories/:slug', async ({ params: { slug } }, res) => {
 
 bannersRoute.put('/categories', async ({ body: { slug, newName } }, res) => {
   try {
-    const category = await BannerCategoryModel.findOneAndUpdate({ slug }, { $set: { slug: newName } }, { new: true })
+    const [category] = await Promise.all([
+      BannerCategoryModel.findOneAndUpdate({ slug }, { $set: { slug: newName } }, { new: true }),
+      fs.renameSync(path.join(config.bannersUpload, slug), path.join(config.bannersUpload, newName)),
+    ])
 
     res.json({ category })
   } catch ({ message }) {
