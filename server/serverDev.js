@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 app.use(express.static('public/static'));
 app.use(express.static(process.cwd()));
+app.use(express.static(path.join(process.cwd(), 'BANNERS')));
 app.use(express.static(config.uploads.orderPath));
 
 app.use(session({

@@ -1,5 +1,5 @@
 import { Slider } from 'shared/modules/common/Slider'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { ServiceHomePreview, HomeArticlesPreview } from './Components'
 import { Advantages, Section, ServicePreview, ServiceTextItem } from 'shared/modules/common'
 
@@ -201,13 +201,33 @@ const mockServiceHomePreview = [
 ]
 
 @inject('execContextStore', 'bannersStore')
+@observer
 export class Home extends React.Component {
+  constructor(props) {
+    super(props)
+
+    const { bannersStore: { fetchBanners } } = this.props
+    fetchBanners()
+  }
+
     render() {
-      const { execContextStore: { requestContext: { isMobile } }, bannersStore: { banners, pendingState } } = this.props
+      const {
+        execContextStore: { requestContext: { isMobile } },
+        bannersStore: { pendingState, getBanners },
+      } = this.props
+
+      const images = getBanners().map(({ path, href }) => ({
+        original: path,
+        _id: path,
+        originalAlt: path.split('/').slice(-1)[0],
+        href,
+        asLink: true,
+      }))
+
         return (
             <div className="home">
               <section className="no-padding">
-                <Slider images={images} isMobile={isMobile} isDotsVisible={isMobile} isArrowVisible={!isMobile} />
+                <Slider images={images} isMobile={isMobile} isDotsVisible={isMobile} isArrowVisible={!isMobile} loading={pendingState === 'pending'} />
               </section>
 
               <Section

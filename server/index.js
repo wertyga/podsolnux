@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import path from 'path';
 
 import cluster from 'cluster';
 
@@ -64,6 +65,7 @@ init();
 app.use(bodyParser.json());
 app.use(express.static('public/static'));
 app.use(express.static(process.cwd()));
+app.use(express.static(path.join(process.cwd(), 'BANNERS')));
 app.use(session({
   secret: config.session.secret,
   saveUninitialized: false,

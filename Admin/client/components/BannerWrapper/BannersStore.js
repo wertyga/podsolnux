@@ -5,8 +5,8 @@ import * as api from './api'
 
 export class BannersStore {
   @observable pendingState
+  @observable error
 
-  error
   bannerCategories = []
   banners = {}
   currentCategory = {}
@@ -51,7 +51,7 @@ export class BannersStore {
 
       const { data: { category } } = await api.fetchCategory(slug)
 
-      this.currentCategory = category
+      this.currentCategory = { ...category, banners: this.sortBanners(category.banners) }
 
       this.pendingState = 'fulfilled'
     } catch (e) {
@@ -61,11 +61,13 @@ export class BannersStore {
   }
 
   addBannerImage = async () => {
-    if (!this.file || isEmpty(this.currentCategory)) return;
+    if (!this.file || isEmpty(this.currentCategory)) {
+      this.error = { message: 'Choose image' }
+      return;
+    }
 
     try {
       this.pendingState = 'pending'
-      this.error = ''
 
       const { slug } = this.currentCategory
       const blob = new FormData()
@@ -76,8 +78,9 @@ export class BannersStore {
 
       this.currentCategory = {
         ...this.currentCategory,
-        banners,
+        banners: this.sortBanners(banners),
       }
+      this.file = undefined
 
       this.pendingState = 'fulfilled'
     } catch (e) {
@@ -108,7 +111,6 @@ export class BannersStore {
 
   renameCategory = async (slug, newName) => {
     try {
-      this.pendingState = 'pending'
       this.error = ''
 
       const { data: { category } } = await api.renameCategory(slug, newName)
@@ -120,11 +122,9 @@ export class BannersStore {
       })
       this.currentCategory = { ...this.currentCategory, slug: category.slug  }
 
-      this.pendingState = 'fulfilled'
       this.rootStore.history.replace(`/banners/${category.slug}`)
     } catch (e) {
       this.error = getError(e)
-      this.pendingState = 'rejected'
     }
   }
 
@@ -135,7 +135,10 @@ export class BannersStore {
 
       await api.deleteBanner(slug, banner)
 
-      this.currentCategory = { ...this.currentCategory, banners: this.currentCategory.banners.filter(item => item !== banner) }
+      this.currentCategory = {
+        ...this.currentCategory,
+        banners: this.currentCategory.banners.filter(({ path }) => path !== banner),
+      }
 
       this.pendingState = 'fulfilled'
     } catch (e) {
@@ -143,4 +146,25 @@ export class BannersStore {
       this.pendingState = 'rejected'
     }
   }
+
+  changeBanner = async (slug, banner, data) => {
+    try {
+      this.pendingState = 'pending'
+      this.error = ''
+
+      const { data: { banners } } = await api.changeBanner(slug, banner, data)
+
+      this.currentCategory = {
+        ...this.currentCategory,
+        banners: this.sortBanners(banners),
+      }
+
+      this.pendingState = 'fulfilled'
+    } catch (e) {
+      this.error = getError(e)
+      this.pendingState = 'rejected'
+    }
+  }
+
+  sortBanners = (banners) => banners.sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
 }

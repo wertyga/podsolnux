@@ -56,3 +56,15 @@ export const deleteBanner = (slug, banner) => (
     }
   })
 )
+
+export const changeBanner = (slug, banner, data) => (
+  fetch({
+    method: 'put',
+    url: '/api/banners',
+    data: {
+      slug,
+      banner,
+      data,
+    }
+  })
+)

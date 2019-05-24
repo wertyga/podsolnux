@@ -2,6 +2,8 @@ import { inject, observer } from 'mobx-react'
 
 import { Message, List, Input, Button, Loader } from 'semantic-ui-react'
 
+import { Banner } from './Banner'
+
 @inject('bannersStore')
 @observer
 export class BannerItem extends React.Component {
@@ -28,6 +30,7 @@ export class BannerItem extends React.Component {
     fr.onload = () => {
       this.setState({ image: fr.result })
       this.props.bannersStore.file = file
+      this.props.bannersStore.error = undefined
     }
   }
 
@@ -40,24 +43,33 @@ export class BannerItem extends React.Component {
     } catch (e) {}
   }
 
-  clearImage = () => {
+  clearImage = (e) => {
+    e.preventDefault()
     this.setState({ image: '' })
+    this.props.bannersStore.file = ''
   }
 
-  renameBannerCategory = () => {
+  renameBannerCategory = async () => {
     const { newName } = this.state
     if (!newName) return;
     const { bannersStore: { renameCategory }, match: { params: { slug } } } = this.props
 
-    renameCategory(slug, newName)
+    await renameCategory(slug, newName)
+
+    this.setState({ newName: '' })
   }
 
-  changeName = ({ target: { value } }) => this.setState({ newName: value })
+  changeInput = ({ target: { value, name } }) => this.setState({ [name]: value })
 
   deleteBanner = item => () => {
     const { bannersStore: { deleteBanner }, match: { params: { slug } } } = this.props
 
     deleteBanner(slug, item)
+  }
+
+  changeBanner = (banner, data) => () => {
+    const { bannersStore: { changeBanner }, match: { params: { slug } } } = this.props
+    changeBanner(slug, banner, data)
   }
 
   render() {
@@ -74,10 +86,10 @@ export class BannerItem extends React.Component {
         {error && <Message error content={error.message} />}
         {pendingState === 'pending' && <Loader active/>}
         <div className="banner-item__header">
-          <h1>{slug.toUpperCase()}</h1>
+          <h1>{slug}</h1>
           <Button color="blue" onClick={this.renameBannerCategory}>Rename</Button>
 
-          <Input value={newName} onChange={this.changeName} />
+          <Input value={newName} name="newName" onChange={this.changeInput} />
         </div>
 
         <div className="banner-item__add">
@@ -89,7 +101,7 @@ export class BannerItem extends React.Component {
               type="file"
             />
             <Button type="submit" color="green">Add banner</Button>
-            <Button color="red" onClick={this.clearImage}>Clear</Button>
+            <Button color="red" type="cancel" onClick={this.clearImage}>Clear</Button>
           </form>
         </div>
 
@@ -98,12 +110,7 @@ export class BannerItem extends React.Component {
         </div>
 
         <List className="banner-item__content">
-          {banners.map((item) =>
-            <List.Item key={item}>
-              <img src={item} alt="bb" />
-              <Button color="red" onClick={this.deleteBanner(item)}>Delete image</Button>
-            </List.Item>
-          )}
+          {banners.map(item => <Banner key={item.path} deleteBanner={this.deleteBanner} changeBanner={this.changeBanner} {...item} />)}
         </List>
       </div>
     );

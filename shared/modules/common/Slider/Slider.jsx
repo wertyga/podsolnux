@@ -7,7 +7,7 @@ import ArrowLeft from 'react-icons/lib/fa/arrow-left'
 import _get from 'lodash/get'
 import noop from 'lodash/noop'
 
-import { ButtonLink } from 'shared/modules/common'
+import { ButtonLink, Loader } from 'shared/modules/common'
 import { Dots } from './Dots'
 
 import './Slider.sass'
@@ -23,13 +23,14 @@ export class Slider extends React.Component {
       original: PropTypes.string, // Href
       originalAlt: PropTypes.string,
       _id: PropTypes.string,
-      textBlock: PropTypes.string,
+      textBlock: PropTypes.any,
     })),
     initialImagesLength: PropTypes.number,
     withHero: PropTypes.bool,
     isMobile: PropTypes.bool,
     isArrowVisible: PropTypes.bool,
     isDotsVisible: PropTypes.bool,
+    loading: PropTypes.bool,
 
   }
   static defaultProps = {
@@ -47,8 +48,13 @@ export class Slider extends React.Component {
       index: 0,
       distanceMove: 0,
     }
-
     this.mainRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.images.length !== prevProps.images.length) {
+      this.setState({ images: this.props.images.slice(0, this.initialImagesLength) })
+    }
   }
 
   handleDirection = (e) => {
@@ -127,7 +133,10 @@ export class Slider extends React.Component {
 
   render() {
     const { images, index, distanceMove } = this.state;
-    const { withHero, isArrowVisible, images: propsImages, isDotsVisible, history } = this.props;
+    const { withHero, isArrowVisible, images: propsImages, isDotsVisible, history, loading } = this.props;
+
+    if (!images.length && !loading) return <div className="slider" />;
+
     const refWidth = _get(this.mainRef, 'current.offsetWidth', 0);
 
     const translate = `${distanceMove !== 0 ? Math.round(-index * refWidth + distanceMove) : Math.round(-index * refWidth)}px`;
@@ -146,7 +155,7 @@ export class Slider extends React.Component {
             {withHero ? <ArrowLeft /> : <AngleLeft />}
           </div>
         }
-
+        {loading && <Loader />}
           <div
             className={cn(
               'slider__wrapper',
@@ -159,7 +168,10 @@ export class Slider extends React.Component {
               const hrefText = withHero ? linkText.split(',') : linkText;
               return (
                 <div
-                  className="slider__inner"
+                  className={cn(
+                    'slider__inner',
+                    { 'as-link': asLink && href },
+                  )}
                   key={_id}
                   role="presentation"
                   onClick={() => (asLink && href) ? history.push(href) : noop()}
@@ -180,8 +192,8 @@ export class Slider extends React.Component {
                           href={buttonHref}
                           title={linkText || TEXT.learnMore}
                         />
-                    }
-                  </div>
+                      }
+                    </div>
                   }
                   <img key={_id} src={original} alt={originalAlt} draggable={false}/>
                 </div>

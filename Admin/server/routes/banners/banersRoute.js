@@ -16,7 +16,7 @@ bannersRoute.get('/categories', async (req, res) => {
   try {
     const categories = await BannerCategoryModel.find({})
 
-    res.json({ categories: categories.map(({ slug, banners}) => ({ slug, count: banners.length })) })
+    res.json({ categories: categories.map(({ slug, banners }) => ({ slug, count: banners.length })) })
   } catch ({ message }) {
     res.status(500).json({ errors: [{ message }]  })
   }
@@ -116,7 +116,11 @@ bannersRoute.post('/', async (req, res) => {
     });
 
     form.on('finish', async () => {
-      const updatedCategory = await BannerCategoryModel.findOneAndUpdate({ slug: categoryName }, { $push: { banners: fileFullPath } }, { new: true })
+      const updatedCategory = await BannerCategoryModel.findOneAndUpdate(
+        { slug: categoryName },
+        { $push: { banners: { path: fileFullPath, createdAt: new Date() } } },
+        { new: true },
+      )
 
       res.json({ banners: updatedCategory.banners, slug: categoryName })
     })
@@ -127,12 +131,31 @@ bannersRoute.post('/', async (req, res) => {
   }
 })
 
+bannersRoute.put('/', async ({ body: { slug, banner, data } }, res) => {
+  try {
+    const category = await BannerCategoryModel.findOne({ slug })
+    if (!category) throw new Error('No such category')
+
+    category.banners = category.banners.map((item) => {
+      if (item.path === banner) return { ...item, ...data };
+
+      return item;
+    })
+
+    const newCategory = await category.save()
+
+    res.json({ banners: newCategory.banners })
+  } catch ({ message }) {
+    res.status(500).json({ errors: [{ message }] })
+  }
+})
+
 bannersRoute.delete('/', async ({ body: { slug, banner } }, res) => {
   try {
     const fullBannerPath = path.join(config.bannersUpload, banner)
 
     const [category] = await Promise.all([
-      BannerCategoryModel.findOneAndUpdate({ slug }, { $pull: { banners: banner } }, { new: true }),
+      BannerCategoryModel.findOneAndUpdate({ slug }, { $pull: { banners: { path: banner } } }, { new: true }),
       fs.unlinkSync(fullBannerPath),
     ])
 
@@ -157,12 +180,23 @@ bannersRoute.delete('/categories/:slug', async ({ params: { slug } }, res) => {
 
 bannersRoute.put('/categories', async ({ body: { slug, newName } }, res) => {
   try {
-    const [category] = await Promise.all([
-      BannerCategoryModel.findOneAndUpdate({ slug }, { $set: { slug: newName } }, { new: true }),
+    const category = await BannerCategoryModel.findOne({ slug })
+    if (!category) throw new Error('No such category')
+
+    category.slug = newName
+    category.banners = category.banners.map(item => {
+      return {
+        ...item,
+        path: item.path.replace(slug, newName),
+      }
+    })
+
+    const [newCategory] = await Promise.all([
+      category.save({ new: true }),
       fs.renameSync(path.join(config.bannersUpload, slug), path.join(config.bannersUpload, newName)),
     ])
 
-    res.json({ category })
+    res.json({ category: newCategory })
   } catch ({ message }) {
     res.status(500).json({ errors: [{ message }] })
   }

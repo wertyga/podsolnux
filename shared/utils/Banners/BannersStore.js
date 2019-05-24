@@ -2,18 +2,30 @@ import { observable } from 'mobx'
 
 import * as api from './api'
 
+const pathes = {
+  '/': 'home',
+}
+
 export class BannersStore {
   @observable bannerCategories = []
   @observable pendingState
 
   banners = {};
 
-  fetchBanners = async (category) => {
-    if (!category) return;
+  constructor(data = {}) {
+    Object.assign(this, data)
+  }
+
+  fetchBanners = async () => {
+    if (!this.rootStore.history || this.pendingState === 'pending') return;
+
+    const category = pathes[this.rootStore.history.location.pathname]
+    if (!category || this.banners[category]) return;
+
     this.pendingState = 'pending'
 
     try {
-      const { data: { banners } } = await api.fetchBanners(category)
+      const { data: { banners: { banners } } } = await api.fetchBanners(category)
 
       this.banners = {
         ...this.banners,
@@ -38,5 +50,14 @@ export class BannersStore {
     } catch (e) {
       this.pendingState = 'rejected';
     }
+  }
+
+  getBanners = () => {
+    if (!this.rootStore.history) return [];
+
+    const category = pathes[this.rootStore.history.location.pathname]
+    if (!category || !this.banners[category]) return [];
+
+    return this.banners[category].sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
   }
 }

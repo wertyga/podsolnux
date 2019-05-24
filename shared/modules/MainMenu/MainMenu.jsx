@@ -48,11 +48,13 @@ export class MainMenu extends React.Component {
   }
 
   setItemActive = () => {
-    const { setLocation, location: { pathname } } = this.props;
-    if (findExceptionLocation(pathname)) return this.setState({ open: '' });
-
-    const menuItem = setLocation();
-    if (menuItem && !menuItem.submenu) this.setState({ open: menuItem._id })
+    const { setLocation, location: { pathname } } = this.props
+    const menuItem = setLocation()
+    if (findExceptionLocation(pathname) || !menuItem) {
+      this.setState({ open: '' })
+    } else if (!menuItem.submenu) {
+      this.setState({ open: menuItem._id })
+    }
   }
 
   render() {
