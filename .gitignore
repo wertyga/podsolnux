@@ -5,4 +5,5 @@ dist/
 server/common/emailConfig.js
 production/
 BANNERS/
+!api/banners
 ORDERS/
