@@ -28,6 +28,14 @@ const components = [
     slug: 'Orders',
     href: '/orders',
   },
+  {
+    slug: 'Service',
+    href: '/service',
+  },
+  {
+    slug: 'Static',
+    href: '/static',
+  },
 ];
 
 @withRouter

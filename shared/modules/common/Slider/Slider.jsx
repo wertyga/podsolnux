@@ -31,6 +31,7 @@ export class Slider extends React.Component {
     isArrowVisible: PropTypes.bool,
     isDotsVisible: PropTypes.bool,
     loading: PropTypes.bool,
+    simple: PropTypes.bool,
 
   }
   static defaultProps = {
@@ -83,6 +84,8 @@ export class Slider extends React.Component {
     if (!isMobile) ref.addEventListener('mousemove', this.onMouseMove)
   }
   onMouseUp = () => {
+    if (this.href) return this.linkUp()
+
     const ref = this.mainRef.current;
     if (!ref || !this.startPosition) return;
     const { distanceMove, index } = this.state;
@@ -131,9 +134,15 @@ export class Slider extends React.Component {
     }
   }
 
+  redirect = (href) => {
+    const { history } = this.props
+
+    if (href) history.push(href)
+  }
+
   render() {
     const { images, index, distanceMove } = this.state;
-    const { withHero, isArrowVisible, images: propsImages, isDotsVisible, history, loading } = this.props;
+    const { withHero, isArrowVisible, images: propsImages, isDotsVisible, loading, simple } = this.props;
 
     if (!images.length && !loading) return <div className="slider" />;
 
@@ -163,18 +172,13 @@ export class Slider extends React.Component {
             )}
             style={{ transform: `translateX(${translate})`}}
           >
-            {images.map(({ original, originalAlt, _id, textBlock, asLink, href }) => {
+            {images.map(({ original, originalAlt, _id, textBlock, href }) => {
               const { title, description, href: buttonHref, title: linkTitle, linkText = '' } = textBlock || {};
               const hrefText = withHero ? linkText.split(',') : linkText;
               return (
                 <div
-                  className={cn(
-                    'slider__inner',
-                    { 'as-link': asLink && href },
-                  )}
+                  className="slider__inner"
                   key={_id}
-                  role="presentation"
-                  onClick={() => (asLink && href) ? history.push(href) : noop()}
                 >
                   {textBlock &&
                     <div className="slider__text-block">
@@ -195,7 +199,10 @@ export class Slider extends React.Component {
                       }
                     </div>
                   }
-                  <img key={_id} src={original} alt={originalAlt} draggable={false}/>
+
+                  {!!href && <Link to={href} className="btn accent slider-link">{TEXT.learnMore}</Link>}
+                  <img key={_id} src={original} alt={originalAlt} draggable={false} />
+
                 </div>
               );
             })}

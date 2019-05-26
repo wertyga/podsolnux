@@ -34,10 +34,24 @@
         display: flex
         justify-content: space-between
         margin-bottom: .5rem
+        &__inputs
+          display: flex
+          input[type="checkbox"]
+            width: 2rem
+            height: 2rem
+            margin-left: .5rem
+          .input
+            margin-right: .5rem
+          .labeled
+            display: flex
+            align-items: center
       img
         width: 100%
         height: calc(1127px / 2.77 )
         object-fit: cover
+        &.mobile-image
+          width: 320px
+          height: 600px
   &__adding
     margin-top: 1.5rem
     img

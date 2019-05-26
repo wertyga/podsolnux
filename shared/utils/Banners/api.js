@@ -1,6 +1,9 @@
-export const fetchBanners = (category) => (
+export const fetchBanners = (category, isMobile) => (
   fetch({
     method: 'get',
+    headers: {
+      'mobile': isMobile ? 'phone' : '',
+    },
     url: `/api/banners/${category}`,
   })
 )

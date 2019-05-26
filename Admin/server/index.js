@@ -47,6 +47,7 @@ if(dev) {
   //************ STATIC **************
   app.use(express.static(config.bannersUpload));
   app.use(express.static(path.join(process.cwd(), './public/admin/client')));
+  app.use(express.static(path.join(process.cwd())));
   //****************************************
 
   //**************** SESSION ********************

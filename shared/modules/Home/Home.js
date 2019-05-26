@@ -221,13 +221,18 @@ export class Home extends React.Component {
         _id: path,
         originalAlt: path.split('/').slice(-1)[0],
         href,
-        asLink: true,
       }))
 
         return (
             <div className="home">
               <section className="no-padding">
-                <Slider images={images} isMobile={isMobile} isDotsVisible={isMobile} isArrowVisible={!isMobile} loading={pendingState === 'pending'} />
+                <Slider
+                  images={images}
+                  isMobile={isMobile}
+                  isDotsVisible={isMobile}
+                  isArrowVisible={images.length > 1}
+                  loading={pendingState === 'pending'}
+                />
               </section>
 
               <Section

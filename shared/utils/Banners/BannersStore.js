@@ -22,10 +22,12 @@ export class BannersStore {
     const category = pathes[this.rootStore.history.location.pathname]
     if (!category || this.banners[category]) return;
 
+    const { requestContext: { isMobile } } = this.rootStore.get('execContextStore')
+
     this.pendingState = 'pending'
 
     try {
-      const { data: { banners: { banners } } } = await api.fetchBanners(category)
+      const { data: { banners: { banners } } } = await api.fetchBanners(category, isMobile)
 
       this.banners = {
         ...this.banners,

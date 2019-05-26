@@ -3,6 +3,7 @@ import { inject } from 'mobx-react'
 import { Search } from 'shared/modules/Search'
 import { withRouter, Link } from 'react-router-dom'
 
+import Phone from 'react-icons/lib/fa/phone'
 import { Mobile, Desktop } from 'shared/utils'
 import { UserBar } from 'shared/modules/User'
 
@@ -11,7 +12,15 @@ import { MenuMobile } from './Components/MobileMenu/MobileMenu'
 
 import './main-menu.sass';
 
-const Logo = () => <Link className="logo" to="/">LOGO</Link>
+const Logo = () => (
+  <div className="logo-wrapper">
+    <Link className="logo" to="/">LOGO</Link>
+    <div className="logo-wrapper__phone">
+      <Phone/>
+      <a href="tel:+375293340986">+375 29 334 09 86</a>
+    </div>
+  </div>
+)
 
 const mapState = ({ menuStore: { fetchStatus, menuList, setLocation }, execContextStore: { requestContext: { isMobile } } }) => ({
   fetchStatus,

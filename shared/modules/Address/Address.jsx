@@ -9,7 +9,7 @@ const TEXT = {
   header: 'Адрес',
 }
 
-const addresses = {
+export const addresses = {
   levkova: {
     coords: {
       lat: 53.8814256,
@@ -22,7 +22,7 @@ const addresses = {
       viber: '123123',
       workTime: {
         'Пн.-Пт.': '10:00 - 19:00',
-        'Сб': '10:00 - 17:00',
+        'Сб.': '10:00 - 17:00',
       },
     },
   },

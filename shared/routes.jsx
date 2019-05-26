@@ -13,6 +13,7 @@ import { ConfirmPage } from 'shared/modules/ConfirmPage'
 import { LKWrapper } from 'shared/modules/User'
 import { SetOrder, IssueOrder, OrderView } from 'shared/modules/Order'
 import { Address} from 'shared/modules/Address'
+import { Service } from 'shared/modules/Service'
 
 export const routes = (
   <App>
@@ -28,6 +29,7 @@ export const routes = (
       <Route exact path="/issue-order" component={IssueOrder} />
       <Route exact path="/thanks-for-order" component={OrderView} />
       <Route exact path="/address" component={Address} />
+      <Route exact path="/service" component={Service} />
 
       <Route path="*" component={NotFound} />
     </Switch>

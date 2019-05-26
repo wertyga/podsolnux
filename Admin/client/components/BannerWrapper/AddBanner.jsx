@@ -2,8 +2,6 @@ import { inject, observer } from 'mobx-react'
 
 import { Input, Button } from 'semantic-ui-react'
 
-import { AddBannerItem } from './AddBannerItem'
-
 @inject('bannersStore')
 export class AddBanner extends React.Component {
   constructor(props) {
