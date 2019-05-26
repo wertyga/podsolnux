@@ -4,6 +4,5 @@ dist/
 .idea/
 server/common/emailConfig.js
 production/
-BANNERS/
-!api/banners
+/BANNERS/
 ORDERS/
