@@ -39,7 +39,7 @@ export const config = {
     uploads: {
       directory: 'temp',
       destination: path.join(__dirname, '../', 'temp'),
-      orderPath: path.resolve(process.cwd(), './ORDERS'),
+      orderPath: path.resolve(process.cwd(), './podsolnux/ORDERS'),
     },
     logFile: path.join(__dirname, '..', 'node.log'),
 }

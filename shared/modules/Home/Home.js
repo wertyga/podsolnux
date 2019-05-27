@@ -82,8 +82,8 @@ const images = [
 const imagesTestimonials = [
   {
     _id: 'asdasdsfdfdasd',
-    original: '/images/7.jpg',
-    thumbnail: '/images/7.jpg',
+    original: '/images/7.webp',
+    thumbnail: '/images/7.webp',
     originalClass: 'featured-slide',
     thumbnailClass: 'featured-thumb',
     originalAlt: 'I am a featured image',
@@ -96,8 +96,8 @@ const imagesTestimonials = [
   },
   {
     _id: '321314342423',
-    original: '/images/8.jpg',
-    thumbnail: '/images/8.jpg',
+    original: '/images/8.webp',
+    thumbnail: '/images/8.webp',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -106,8 +106,8 @@ const imagesTestimonials = [
   },
   {
     _id: 'asdas3333dadsfsdsd',
-    original: '/images/6.jpg',
-    thumbnail: '/images/6.jpg',
+    original: '/images/6.webp',
+    thumbnail: '/images/6.webp',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -116,8 +116,8 @@ const imagesTestimonials = [
   },
   {
     _id: 'asdas31231111daasdasd',
-    original: '/images/7.jpg',
-    thumbnail: '/images/7.jpg',
+    original: '/images/7.webp',
+    thumbnail: '/images/7.webp',
     originalClass: 'featured-slide',
     thumbnailClass: 'featured-thumb',
     originalAlt: 'I am a featured image',
@@ -130,8 +130,8 @@ const imagesTestimonials = [
   },
   {
     _id: 'asdas3333123dadsadsd',
-    original: '/images/8.jpg',
-    thumbnail: '/images/8.jpg',
+    original: '/images/8.webp',
+    thumbnail: '/images/8.webp',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -140,8 +140,8 @@ const imagesTestimonials = [
   },
   {
     _id: 'asdasda435345sddsadd',
-    original: '/images/7.jpg',
-    thumbnail: '/images/7.jpg',
+    original: '/images/7.webp',
+    thumbnail: '/images/7.webp',
     textBlock: {
       description: '“Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro”',
       href: '/',
@@ -181,21 +181,21 @@ const mockServiceHomePreview = [
     // description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
     title: 'Write Down Your Experience',
     href: '/',
-    img: '/images/steve.jpg',
+    img: '/images/steve.webp',
     alt: 'Write Down Your Experience',
   },
   {
     // description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
     title: 'Write Down Your Experience',
     href: '/',
-    img: '/images/steve.jpg',
+    img: '/images/steve.webp',
     alt: 'Write Down Your Experience',
   },
   {
     // description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
     title: 'Write Down Your Experience',
     href: '/',
-    img: '/images/steve.jpg',
+    img: '/images/steve.webp',
     alt: 'Write Down Your Experience',
   }
 ]

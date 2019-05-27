@@ -6,7 +6,7 @@ const TEXT = {
 
 const mockData = [
   {
-    img: '/images/articlePreview.jpeg',
+    img: '/images/articlePreview.webp',
     title: 'How to Plan Your Vacation',
     author: 'Theresa Winston',
     time: new Date().toDateString(),
@@ -16,7 +16,7 @@ const mockData = [
     topicHref: '/',
   },
   {
-    img: '/images/articlePreview.jpeg',
+    img: '/images/articlePreview.webp',
     title: 'How to Plan Your Vacation',
     author: 'Theresa Winston',
     time: new Date().toDateString(),

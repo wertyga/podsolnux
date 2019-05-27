@@ -201,7 +201,7 @@ export class Slider extends React.Component {
                   }
 
                   {!!href && <Link to={href} className="btn accent slider-link">{TEXT.learnMore}</Link>}
-                  <img key={_id} src={original} alt={originalAlt} draggable={false} />
+                  <img key={_id} src={original} alt={originalAlt} draggable={false} onDragStart={function(e) { e.preventDefault(); return false; }} />
 
                 </div>
               );

@@ -63,9 +63,10 @@ init();
 //************************************************************
 
 app.use(bodyParser.json());
-app.use(express.static('public/static'));
-app.use(express.static(process.cwd()));
-app.use(express.static(path.join(process.cwd(), 'BANNERS')));
+app.use(express.static(path.join(process.cwd(), './podsolnux/public/static')));
+app.use(express.static(path.join(process.cwd(), './podsolnux')));
+app.use(express.static(path.join(process.cwd(), './podsolnux/BANNERS')));
+app.use(express.static(path.join(process.cwd(), './podsolnux/ORDERS')));
 app.use(session({
   secret: config.session.secret,
   saveUninitialized: false,

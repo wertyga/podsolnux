@@ -8,7 +8,9 @@ import { dehydrateRootStore } from 'shared/utils';
 import { AppRoot } from './AppRoot';
 
 export const indexFile = fs.readFileSync(
-  path.resolve(process.cwd(), './client/index.html'),
+  process.env.NODE_ENV === 'development' ?
+    path.resolve(process.cwd(), './client/index.html') :
+    path.resolve(process.cwd(), './podsolnux/client/index.html'),
   'utf8',
 );
 

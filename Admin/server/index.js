@@ -46,8 +46,8 @@ if(dev) {
 
   //************ STATIC **************
   app.use(express.static(config.bannersUpload));
-  app.use(express.static(path.join(process.cwd(), './public/admin/client')));
-  app.use(express.static(path.join(process.cwd())));
+  app.use(express.static(path.join(process.cwd(), dev ? './public/admin/client' : './podsolnux/public/admin/client')));
+  app.use(express.static(path.join(dev ? process.cwd() : `${process.cwd()}/podsolnux`)));
   //****************************************
 
   //**************** SESSION ********************
