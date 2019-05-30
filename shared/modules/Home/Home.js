@@ -4,7 +4,9 @@ import { ServiceHomePreview, HomeArticlesPreview } from './Components'
 import { Advantages, Section, ServicePreview, ServiceTextItem } from 'shared/modules/common'
 
 // ICONS
-import Camera from 'react-icons/lib/ti/camera-outline'
+import Camera from 'react-icons/lib/fa/camera'
+import Restore from 'react-icons/lib/fa/recycle'
+import Souvenir from 'react-icons/lib/fa/gift'
 
 import './Home.sass';
 
@@ -152,51 +154,57 @@ const imagesTestimonials = [
 
 const mockAdvantages = [
   {
-    title: 'Air Ticketing',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.',
+    title: 'Фото печать',
+    description: 'Всего в несколько кликов выможете заказ печать фотографий в нашем сервисе.',
 
-    href: '/',
-    linkDescription: 'Air Ticketing',
+    href: '/service/foto-print',
+    linkDescription: 'фото печать',
     Icon: Camera,
+    createdAt: new Date(),
   },
   {
-    title: 'Air Ticketing',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.',
+    title: 'Фото сувениры',
+    description: 'У нас Вы можете заказать различные услуги по фотопечати, печать на различных материалах, таких как текстиль, фарфор, керамика и другие.',
 
-    href: '/',
-    linkDescription: 'Air Ticketing',
-    Icon: Camera,
+    href: '/service/foto-souvenir',
+    linkDescription: 'фото сувениры',
+    Icon: Souvenir,
+    createdAt: new Date(),
   },
   {
-    title: 'Air Ticketing',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.',
-    href: '/',
-    linkDescription: 'Air Ticketing',
-    Icon: Camera,
+    title: 'Восстановление фотографий',
+    description: 'Восстановление старых фотографий, устранение царапин, заломов, трещин. Восстановление недостающий частей фотографии.',
+    href: '/service/foto-restore',
+    linkDescription: 'Восстановление фотографий',
+    Icon: Restore,
+    createdAt: new Date(),
   }
 ]
 
 const mockServiceHomePreview = [
   {
-    // description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
+    description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
     title: 'Write Down Your Experience',
     href: '/',
     img: '/images/steve.webp',
     alt: 'Write Down Your Experience',
+    createdAt: new Date(),
   },
   {
-    // description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
+    description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
     title: 'Write Down Your Experience',
     href: '/',
     img: '/images/steve.webp',
     alt: 'Write Down Your Experience',
+    createdAt: new Date(),
   },
   {
-    // description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
+    description: 'jkashdkjh kjdshash kjhkh hjas kjasjkdkaskjhd kashd kasdkjakjsdkkjh ak',
     title: 'Write Down Your Experience',
     href: '/',
     img: '/images/steve.webp',
     alt: 'Write Down Your Experience',
+    createdAt: new Date(),
   }
 ]
 
@@ -237,7 +245,7 @@ export class Home extends React.Component {
 
               <Section
                 className="services-home-preview"
-                title={<ServiceHomePreview data={mockServiceHomePreview} />}
+                // title={<ServiceHomePreview data={mockServiceHomePreview} />}
               >
                 <Advantages data={mockAdvantages} itemClassName="col-lg-4" />
               </Section>
@@ -263,8 +271,8 @@ export class Home extends React.Component {
                 h2="Our Destinations"
                 h5="Choose Your Next Destination"
               >
-                {[...mockServiceHomePreview, ...mockServiceHomePreview].map(item => (
-                  <ServicePreview key={item.title} className="col-lg-4 col-xs-12 col-sm-12" {...item} />
+                {[...mockServiceHomePreview, ...mockServiceHomePreview].map((item, i) => (
+                  <ServicePreview key={item.title} className="col-xs-12" {...item} right={i % 2}/>
                 ))}
               </Section>
 

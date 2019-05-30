@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { inject } from 'mobx-react'
 import noop from 'lodash/noop'
-import AngleUp from 'react-icons/lib/fa/angle-up'
-import AngleDown from 'react-icons/lib/fa/angle-down'
 
 import { TotalPrice } from './TotalPrice/TotalPrice'
 
@@ -14,6 +12,8 @@ export const TEXT = {
   },
   currency: 'руб.',
   saveChanges: 'Применить',
+  showFormats: 'Показать форматы',
+  hideFormats: 'Скрыть форматы',
 }
 
 const Chooses = ({ options, format, onChange, checked }) => (
@@ -128,7 +128,7 @@ const FormatHelperComponent = ({ prints, className, isMobile, setFileData, error
 
         <button className="accent" onClick={onSubmit}>{TEXT.saveChanges}</button>
       </div>
-      <div className="format-helper__shower" onClick={onShow}>{active ? <AngleUp /> : <AngleDown />}</div>
+      <div className="format-helper__shower" onClick={onShow}>{active ? TEXT.hideFormats : TEXT.showFormats}</div>
       <TotalPrice />
       {errorNode}
     </div>

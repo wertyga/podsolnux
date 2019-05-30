@@ -26,7 +26,7 @@ export class MenuItem extends Component {
   }
 
   state = {
-    openState: '',
+    openState: this.props.open,
     visible: false,
   }
 

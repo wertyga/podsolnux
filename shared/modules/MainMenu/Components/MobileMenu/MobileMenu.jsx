@@ -11,7 +11,9 @@ import { findExceptionLocation } from '../../MainMenu'
 import './main-menu-mobile.sass'
 
 const MenuMobileComponent = ({ list, location: { pathname } }) => {
-  const [open, setOpen] = useState('');
+  const getPathId = () => (list.find(({ href }) => pathname === href) || {})._id
+
+  const [open, setOpen] = useState(getPathId());
   const [openMenu, setOpenMenu] = useState(false);
 
   const handleMenuOpen = () => setOpenMenu(!openMenu);
@@ -24,6 +26,7 @@ const MenuMobileComponent = ({ list, location: { pathname } }) => {
   useEffect(() => {
     if (findExceptionLocation(pathname)) setOpen('');
     setOpenMenu(false);
+    setOpen(getPathId())
   }, [pathname])
 
   return (
@@ -60,26 +63,38 @@ const MenuMobileComponent = ({ list, location: { pathname } }) => {
 
 export const MenuMobile = withRouter(MenuMobileComponent)
 
-// export class MenuMobile extends Component {
-//   state = {
-//     open: '',
-//     openMenu: false,
+// @withRouter
+// export class MenuMobile extends React.Component {
+//   constructor(props) {
+//     super(props)
+//
+//     const {  } = props.list.find(({ href }) => href === pathname) || {};
+//     this. state = {
+//       open: pathId '',
+//       openMenu: false,
+//     }
 //   }
+//
+//   componentDidUpdate(prevProps) {
+//     if (this.props.location.pathname !== prevProps.location.pathname) {
+//       this.setState({
+//         open: findExceptionLocation(pathname) ? '' : this.state.open,
+//         openMenu: false,
+//       })
+//     }
+//   }
+//
+//   handleMenuOpen = () => setOpenMenu(!openMenu);
 //
 //   handleOpen = (id, isSubmenu) => {
-//     this.setState({ open: this.state.open === id ? '' : id },
-//       () => isSubmenu && !this.state.open && this.setState({ openMenu: false })
-//     )
-//   }
-//
-//   handleMenuOpen = () => {
-//     this.setState({ openMenu: !this.state.openMenu });
+//     this.setState({
+//       open: this.state.open === id ? '' : id,
+//       openMenu: isSubmenu && this.state.open && false,
+//     })
 //   }
 //
 //   render() {
-//     const { list } = this.props;
-//     const { open, openMenu } = this.state;
-//
+//     const { list, location: { pathname } } = this.props
 //     return (
 //       <ButterMenu
 //         open={openMenu}
@@ -98,7 +113,7 @@ export const MenuMobile = withRouter(MenuMobileComponent)
 //                 />
 //               );
 //             })}
-//             <div onClick={this.handleMenuOpen} className="main-menu-mobile__close">
+//             <div onClick={handleMenuOpen} className="main-menu-mobile__close">
 //               <Close size={20} />
 //             </div>
 //

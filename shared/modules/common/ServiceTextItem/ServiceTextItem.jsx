@@ -8,12 +8,14 @@ const TEXT = {
 
 export const ServiceTextItem = ({ title, description, href, linkDescription, className, Icon }) => {
   return (
-    <div className={
+    <Link className={
       cn(
         'service-item',
         className,
       )
-    }>
+    }
+          to={href} title={linkDescription || title}
+    >
       {Icon() &&
         <div className="service-item__icon">
           <Icon />
@@ -22,9 +24,9 @@ export const ServiceTextItem = ({ title, description, href, linkDescription, cla
       <main>
         <h4>{title}</h4>
         <p>{description}</p>
-        <Link to={href} title={linkDescription || title}>{TEXT.learnMore}</Link>
+        <p className="learn-more">{TEXT.learnMore}</p>
       </main>
-    </div>
+    </Link>
   );
 }
 ServiceTextItem.defaultProps = {
