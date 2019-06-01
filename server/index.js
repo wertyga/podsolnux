@@ -2,8 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 
-import cluster from 'cluster';
-
 import { config } from './common/config';
 import sessionStore from './common/sessionStore';
 import session from 'express-session';
@@ -17,28 +15,6 @@ import api from './api';
 
 export const app = express();
 export const server = require('http').Server(app);
-
-if(cluster.isMaster) {
-
-    let cpuCount = require('os').cpus().length;
-
-    for (let i = 0; i < cpuCount; i += 1) {
-        cluster.schedulingPolicy = cluster.SCHED_NONE;
-        cluster.fork();
-    }
-
-    cluster.on('exit', function (worker) {
-        console.log('Worker ' + worker.id + ' died :(');
-        cluster.fork();
-    });
-
-} else {
-    //******************************** Run server ***************************
-
-    server.listen(config.PORT, () => console.log(`Server run on ${config.PORT} port`));
-
-    // *******************************************************************
-};
 
 //************************* GARBAGE magic ***********************************
 
@@ -80,6 +56,8 @@ app.use(session({
 app.use('/api', api);
 
 app.use(handleRequest());
+
+server.listen(config.PORT, () => console.log(`Server run on ${config.PORT} port`));
 
 //******************************** Uncaught Exception ***************************
 

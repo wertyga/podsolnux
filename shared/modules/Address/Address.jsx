@@ -33,7 +33,7 @@ export class Address extends React.Component {
     return (
       <div className="address">
         <Page title={TEXT.title}>
-          <Section h1={TEXT.header} grey>
+          <Section h1={TEXT.header} grey isOne>
             {Object.entries(addresses).map(([key, value]) => (
               <AddressItem key={key} {...value} />
             ))}

@@ -6,7 +6,7 @@ import { config } from './config';
 mongoose.Promise = require('bluebird');
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect(config.mongoose.uri, { useNewUrlParser: true }, (err) => {
+mongoose.connect(config.mongoose.uri, { useNewUrlParser: true, useFindAndModify: false }, (err) => {
     if(err) {
         console.error(err.message);
     } else {

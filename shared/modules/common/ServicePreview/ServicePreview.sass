@@ -6,21 +6,13 @@
   width: 100%
   display: flex
   @include desktop
-    &:before
-      content: ''
-      position: absolute
-      width: .1rem
-      top: 1rem
-      bottom: 1rem
-      left: 0
-      background-color: $color-green-dark-menu
     &_right
       flex-direction: row-reverse
-      &:before
-        left: initial
-        right: 0
       .service-preview__date
         justify-content: flex-start
+      .service-preview__description
+        border-left-color: $color-green-dark-menu
+        border-right-color: transparent
   @include mobile
     max-width: initial
     flex-direction: column
@@ -34,6 +26,7 @@
     height: 100%
     justify-content: flex-end
     width: 100%
+    font-weight: 500
 
   &__image
     min-width: 21rem
@@ -51,7 +44,10 @@
 
   &__description
     color: $font-color
-    padding: 2rem 1rem
+    padding: 1rem
+    margin: 1rem 0
+    border: 1px solid $color-green-dark-menu
+    border-left-color: transparent
     display: flex
     flex-direction: column
     align-items: flex-start
@@ -59,6 +55,8 @@
     text-align: left
     @include mobile
       padding: .5rem 0
+      margin: 0
+      border: none
 
     h4
       font-size: 1.2rem
